@@ -1,0 +1,27 @@
+{
+  "name": "open-orchestra",
+  "version": "0.1.0",
+  "main": "bower.json",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "jquery-ui": "~1.11.1",
+    "bootstrap": "~3.3.0",
+    "jquery-form": "~3.46.0",
+    "jcrop": "~0.9.12",
+    "select2": "~3.5.1",
+    "datatables": "~1.10.2",
+    "font-awesome": "4.1.0",
+    "pace": "v0.5.3",
+    "open-sans": "v1.1.0",
+    "angular": "1.2.13",
+    "backbone": "*",
+    "underscore": "*",
+    "jquery-minicolors": "*",
+    "backbone.wreqr": "*"
+  }
+}

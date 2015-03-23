@@ -1,0 +1,43 @@
+dsin_range_manager:
+    resource: "@DsinRangeManagerBundle/Resources/config/routing.yml"
+    prefix:   /
+
+open_orchestra_backoffice:
+    resource: "@OpenOrchestraBackofficeBundle/Controller"
+    type: annotation
+    prefix: /admin
+
+open_orchestra_user:
+    resource: "@OpenOrchestraUserBundle/Controller"
+    type: annotation
+    prefix: /admin
+
+open_orchestra_display:
+    resource: "@OpenOrchestraDisplayBundle/Controller"
+    type: annotation
+
+open_orchestra_api:
+    resource: "@OpenOrchestraApiBundle/Controller"
+    type: annotation
+    prefix: /api
+
+open_orchestra_log:
+    resource: "@OpenOrchestraLogBundle/Controller"
+    type: annotation
+    prefix: /api
+
+open_orchestra_media:
+    resource: "@OpenOrchestraMediaBundle/Controller"
+    type: annotation
+    prefix: /media
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+root:
+    pattern: /
+    methods: ['GET']
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /admin
+        permanent: true
