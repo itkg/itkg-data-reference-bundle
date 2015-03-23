@@ -1,5 +1,5 @@
 {
-    "name": "itkg/itkg-reference-bundle",
+    "name": "itkg/itkg-reference-bundle", 
     "license": "MIT",
     "type": "project",
     "description": "bundle reference basé sur les content d'open orchestra",
@@ -7,3 +7,4 @@
     "require": {
     }
 }
+
