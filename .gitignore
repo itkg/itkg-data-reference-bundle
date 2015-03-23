@@ -1,0 +1,5 @@
+#==[IDE]==============================#
+.buildpath
+.settings/
+.project
+.nbproject/
