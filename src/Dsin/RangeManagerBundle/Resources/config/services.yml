@@ -1,4 +1,0 @@
-services:
-#    dsin_range_manager.example:
-#        class: Dsin\RangeManagerBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
