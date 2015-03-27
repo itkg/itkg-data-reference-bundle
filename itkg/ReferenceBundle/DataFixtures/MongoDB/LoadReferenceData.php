@@ -9,7 +9,7 @@ use itkg\ReferenceBundle\Document\Reference;
 use OpenOrchestra\ModelInterface\Model\SchemeableInterface;
 
 /**
- * Class LoadSiteData
+ * Class LoadReferenceData
  */
 class LoadReferenceData extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -18,9 +18,9 @@ class LoadReferenceData extends AbstractFixture implements OrderedFixtureInterfa
      */
     public function load(ObjectManager $manager)
     {
-        $Reference1 = $this->getReference1();
-        $manager->persist($Reference1);
-        $this->addReference('site1', $Reference1);
+        $reference1 = $this->getReference1();
+        $manager->persist($reference1);
+        $this->addReference('reference1', $reference1);
 
         $manager->flush();
     }

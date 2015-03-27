@@ -4,33 +4,37 @@
 namespace itkg\ReferenceInterface\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
+//use OpenOrchestra\ModelInterface\Model\StatusableInterface;
+use OpenOrchestra\ModelInterface\Model\TimestampableInterface;
+use OpenOrchestra\ModelInterface\Model\BlameableInterface;
+use OpenOrchestra\ModelInterface\Model\KeywordableInterface;
 
 /**
  * Interface ReferenceInterface
  */
-interface ReferenceInterface extends StatusableInterface, TimestampableInterface, BlameableInterface, KeywordableInterface
+interface ReferenceInterface extends TimestampableInterface, BlameableInterface, KeywordableInterface
 {
     /**
      * @return ArrayCollection
      */
-    public function getAttributes();
+    //public function getAttributes();
 
     /**
      * @param string $name
      *
      * @return ReferenceAttributeInterface|null
      */
-    public function getAttributeByName($name);
+    //public function getAttributeByName($name);
 
     /**
      * @param ReferenceAttributeInterface $attribute
      */
-    public function addAttribute(ReferenceAttributeInterface $attribute);
+    //public function addAttribute(ReferenceAttributeInterface $attribute);
 
     /**
      * @param ReferenceAttributeInterface $attribute
      */
-    public function removeAttribute(ReferenceAttributeInterface $attribute);
+    //public function removeAttribute(ReferenceAttributeInterface $attribute);
 
     /**
      * @param string $referenceId

@@ -7,11 +7,12 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
 use OpenOrchestra\ModelBundle\Mapping\Annotations as ORCHESTRA;
+use OpenOrchestra\ModelBundle\Document\EmbedStatus;
 //use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
-use itkg\ReferenceInterface\Model\ReferenceInterface;
+//use itkg\ReferenceInterface\Model\ReferenceInterface;
 use OpenOrchestra\ModelInterface\Model\StatusInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
-use OpenOrchestra\ModeInterface\MongoTrait\Keywordable;
+use OpenOrchestra\ModelInterface\MongoTrait\Keywordable;
 
 /**
  * Description of Reference
@@ -23,10 +24,10 @@ use OpenOrchestra\ModeInterface\MongoTrait\Keywordable;
  * @ORCHESTRA\Document(
  *   generatedField="referenceId",
  *   sourceField="name",
- *   serviceName="itkg_model.repository.reference",
+ *   serviceName="itkg_reference.repository.reference",
  * )
  */
-class Reference implements ReferenceInterface
+class Reference //implements ReferenceInterface
 {
     use BlameableDocument;
     use TimestampableDocument;
@@ -82,13 +83,6 @@ class Reference implements ReferenceInterface
     protected $language;
 
     /**
-     * @var StatusInterface $status
-     *
-     * @ODM\EmbedOne(targetDocument="EmbedStatus")
-     */
-    protected $status;
-
-    /**
      * @var boolean
      *
      * @ODM\Field(type="boolean")
@@ -100,7 +94,7 @@ class Reference implements ReferenceInterface
      *
      * @ODM\EmbedMany(targetDocument="referenceAttribute")
      */
-    protected $attributes;
+    //protected $attributes;
 
     /**
      * Constructor
@@ -113,17 +107,17 @@ class Reference implements ReferenceInterface
     /**
      * @return ArrayCollection
      */
-    public function getAttributes()
+    /*public function getAttributes()
     {
         return $this->attributes;
-    }
+    }*/
 
     /**
      * @param string $name
      *
      * @return referenceAttributeInterface|null
      */
-    public function getAttributeByName($name)
+    /*public function getAttributeByName($name)
     {
         foreach ($this->attributes as $attribute) {
             if ($name == $attribute->getName()) {
@@ -132,23 +126,23 @@ class Reference implements ReferenceInterface
         }
 
         return null;
-    }
+    }*/
 
     /**
      * @param referenceAttributeInterface $attribute
      */
-    public function addAttribute(ReferenceAttributeInterface $attribute)
+/*    public function addAttribute(ReferenceAttributeInterface $attribute)
     {
         $this->attributes->add($attribute);
-    }
+    }**/
 
     /**
      * @param ReferenceAttributeInterface $attribute
      */
-    public function removeAttribute(ReferenceAttributeInterface $attribute)
+    /*public function removeAttribute(ReferenceAttributeInterface $attribute)
     {
         $this->attributes->removeElement($attribute);
-    }
+    }*/
 
     /**
      * @param string $referenceId
@@ -252,29 +246,6 @@ class Reference implements ReferenceInterface
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set status
-     *
-     * @param StatusInterface|null $status
-     */
-    public function setStatus(StatusInterface $status = null)
-    {
-        $this->status = null;
-        if ($status instanceof StatusInterface) {
-            $this->status = EmbedStatus::createFromStatus($status);
-        }
-    }
-
-    /**
-     * Get status
-     *
-     * @return StatusInterface $status
-     */
-    public function getStatus()
-    {
-        return $this->status;
     }
 
     /**
