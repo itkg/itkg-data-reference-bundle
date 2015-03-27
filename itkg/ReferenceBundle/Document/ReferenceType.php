@@ -2,13 +2,11 @@
 
 namespace itkg\ReferenceType\Document;
 
-//use itkg\ReferenceInterface\Model\ReferenceTypeInterface;
-
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
 use Gedmo\Mapping\Annotation as Gedmo;
-
+use itkg\ReferenceInterface\Model\ReferenceTypeInterface;
 use OpenOrchestra\ModelInterface\Model\FieldTypeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use OpenOrchestra\ModelInterface\Model\StatusInterface;
@@ -22,7 +20,7 @@ use OpenOrchestra\ModelInterface\Model\TranslatedValueInterface;
  *   repositoryClass="itkg\ReferenceBundle\Repository\ReferenceTypeRepository"
  * )
  */
-class ReferenceType //implements ReferenceTypeInterface
+class ReferenceType implements ReferenceTypeInterface
 {
     use BlameableDocument;
     use TimestampableDocument;

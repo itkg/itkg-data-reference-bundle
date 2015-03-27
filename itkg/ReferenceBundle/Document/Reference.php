@@ -2,6 +2,7 @@
 
 namespace itkg\ReferenceBundle\Document;
 
+use itkg\ReferenceInterface\Model\ReferenceInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Gedmo\Blameable\Traits\BlameableDocument;
@@ -9,7 +10,6 @@ use Gedmo\Timestampable\Traits\TimestampableDocument;
 use OpenOrchestra\ModelBundle\Mapping\Annotations as ORCHESTRA;
 use OpenOrchestra\ModelBundle\Document\EmbedStatus;
 //use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
-//use itkg\ReferenceInterface\Model\ReferenceInterface;
 use OpenOrchestra\ModelInterface\Model\StatusInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 use OpenOrchestra\ModelInterface\MongoTrait\Keywordable;
@@ -27,7 +27,7 @@ use OpenOrchestra\ModelInterface\MongoTrait\Keywordable;
  *   serviceName="itkg_reference.repository.reference",
  * )
  */
-class Reference //implements ReferenceInterface
+class Reference implements ReferenceInterface
 {
     use BlameableDocument;
     use TimestampableDocument;
