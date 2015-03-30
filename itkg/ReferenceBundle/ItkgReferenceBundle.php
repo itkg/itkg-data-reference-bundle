@@ -5,9 +5,9 @@ namespace itkg\ReferenceBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class itkgReferenceBundle
+ * Class ItkgReferenceBundle
  */
 
-class itkgReferenceBundle extends Bundle
+class ItkgReferenceBundle extends Bundle
 {
 }

@@ -69,8 +69,7 @@ class ReferenceType implements ReferenceTypeInterface
      */
     public function __construct()
     {
-        $this->fields = new ArrayCollection();
-        $this->names = new ArrayCollection();
+        $this->initializeCollections();
     }
 
     /**
@@ -218,16 +217,12 @@ class ReferenceType implements ReferenceTypeInterface
     }
 
     /**
-     * Clone the element
+     * initialize collections
      */
-    public function __clone()
+    protected function initializeCollections()
     {
-        if (!is_null($this->id)) {
-            $this->id = null;
-            $this->names = new ArrayCollection();
-            $this->fields = new ArrayCollection();
-            $this->setUpdatedAt(new \DateTime());
-            $this->setVersion($this->getVersion() + 1);
-        }
+        $this->fields = new ArrayCollection();
+        $this->names = new ArrayCollection();
     }
+
 }

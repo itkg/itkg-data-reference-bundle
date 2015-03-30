@@ -1,9 +1,13 @@
+parameters:
+    itkg_reference.repository.reference.class : itkg\ReferenceBundle\Document\ReferenceRepository
+    itkg_reference.repository.reference.arguments : itkg\ReferenceBundle\Document\Reference
+
 services:
     itkg_reference.repository.reference:
-        class:            "itkg\ReferenceBundle\Document\ReferenceRepository"
+        class:            %itkg_reference.repository.reference.class%
         factory_service:  "doctrine.odm.mongodb.document_manager"
         factory_method:   "getRepository"
         arguments:
-            - "itkg\ReferenceBundle\Document\Reference"
+            - %itkg_reference.repository.reference.arguments%
         calls:
             - [ setCurrentSiteManager, [ @open_orchestra.manager.current_site ] ]

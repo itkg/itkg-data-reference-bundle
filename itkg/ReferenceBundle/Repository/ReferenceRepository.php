@@ -71,6 +71,6 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
      */
     public function findAllDeleted()
     {
-        return parent::findBy(array('deleted' => true));
+        return $this->findBy(array('deleted' => true));
     }
 }

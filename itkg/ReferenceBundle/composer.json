@@ -11,7 +11,13 @@
         }
     ],
     "require": {
-        "itkg/open-orchestra-model-interface": "*"
+        "itkg/open-orchestra-model-interface": "*",
+        "itkg/open-orchestra-model-bundle": "*",
+    },
+    "autoload": {
+        "psr-0": {
+            "OpenOrchestra\\BaseBundle": ""
+        }
     }
 }
 
