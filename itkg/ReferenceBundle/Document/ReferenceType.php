@@ -9,7 +9,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use itkg\ReferenceInterface\Model\ReferenceTypeInterface;
 use OpenOrchestra\ModelInterface\Model\FieldTypeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use OpenOrchestra\ModelInterface\Model\StatusInterface;
 use OpenOrchestra\ModelInterface\Model\TranslatedValueInterface;
 
 /**
@@ -50,13 +49,6 @@ class ReferenceType implements ReferenceTypeInterface
      * @ODM\Field(type="int")
      */
     protected $version = 1;
-
-    /**
-     * @var StatusInterface $status
-     *
-     * @ODM\EmbedOne(targetDocument="EmbedStatus")
-     */
-    protected $status;
 
     /**
      * @var boolean $deleted
@@ -189,26 +181,6 @@ class ReferenceType implements ReferenceTypeInterface
     public function getNames()
     {
         return $this->names;
-    }
-
-    /**
-     * Set status
-     *
-     * @param StatusInterface|null $status
-     */
-    public function setStatus(StatusInterface $status = null)
-    {
-        $this->status = $status;
-    }
-
-    /**
-     * Get status
-     *
-     * @return StatusInterface $status
-     */
-    public function getStatus()
-    {
-        return $this->status;
     }
 
     /**

@@ -1,13 +1,13 @@
 <?php
 
-
 namespace itkg\ReferenceInterface\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
-//use OpenOrchestra\ModelInterface\Model\StatusableInterface;
 use OpenOrchestra\ModelInterface\Model\TimestampableInterface;
 use OpenOrchestra\ModelInterface\Model\BlameableInterface;
 use OpenOrchestra\ModelInterface\Model\KeywordableInterface;
+use OpenOrchestra\ModelBundle\Document\ContentAttribute;
+use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 
 /**
  * Interface ReferenceInterface
@@ -17,24 +17,24 @@ interface ReferenceInterface extends TimestampableInterface, BlameableInterface,
     /**
      * @return ArrayCollection
      */
-    //public function getAttributes();
+    public function getAttributes();
 
     /**
      * @param string $name
      *
-     * @return ReferenceAttributeInterface|null
+     * @return ContentAttributeInterface|null
      */
-    //public function getAttributeByName($name);
+    public function getAttributeByName($name);
 
     /**
-     * @param ReferenceAttributeInterface $attribute
+     * @param ContentAttributeInterface $attribute
      */
-    //public function addAttribute(ReferenceAttributeInterface $attribute);
+    public function addAttribute(ContentAttributeInterface $attribute);
 
     /**
-     * @param ReferenceAttributeInterface $attribute
+     * @param ContentAttributeInterface $attribute
      */
-    //public function removeAttribute(ReferenceAttributeInterface $attribute);
+    public function removeAttribute(ContentAttributeInterface $attribute);
 
     /**
      * @param string $referenceId
@@ -55,16 +55,6 @@ interface ReferenceInterface extends TimestampableInterface, BlameableInterface,
      * @return string
      */
     public function getReferenceType();
-
-    /**
-     * @param int $referenceTypeVersion
-     */
-    public function setReferenceTypeVersion($referenceTypeVersion);
-
-    /**
-     * @return int
-     */
-    public function getReferenceTypeVersion();
 
     /**
      * @param boolean $deleted
@@ -101,13 +91,4 @@ interface ReferenceInterface extends TimestampableInterface, BlameableInterface,
      */
     public function getName();
 
-    /**
-     * @param int $version
-     */
-    public function setVersion($version);
-
-    /**
-     * @return int
-     */
-    public function getVersion();
 }

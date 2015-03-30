@@ -4,7 +4,6 @@ namespace itkg\ReferenceInterface\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use OpenOrchestra\ModelInterface\Model\FieldTypeContainerInterface;
-use OpenOrchestra\ModelInterface\Model\StatusableInterface;
 use OpenOrchestra\ModelInterface\Model\TranslatedValueContainerInterface;
 use OpenOrchestra\ModelInterface\Model\BlameableInterface;
 use OpenOrchestra\ModelInterface\Model\TimestampableInterface;
@@ -14,7 +13,7 @@ use OpenOrchestra\ModelInterface\Model\TranslatedValueInterface;
 /**
  * Interface ReferenceTypeInterface
  */
-interface ReferenceTypeInterface extends FieldTypeContainerInterface, StatusableInterface, TranslatedValueContainerInterface, BlameableInterface, TimestampableInterface
+interface ReferenceTypeInterface extends FieldTypeContainerInterface, TranslatedValueContainerInterface, BlameableInterface, TimestampableInterface
 {
     /**
      * @param string $referenceTypeId

@@ -8,8 +8,9 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
 use OpenOrchestra\ModelBundle\Mapping\Annotations as ORCHESTRA;
+use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
+use OpenOrchestra\ModelBundle\Document\ContentAttribute;
 use OpenOrchestra\ModelBundle\Document\EmbedStatus;
-//use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 use OpenOrchestra\ModelInterface\Model\StatusInterface;
 use Gedmo\Mapping\Annotation as Gedmo;
 use OpenOrchestra\ModelInterface\MongoTrait\Keywordable;
@@ -62,20 +63,6 @@ class Reference implements ReferenceInterface
     protected $name;
 
     /**
-     * @var int $version
-     *
-     * @ODM\Field(type="int")
-     */
-    protected $version = 1;
-
-    /**
-     * @var int $referenceTypeVersion
-     *
-     * @ODM\Field(type="int")
-     */
-    protected $referenceTypeVersion;
-
-    /**
      * @var string $language
      *
      * @ODM\Field(type="string")
@@ -92,9 +79,9 @@ class Reference implements ReferenceInterface
     /**
      * @var ArrayCollection
      *
-     * @ODM\EmbedMany(targetDocument="referenceAttribute")
+     * @ODM\EmbedMany(targetDocument="OpenOrchestra\ModelBundle\Document\ContentAttribute")
      */
-    //protected $attributes;
+    protected $attributes;
 
     /**
      * Constructor
@@ -107,17 +94,17 @@ class Reference implements ReferenceInterface
     /**
      * @return ArrayCollection
      */
-    /*public function getAttributes()
+    public function getAttributes()
     {
         return $this->attributes;
-    }*/
+    }
 
     /**
      * @param string $name
      *
-     * @return referenceAttributeInterface|null
+     * @return ContentAttributeInterface|null
      */
-    /*public function getAttributeByName($name)
+    public function getAttributeByName($name)
     {
         foreach ($this->attributes as $attribute) {
             if ($name == $attribute->getName()) {
@@ -126,23 +113,23 @@ class Reference implements ReferenceInterface
         }
 
         return null;
-    }*/
+    }
 
     /**
-     * @param referenceAttributeInterface $attribute
+     * @param ContentAttributeInterface $attribute
      */
-/*    public function addAttribute(ReferenceAttributeInterface $attribute)
+    public function addAttribute(ContentAttributeInterface $attribute)
     {
         $this->attributes->add($attribute);
-    }**/
+    }
 
     /**
-     * @param ReferenceAttributeInterface $attribute
+     * @param ContentAttributeInterface $attribute
      */
-    /*public function removeAttribute(ReferenceAttributeInterface $attribute)
+    public function removeAttribute(ContentAttributeInterface $attribute)
     {
         $this->attributes->removeElement($attribute);
-    }*/
+    }
 
     /**
      * @param string $referenceId
@@ -174,22 +161,6 @@ class Reference implements ReferenceInterface
     public function getReferenceType()
     {
         return $this->referenceType;
-    }
-
-    /**
-     * @param int $referenceTypeVersion
-     */
-    public function setReferenceTypeVersion($referenceTypeVersion)
-    {
-        $this->referenceTypeVersion = $referenceTypeVersion;
-    }
-
-    /**
-     * @return int
-     */
-    public function getReferenceTypeVersion()
-    {
-        return $this->referenceTypeVersion;
     }
 
     /**
@@ -246,31 +217,6 @@ class Reference implements ReferenceInterface
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @param int $version
-     */
-    public function setVersion($version)
-    {
-        $this->version = $version;
-    }
-
-    /**
-     * @return int
-     */
-    public function getVersion()
-    {
-        return $this->version;
-    }
-
-    /**
-     * Clone method
-     */
-    public function __clone()
-    {
-        $this->id = null;
-        $this->initializeCollections();
     }
 
     /**

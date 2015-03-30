@@ -4,7 +4,14 @@
     "type": "project",
     "description": "bundle reference basé sur les contents d'open orchestra",
     "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/itkg/open-orchestra-media-bundle"
+        }
+    ],
     "require": {
+        "itkg/open-orchestra-model-interface": "*"
     }
 }
 
