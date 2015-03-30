@@ -77,7 +77,7 @@ class Reference implements ReferenceInterface
     /**
      * @var ArrayCollection
      *
-     * @ODM\EmbedMany(targetDocument="ContentAttribute")
+     * @ODM\EmbedMany(targetDocument="OpenOrchestra\ModelInterface\Model\ContentAttributeInterface")
      */
     protected $attributes;
 

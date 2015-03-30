@@ -39,7 +39,7 @@ class ReferenceType implements ReferenceTypeInterface
     protected $referenceTypeId;
 
     /**
-     * @ODM\EmbedMany(targetDocument="TranslatedValue")
+     * @ODM\EmbedMany(targetDocument="OpenOrchestra\ModelInterface\Model\TranslatedValueInterface")
      */
     protected $names;
 
