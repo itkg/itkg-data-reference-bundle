@@ -2,18 +2,16 @@
 
 namespace itkg\ReferenceBundle\Document;
 
+use Gedmo\Timestampable\TimestampableDocumentTest;
+
 use itkg\ReferenceInterface\Model\ReferenceInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
-use OpenOrchestra\ModelBundle\Mapping\Annotations as ORCHESTRA;
-use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
-use OpenOrchestra\ModelBundle\Document\ContentAttribute;
-use OpenOrchestra\ModelBundle\Document\EmbedStatus;
-use OpenOrchestra\ModelInterface\Model\StatusInterface;
-use Gedmo\Mapping\Annotation as Gedmo;
 use OpenOrchestra\ModelInterface\MongoTrait\Keywordable;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use OpenOrchestra\ModelBundle\Mapping\Annotations as ORCHESTRA;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Description of Reference
@@ -79,7 +77,7 @@ class Reference implements ReferenceInterface
     /**
      * @var ArrayCollection
      *
-     * @ODM\EmbedMany(targetDocument="OpenOrchestra\ModelBundle\Document\ContentAttribute")
+     * @ODM\EmbedMany(targetDocument="ContentAttribute")
      */
     protected $attributes;
 

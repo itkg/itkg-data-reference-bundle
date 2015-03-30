@@ -2,11 +2,9 @@
 
 namespace itkg\ReferenceInterface\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use OpenOrchestra\ModelInterface\Model\TimestampableInterface;
 use OpenOrchestra\ModelInterface\Model\BlameableInterface;
 use OpenOrchestra\ModelInterface\Model\KeywordableInterface;
-use OpenOrchestra\ModelBundle\Document\ContentAttribute;
 use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 
 /**
