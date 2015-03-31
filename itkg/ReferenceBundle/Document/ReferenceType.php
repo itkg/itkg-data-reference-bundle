@@ -60,7 +60,7 @@ class ReferenceType implements ReferenceTypeInterface
     /**
      * @var ArrayCollection $fields
      *
-     * @ODM\EmbedMany(targetDocument="FieldType")
+     * @ODM\EmbedMany(targetDocument="OpenOrchestra\ModelInterface\Model\FieldTypeInterface")
      */
     protected $fields;
 
