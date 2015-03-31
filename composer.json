@@ -2,7 +2,7 @@
     "name": "itkg/itkg-data-reference-bundle", 
     "license": "MIT",
     "type": "project",
-    "description": "bundle reference basé sur les contents d'open orchestra",
+    "description": "reference bundle based on contentBundle of open orchestra",
     "minimum-stability": "dev",
     "repositories": [
         {
