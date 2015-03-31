@@ -1,6 +1,6 @@
 <?php
 
-namespace itkg\ReferenceBundle;
+namespace Itkg\ReferenceBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

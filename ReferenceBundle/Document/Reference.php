@@ -1,10 +1,10 @@
 <?php
 
-namespace itkg\ReferenceBundle\Document;
+namespace Itkg\ReferenceBundle\Document;
 
 use Gedmo\Timestampable\TimestampableDocumentTest;
 
-use itkg\ReferenceInterface\Model\ReferenceInterface;
+use Itkg\ReferenceInterface\Model\ReferenceInterface;
 use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
@@ -18,7 +18,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ODM\Document(
  *   collection="reference",
- *   repositoryClass="itkg\ReferenceBundle\Repository\ReferenceRepository"
+ *   repositoryClass="Itkg\ReferenceBundle\Repository\ReferenceRepository"
  * )
  * @ORCHESTRA\Document(
  *   generatedField="referenceId",

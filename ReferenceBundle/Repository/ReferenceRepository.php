@@ -1,10 +1,10 @@
 <?php
 
-namespace itkg\ReferenceBundle\Repository;
+namespace Itkg\ReferenceBundle\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use OpenOrchestra\ModelBundle\Repository\FieldAutoGenerableRepositoryInterface;
-use itkg\ReferenceInterface\Repository\ReferenceRepositoryInterface;
+use Itkg\ReferenceInterface\Repository\ReferenceRepositoryInterface;
 use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
 
 /**

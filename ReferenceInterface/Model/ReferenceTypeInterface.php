@@ -1,6 +1,6 @@
 <?php
 
-namespace itkg\ReferenceInterface\Model;
+namespace Itkg\ReferenceInterface\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use OpenOrchestra\ModelInterface\Model\FieldTypeContainerInterface;

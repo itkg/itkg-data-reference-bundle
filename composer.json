@@ -20,8 +20,8 @@
     },
     "autoload": {
         "psr-0": {
-            "itkg\\ReferenceBundle": "",
-            "itkg\\ReferenceInterface": ""
+            "Itkg\\ReferenceBundle": "",
+            "Itkg\\ReferenceInterface": ""
         }
     },
     "target-dir": "itkg"

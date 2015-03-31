@@ -1,8 +1,8 @@
 <?php
 
-namespace itkg\ReferenceInterface\Repository;
+namespace Itkg\ReferenceInterface\Repository;
 
-use itkg\ReferenceInterface\Model\ReferenceInterface;
+use Itkg\ReferenceInterface\Model\ReferenceInterface;
 
 /**
  * Interface ReferenceRepositoryInterface
