@@ -5,6 +5,7 @@
     "description": "bundle reference basé sur les content d'open orchestra",
     "minimum-stability": "dev",
     "require": {
-    }
+    },
+    "target-dir": "itkg"
 }
 
