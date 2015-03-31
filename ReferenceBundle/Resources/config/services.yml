@@ -1,6 +1,6 @@
 parameters:
-    itkg_reference.repository.reference.class : itkg\ReferenceBundle\Document\ReferenceRepository
-    itkg_reference.repository.reference.arguments : itkg\ReferenceBundle\Document\Reference
+    itkg_reference.repository.reference.class : Itkg\ReferenceBundle\Document\ReferenceRepository
+    itkg_reference.repository.reference.arguments : Itkg\ReferenceBundle\Document\Reference
 
 services:
     itkg_reference.repository.reference:

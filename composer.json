@@ -2,9 +2,27 @@
     "name": "itkg/itkg-data-reference-bundle", 
     "license": "MIT",
     "type": "project",
-    "description": "bundle reference basé sur les content d'open orchestra",
+    "description": "reference bundle based on contentBundle of open orchestra",
     "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/itkg/open-orchestra-model-bundle"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/itkg/open-orchestra-model-interface"
+        }
+    ],
     "require": {
+        "itkg/open-orchestra-model-interface": "*",
+        "itkg/open-orchestra-model-bundle": "*",
+    },
+    "autoload": {
+        "psr-0": {
+            "Itkg\\ReferenceBundle": "",
+            "Itkg\\ReferenceInterface": ""
+        }
     },
     "target-dir": "itkg"
 }

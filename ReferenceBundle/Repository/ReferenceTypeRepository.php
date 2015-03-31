@@ -1,9 +1,9 @@
 <?php
 
-namespace itkg\ReferenceBundle\Repository;
+namespace Itkg\ReferenceBundle\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
+use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
 
 /**
  * Class ReferenceTypeRepository

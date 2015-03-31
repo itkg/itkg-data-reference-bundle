@@ -1,12 +1,12 @@
 <?php
 
-namespace itkg\ReferenceType\Document;
+namespace Itkg\ReferenceType\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
 use Gedmo\Mapping\Annotation as Gedmo;
-use itkg\ReferenceInterface\Model\ReferenceTypeInterface;
+use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
 use OpenOrchestra\ModelInterface\Model\FieldTypeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use OpenOrchestra\ModelInterface\Model\TranslatedValueInterface;
@@ -16,7 +16,7 @@ use OpenOrchestra\ModelInterface\Model\TranslatedValueInterface;
  *
  * @ODM\Document(
  *   collection="reference_type",
- *   repositoryClass="itkg\ReferenceBundle\Repository\ReferenceTypeRepository"
+ *   repositoryClass="Itkg\ReferenceBundle\Repository\ReferenceTypeRepository"
  * )
  */
 class ReferenceType implements ReferenceTypeInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace itkg\ReferenceInterface\Model;
+namespace Itkg\ReferenceInterface\Model;
 
 use OpenOrchestra\ModelInterface\Model\TimestampableInterface;
 use OpenOrchestra\ModelInterface\Model\BlameableInterface;
