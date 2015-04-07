@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\ReferenceType\Document;
+namespace Itkg\ReferenceBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Gedmo\Blameable\Traits\BlameableDocument;
