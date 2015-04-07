@@ -64,7 +64,7 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
     {
         $qb = $this->createQueryBuilderWithLanguage($language);
 
-        $qb = $qb->field('referenceId')->equals($referenceId);
+        $qb->field('referenceId')->equals($referenceId);
 
         return $qb->getQuery()->getSingleResult();
     }
