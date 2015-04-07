@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Itkg\ReferenceBundle\Controller;
 
 use Doctrine\Common\Persistence\Event\ManagerEventArgs;

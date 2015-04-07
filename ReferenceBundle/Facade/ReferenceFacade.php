@@ -17,11 +17,11 @@ class ReferenceFacade extends DeletedFacade
     public $referenceId;
 
     /**
-     * @Serializer\Type("DateTime")
+     * @Serializer\Type("DateTime<'d/m/Y H:i:s'>")
      */
     public $createdAt;
     /**
-     * @Serializer\Type("DateTime")
+     * @Serializer\Type("DateTime<'d/m/Y H:i:s'>")
      */
     public $updatedAt;
 

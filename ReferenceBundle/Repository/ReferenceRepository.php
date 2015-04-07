@@ -43,13 +43,8 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
      *
      * @return Builder
      */
-    protected function defaultQueryCriteria(Builder $qb, $referenceId = null, $language = null)
+    protected function defaultQueryCriteria(Builder $qb, $language = null)
     {
-        if($referenceId != null)
-        {
-            $qb->field('referenceId')->equals($referenceId);
-        }
-
         if($language != null)
         {
             $qb->field('language')->equals($language);
@@ -67,7 +62,8 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
     public function findOneByIdAndLanguageNotDeleted($referenceId, $language = null)
     {
         $qb = $this->createQueryBuilder('r');
-        $qb = $this->defaultQueryCriteria($qb, $referenceId, $language);
+        $qb = $this->defaultQueryCriteria($qb, $referenceId, $language)->field('referenceId')->equals($referenceId);
+
         return $qb->getQuery()->getSingleResult();
     }
 
