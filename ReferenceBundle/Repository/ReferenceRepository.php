@@ -6,6 +6,7 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 use OpenOrchestra\ModelBundle\Repository\FieldAutoGenerableRepositoryInterface;
 use Itkg\ReferenceInterface\Repository\ReferenceRepositoryInterface;
 use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
+use Doctrine\ODM\MongoDB\Query\Builder;
 
 /**
  * Class ReferenceRepository
@@ -42,16 +43,32 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
      *
      * @return Builder
      */
-    protected function defaultQueryCriteria(Builder $qb, $referenceId, $language = null, $version = null)
+    protected function defaultQueryCriteria(Builder $qb, $referenceId = null, $language = null)
     {
-        if (is_null($language)) {
-            $language = $this->currentSiteManager->getCurrentSiteDefaultLanguage();
+        if($referenceId != null)
+        {
+            $qb->field('referenceId')->equals($referenceId);
         }
-        $qb->field('referenceId')->equals($referenceId);
-        $qb->field('language')->equals($language);
+
+        if($language != null)
+        {
+            $qb->field('language')->equals($language);
+        }
         $qb->field('deleted')->equals(false);
 
         return $qb;
+    }
+
+    /**
+     * @param string $referenceId
+     *
+     * @return ReferenceInterface
+     */
+    public function findOneByIdAndLanguageNotDeleted($referenceId, $language = null)
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb = $this->defaultQueryCriteria($qb, $referenceId, $language);
+        return $qb->getQuery()->getSingleResult();
     }
 
     /**
