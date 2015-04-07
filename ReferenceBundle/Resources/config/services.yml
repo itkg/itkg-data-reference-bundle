@@ -1,6 +1,7 @@
 parameters:
     itkg_reference.repository.reference.class : Itkg\ReferenceBundle\Document\ReferenceRepository
     itkg_reference.repository.reference.arguments : Itkg\ReferenceBundle\Document\Reference
+    itkg_reference.transformer.reference.class : Itkg\ReferenceBundle\Transformer\ReferenceTransformer
 
 services:
     itkg_reference.repository.reference:
@@ -11,3 +12,8 @@ services:
             - %itkg_reference.repository.reference.arguments%
         calls:
             - [ setCurrentSiteManager, [ @open_orchestra.manager.current_site ] ]
+
+    itkg_reference.transformer.reference:
+        class:            %itkg_reference.transformer.reference.class%
+        tags:
+            - { name: open_orchestra_api.transformer.strategy}
