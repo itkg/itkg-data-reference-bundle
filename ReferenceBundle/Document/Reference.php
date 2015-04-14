@@ -10,7 +10,7 @@ use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
 use OpenOrchestra\ModelInterface\MongoTrait\Keywordable;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use OpenOrchestra\ModelBundle\Mapping\Annotations as ORCHESTRA;
+use OpenOrchestra\ModelInterface\Mapping\Annotations as ORCHESTRA;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
