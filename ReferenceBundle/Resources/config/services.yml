@@ -2,6 +2,9 @@ parameters:
     itkg_reference.repository.reference.class : Itkg\ReferenceBundle\Document\ReferenceRepository
     itkg_reference.document.reference.class : Itkg\ReferenceBundle\Document\Reference
     itkg_reference.transformer.reference.class : Itkg\ReferenceBundle\Transformer\ReferenceTransformer
+    itkg_reference_backoffice.left_panel.reference_type.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferenceTypeForContentPanel
+    itkg_reference.left_panel.reference_types.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferencePanelStrategy
+    itkg_reference.repository.reference_type.class : Itkg\ReferenceBundle\Document\ReferenceTypeRepository
 
 services:
     itkg_reference.repository.reference:
@@ -13,7 +16,25 @@ services:
         calls:
             - [ setCurrentSiteManager, [ @open_orchestra.manager.current_site ] ]
 
+    itkg_reference.repository.reference_type:
+        class:            %itkg_reference.repository.reference_type.class%
+        factory_service:  "doctrine.odm.mongodb.document_manager"
+        factory_method:   "getRepository"
+        arguments:
+            - %itkg_reference.document.reference.class%
+        calls:
+            - [ setCurrentSiteManager, [ @open_orchestra.manager.current_site ] ]
+
     itkg_reference.transformer.reference:
         class:            %itkg_reference.transformer.reference.class%
         tags:
             - { name: open_orchestra_api.transformer.strategy}
+
+    itkg_reference.left_panel.reference_types:
+        class: %itkg_reference.left_panel.reference_types.class%
+        arguments:
+            - reference_types
+            - ROLE_ACCESS_REFERENCE_TYPE
+            - ItkgReferenceBundle:AdministrationPanel:reference_types.html.twig
+        tags:
+            - { name: open_orchestra_backoffice.left_panel.strategy }
