@@ -2,6 +2,8 @@
 
 namespace Itkg\ReferenceBundle\DataFixtures\MongoDB;
 
+use Itkg\ReferenceBundle\Facade\ReferenceTypeCollectionFacade;
+
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -24,6 +26,10 @@ class LoadRoleReferenceData extends AbstractFixture implements OrderedFixtureInt
         $roleReference->addDescription($this->generateTranslatedValue('fr', 'Accès types de références '));
         $roleReference->addDescription($this->generateTranslatedValue('de', 'Der Zugriff auf Referenztypen'));
         $roleReference->addDescription($this->generateTranslatedValue('es', 'Acceso a los tipos de referencia'));
+        $manager->persist($roleReference);
+
+        //$manager->flush();
+
         $manager->persist($roleReference);
 
         $manager->flush();
