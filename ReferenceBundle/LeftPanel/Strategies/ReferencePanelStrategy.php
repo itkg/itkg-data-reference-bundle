@@ -17,12 +17,16 @@ class ReferencePanelStrategy extends AdministrationPanelStrategy
      * @param int    $weight
      * @param string $parent
      */
-    public function __construct($name, $role, $weight = 0, $parent = self::ADMINISTRATION)
+
+    protected $path;
+
+    public function __construct($name, $role, $bundle, $weight = 0, $parent = self::ADMINISTRATION)
     {
         $this->name = $name;
         $this->role = $role;
         $this->weight = $weight;
         $this->parent = $parent;
+        $this->bundle = $bundle;
     }
 
     /**
@@ -32,6 +36,6 @@ class ReferencePanelStrategy extends AdministrationPanelStrategy
      */
     public function show()
     {
-        return $this->render('ItkgReferenceBundle:AdministrationPanel:' . $this->name . '.html.twig');
+        return $this->render($this->bundle.":AdministrationPanel:".$this->name.".html.twig");
     }
 }
