@@ -35,6 +35,7 @@ services:
         arguments:
             - reference_types
             - ROLE_ACCESS_REFERENCE_TYPE
-            - ItkgReferenceBundle:AdministrationPanel:reference_types.html.twig
+            - ItkgReferenceBundle
+            - 12
         tags:
             - { name: open_orchestra_backoffice.left_panel.strategy }
