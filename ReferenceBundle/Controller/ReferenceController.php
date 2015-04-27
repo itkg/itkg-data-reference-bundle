@@ -19,7 +19,7 @@ class ReferenceController extends BaseController
     /**
      * @param string  $referenceId
      *
-     * @Route("/getId/{referenceId}", name="open_orchestra_api_itkg_reference_getId")
+     * @Route("/reference/{referenceId}", name="open_orchestra_api_itkg_reference_getId")
      *
      * @Api\Serialize()
      *

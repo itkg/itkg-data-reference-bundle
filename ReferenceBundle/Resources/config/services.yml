@@ -1,34 +1,56 @@
 parameters:
     itkg_reference.repository.reference.class : Itkg\ReferenceBundle\Document\ReferenceRepository
+    itkg_reference.repository.reference_type.class : Itkg\ReferenceBundle\Repository\ReferenceTypeRepository
+    itkg_reference.document.reference_type.class : Itkg\ReferenceBundle\Document\ReferenceType
     itkg_reference.document.reference.class : Itkg\ReferenceBundle\Document\Reference
+
     itkg_reference.transformer.reference.class : Itkg\ReferenceBundle\Transformer\ReferenceTransformer
+    itkg_reference.transformer.reference_type_collection.class : Itkg\ReferenceBundle\Transformer\ReferenceTypeCollectionTransformer
+    itkg_reference.transformer.reference_type.class : Itkg\ReferenceBundle\Transformer\ReferenceTypeTransformer
+
     itkg_reference_backoffice.left_panel.reference_type.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferenceTypeForContentPanel
-    itkg_reference.left_panel.reference_types.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferencePanelStrategy
-    itkg_reference.repository.reference_type.class : Itkg\ReferenceBundle\Document\ReferenceTypeRepository
+    itkg_reference.left_panel.reference_types.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferenceTypePanelStrategy
+
+    itkg_reference.manager.reference_type.class : Itkg\ReferenceBundle\Manager\ReferenceTypeManager
 
 services:
-    itkg_reference.repository.reference:
-        class:            %itkg_reference.repository.reference.class%
-        factory_service:  "doctrine.odm.mongodb.document_manager"
-        factory_method:   "getRepository"
-        arguments:
-            - %itkg_reference.document.reference.class%
-        calls:
-            - [ setCurrentSiteManager, [ @open_orchestra.manager.current_site ] ]
+
+## MODELS ##
 
     itkg_reference.repository.reference_type:
         class:            %itkg_reference.repository.reference_type.class%
         factory_service:  "doctrine.odm.mongodb.document_manager"
         factory_method:   "getRepository"
         arguments:
+            - %itkg_reference.document.reference_type.class%
+
+    itkg_reference.repository.reference:
+        class:            %itkg_reference.repository.reference.class%
+        factory_service:  "doctrine.odm.mongodb.document_manager"
+        factory_method:   "getRepository"
+        arguments:
             - %itkg_reference.document.reference.class%
-        calls:
-            - [ setCurrentSiteManager, [ @open_orchestra.manager.current_site ] ]
+
+## TRANSFORMERS ##
 
     itkg_reference.transformer.reference:
         class:            %itkg_reference.transformer.reference.class%
         tags:
             - { name: open_orchestra_api.transformer.strategy}
+
+    itkg_reference.transformer.reference_type_collection:
+        class: %itkg_reference.transformer.reference_type_collection.class%
+        tags:
+            - { name: open_orchestra_api.transformer.strategy}
+
+    itkg_reference.transformer.reference_type:
+        class: %itkg_reference.transformer.reference_type.class%
+        arguments:
+            - @open_orchestra_backoffice.manager.translation_choice
+        tags:
+            - { name: open_orchestra_api.transformer.strategy}
+
+## MENU STRATEGIES ##
 
     itkg_reference.left_panel.reference_types:
         class: %itkg_reference.left_panel.reference_types.class%
@@ -39,3 +61,8 @@ services:
             - 12
         tags:
             - { name: open_orchestra_backoffice.left_panel.strategy }
+
+## MANAGER ##
+
+    itkg_reference.manager.reference_type:
+         class: %itkg_reference.manager.reference_type.class%

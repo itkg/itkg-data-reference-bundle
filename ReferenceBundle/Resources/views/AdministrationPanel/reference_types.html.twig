@@ -1,1 +1,9 @@
-<a>{{ 'itkg_reference_bundle.left_menu.administration.reference_type.list'|trans }}</a>
+<a
+        href="#reference_types/list"
+        id="nav-reference_types"
+        data-url="{{ path('open_orchestra_api_reference_type_list') }}"
+        data-displayed-elements="reference_type_id, name"
+        title="{{ 'itkg_reference_bundle.left_menu.administration.reference_type.list'|trans }}"
+        >
+    {{ 'itkg_reference_bundle.left_menu.administration.reference_type.list'|trans }}
+</a>
