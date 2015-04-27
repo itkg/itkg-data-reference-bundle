@@ -55,11 +55,10 @@ class ReferenceType extends AbstractType
             ));
 
         $builder->addEventSubscriber(new ReferenceTypeSubscriber(
-          //  $this->referenceTypeRepository,
-          //  $this->contentAttributClass,
+            $this->referenceTypeRepository,
+            $this->contentAttributClass,
             $this->translationChoiceManager
         ));
-        var_dump($builder);
         $builder->addEventSubscriber(new AddSubmitButtonSubscriber());
     }
 

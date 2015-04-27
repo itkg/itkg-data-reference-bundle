@@ -27,7 +27,7 @@ class ReferenceController extends BaseController
      */
     public function getIdAction($referenceId)
     {
-        $reference = $this->get("itkg_reference.repository.reference")->findOneByIdAndLanguageNotDeleted($referenceId, "FR");
+        $reference = $this->get("itkg_reference.repository.reference")->findOneByIdAndLanguageNotDeleted($referenceId);
 
         $facadeReference = $this->get('open_orchestra_api.transformer_manager')->get('reference')->transform($reference);
 

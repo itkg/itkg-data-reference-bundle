@@ -13,7 +13,7 @@ class ReferenceTypeRepository extends DocumentRepository implements ReferenceTyp
     /**
      * @return array
      */
-    public function findNotDeleted()
+    public function findAllNotDeleted()
     {
         $qb = $this->createQueryBuilder('reference_type');
 
@@ -25,7 +25,7 @@ class ReferenceTypeRepository extends DocumentRepository implements ReferenceTyp
      * 
      * @return array
      */
-    public function findOneByreferenceTypeId($referenceTypeId)
+    public function findOneByReferenceTypeId($referenceTypeId)
     {
         $qb = $this->createQueryBuilder('reference_type');
         $qb->field('referenceTypeId')->equals($referenceTypeId);
