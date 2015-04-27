@@ -15,11 +15,11 @@ class ReferenceTypeSubscriber extends AbstractBlockContentTypeSubscriber
     protected $referenceTypeRepository;
     protected $contentAttributClass;
 
-    /* *
+    /**
      * @param ReferenceTypeRepositoryInterface $referenceTypeRepository
      * @param string                         $contentAttributClass
      * @param TranslationChoiceManager       $translationChoiceManager
-     * /
+     */
     public function __construct(
         ReferenceTypeRepositoryInterface $referenceTypeRepository,
         $contentAttributClass,
@@ -30,21 +30,4 @@ class ReferenceTypeSubscriber extends AbstractBlockContentTypeSubscriber
         $this->contentAttributClass = $contentAttributClass;
         $this->translationChoiceManager = $translationChoiceManager;
     }
-
-    /**
-     * 
-     * @param FormEvent $event
-     * /
-    public function preSetData(FormEvent $event)
-    {
-        var_dump($event);die();
-    }
-
-    /**
-     * @param FormEvent $event
-     * /
-    public function preSubmit(FormEvent $event)
-    {
-        var_dump($event);die();
-    }*/
 }

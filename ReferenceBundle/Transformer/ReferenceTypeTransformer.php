@@ -39,20 +39,7 @@ class ReferenceTypeTransformer extends AbstractTransformer
         foreach ($mixed->getFields() as $field) {
             $facade->addField($this->getTransformer('field_type')->transform($field));
         }
-/*
-        $facade->addLink('_self', $this->generateRoute(
-            'open_orchestra_api_content_type_show',//'open_orchestra_api_reference_type_show',
-            array('contentTypeId' => $mixed->getContentTypeId())//array('referenceTypeId' => $mixed->getReferenceTypeId())
-        ));
-        $facade->addLink('_self_delete', $this->generateRoute(
-            'open_orchestra_api_content_type_delete',
-            array('contentTypeId' => $mixed->getContentTypeId())//array('contentTypeId' => $mixed->getReferenceTypeId())
-        ));
-        $facade->addLink('_self_form', $this->generateRoute(
-            'open_orchestra_backoffice_content_type_form',//'open_orchestra_backoffice_reference_type_form',
-            array('contentTypeId' => $mixed->getContentTypeId())//array('referenceTypeId' => $mixed->getReferenceTypeId())
-        ));
-*/
+
         return $facade;
     }
 
