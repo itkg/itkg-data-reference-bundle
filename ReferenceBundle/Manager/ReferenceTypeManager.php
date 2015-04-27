@@ -41,8 +41,7 @@ class ReferenceTypeManager
     public function delete($referenceTypes)
     {
         if (!empty($referenceTypes)) {
-            foreach ($referenceTypes as $referenceType)
-            {
+            foreach ($referenceTypes as $referenceType) {
                 $referenceType->setDeleted(true);
             }
         }

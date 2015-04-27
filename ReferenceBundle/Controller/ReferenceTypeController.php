@@ -19,7 +19,7 @@ class ReferenceTypeController extends BaseController
      */
     public function listAction()
     {
-        $referenceTypeCollection = $this->get('itkg_reference.repository.reference_type')->findAllByDeleted();
+        $referenceTypeCollection = $this->get('itkg_reference.repository.reference_type')->findNotDeleted();
 
         return $this->get('open_orchestra_api.transformer_manager')->get('reference_type_collection')->transform($referenceTypeCollection);
     }
