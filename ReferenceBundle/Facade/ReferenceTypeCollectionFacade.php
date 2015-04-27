@@ -3,13 +3,13 @@
 namespace Itkg\ReferenceBundle\Facade;
 
 use OpenOrchestra\ApiBundle\Facade\FacadeInterface;
-use OpenOrchestra\ApiBundle\Facade\DeletedFacade;
+use OpenOrchestra\ApiBundle\Facade\AbstractFacade;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Class ReferenceTypeCollectionFacade
  */
-class ReferenceTypeCollectionFacade implements FacadeInterface
+class ReferenceTypeCollectionFacade extends AbstractFacade
 {
     /**
      * @Serializer\Type("string")
@@ -17,12 +17,12 @@ class ReferenceTypeCollectionFacade implements FacadeInterface
     public $collectionName = 'reference_types';
 
     /**
-     * @Serializer\Type("array<OpenOrchestra\ApiBundle\Facade\ContentTypeFacade>")
+     * @Serializer\Type("array<Itkg\ReferenceBundle\Facade\ReferenceTypeFacade>")
      */
     protected $referenceTypes = array();
 
     /**
-     * @param FacadeInterface|ContentTypeFacade $facade
+     * @param FacadeInterface|ReferenceTypeFacade $facade
      */
     public function addReferenceType(FacadeInterface $facade)
     {

@@ -19,7 +19,7 @@ class ReferenceController extends BaseController
     /**
      * @param string  $referenceId
      *
-     * @Route("/getId/{referenceId}", name="open_orchestra_api_itkg_reference_getId")
+     * @Route("/reference/{referenceId}", name="open_orchestra_api_itkg_reference_getId")
      *
      * @Api\Serialize()
      *
@@ -27,7 +27,7 @@ class ReferenceController extends BaseController
      */
     public function getIdAction($referenceId)
     {
-        $reference = $this->get("itkg_reference.repository.reference")->findOneByIdAndLanguageNotDeleted($referenceId);
+        $reference = $this->get("itkg_reference.repository.reference")->findOneByIdAndLanguageNotDeleted($referenceId, "FR");
 
         $facadeReference = $this->get('open_orchestra_api.transformer_manager')->get('reference')->transform($reference);
 
