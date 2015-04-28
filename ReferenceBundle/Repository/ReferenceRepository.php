@@ -3,7 +3,7 @@
 namespace Itkg\ReferenceBundle\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use OpenOrchestra\ModelBundle\Repository\FieldAutoGenerableRepositoryInterface;
+use OpenOrchestra\ModelInterface\Repository\FieldAutoGenerableRepositoryInterface;
 use Itkg\ReferenceInterface\Repository\ReferenceRepositoryInterface;
 use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
 use Doctrine\ODM\MongoDB\Query\Builder;
