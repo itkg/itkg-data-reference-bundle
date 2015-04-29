@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\ReferenceBundle\Controller;
+namespace Itkg\ReferenceApiBundle\Controller;
 
 use Doctrine\Common\Persistence\Event\ManagerEventArgs;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +19,7 @@ class ReferenceController extends BaseController
     /**
      * @param string  $referenceId
      *
-     * @Route("/reference/{referenceId}", name="open_orchestra_api_itkg_reference_getId")
+     * @Route("/{referenceId}", name="open_orchestra_api_itkg_reference_getId")
      *
      * @Api\Serialize()
      *

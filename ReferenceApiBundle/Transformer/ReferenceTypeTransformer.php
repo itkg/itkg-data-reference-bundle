@@ -1,9 +1,9 @@
 <?php
 
-namespace Itkg\ReferenceBundle\Transformer;
+namespace Itkg\ReferenceApiBundle\Transformer;
 
-use Itkg\ReferenceBundle\Document\ReferenceType;
-use Itkg\ReferenceBundle\Facade\ReferenceTypeFacade;
+use Itkg\ReferenceApiBundle\Document\ReferenceType;
+use Itkg\ReferenceApiBundle\Facade\ReferenceTypeFacade;
 use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use OpenOrchestra\ApiBundle\Transformer\AbstractTransformer;
 

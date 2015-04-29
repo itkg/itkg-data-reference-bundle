@@ -10,5 +10,5 @@ interface ReferenceTypeRepositoryInterface
     /**
      * @return array
      */
-    public function findAllNotDeleted();
+    public function findAllByNotDeleted();
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\ReferenceBundle\Facade;
+namespace Itkg\ReferenceApiBundle\Facade;
 
 use OpenOrchestra\ApiBundle\Facade\FacadeInterface;
 use OpenOrchestra\ApiBundle\Facade\DeletedFacade;

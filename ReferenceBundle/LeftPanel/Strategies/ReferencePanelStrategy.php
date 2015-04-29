@@ -13,7 +13,7 @@ class ReferencePanelStrategy extends AdministrationPanelStrategy
     /**
      * @param string $name
      * @param string $role
-     * @param 
+     * @param string $bundle
      * @param int    $weight
      * @param string $parent
      */
