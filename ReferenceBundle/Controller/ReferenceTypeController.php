@@ -40,24 +40,6 @@ class ReferenceTypeController extends AbstractAdminController
 
         $form->handleRequest($request);
 
-        /*
-        if ($form->isValid()) {
-            $documentManager = $this->get('doctrine.odm.mongodb.document_manager');
-            $documentManager->persist($referenceType);
-            $documentManager->flush();
-
-            $this->get('session')->getFlashBag()->add(
-                'success',
-                $this->get('translator')->trans('TODO Traduction : la référence a été céée ! ')
-            );
-
-            $this->dispatchEvent(ReferenceTypeEvents::REFERENCE_TYPE_CREATE, new ReferenceTypeEvent($referenceType));
-
-            return $this->redirect(
-                $this->generateUrl('open_orchestra_backoffice_refernce_type_form', array('referenceTypeId' => $referenceType->getReferenceTypeId()))
-            );
-        }*/
-
         return $this->render('OpenOrchestraBackofficeBundle::form.html.twig', array(
             'form' => $form->createView()
         ));
