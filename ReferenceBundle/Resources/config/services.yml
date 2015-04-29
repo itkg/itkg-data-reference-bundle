@@ -4,10 +4,6 @@ parameters:
     itkg_reference.document.reference_type.class : Itkg\ReferenceBundle\Document\ReferenceType
     itkg_reference.document.reference.class : Itkg\ReferenceBundle\Document\Reference
 
-    itkg_reference.transformer.reference.class : Itkg\ReferenceBundle\Transformer\ReferenceTransformer
-    itkg_reference.transformer.reference_type_collection.class : Itkg\ReferenceBundle\Transformer\ReferenceTypeCollectionTransformer
-    itkg_reference.transformer.reference_type.class : Itkg\ReferenceBundle\Transformer\ReferenceTypeTransformer
-
     itkg_reference_backoffice.left_panel.reference_type.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferenceTypeForContentPanel
     itkg_reference.left_panel.reference_types.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferenceTypePanelStrategy
 
@@ -30,25 +26,6 @@ services:
         factory_method:   "getRepository"
         arguments:
             - %itkg_reference.document.reference.class%
-
-## TRANSFORMERS ##
-
-    itkg_reference.transformer.reference:
-        class:            %itkg_reference.transformer.reference.class%
-        tags:
-            - { name: open_orchestra_api.transformer.strategy}
-
-    itkg_reference.transformer.reference_type_collection:
-        class: %itkg_reference.transformer.reference_type_collection.class%
-        tags:
-            - { name: open_orchestra_api.transformer.strategy}
-
-    itkg_reference.transformer.reference_type:
-        class: %itkg_reference.transformer.reference_type.class%
-        arguments:
-            - @open_orchestra_backoffice.manager.translation_choice
-        tags:
-            - { name: open_orchestra_api.transformer.strategy}
 
 ## MENU STRATEGIES ##
 

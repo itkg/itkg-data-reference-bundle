@@ -3,7 +3,6 @@
 namespace Itkg\ReferenceBundle\Document;
 
 use Gedmo\Timestampable\TimestampableDocumentTest;
-
 use Itkg\ReferenceInterface\Model\ReferenceInterface;
 use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 use Gedmo\Blameable\Traits\BlameableDocument;

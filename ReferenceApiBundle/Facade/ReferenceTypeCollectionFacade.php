@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\ReferenceBundle\Facade;
+namespace Itkg\ReferenceApiBundle\Facade;
 
 use OpenOrchestra\ApiBundle\Facade\FacadeInterface;
 use OpenOrchestra\ApiBundle\Facade\AbstractFacade;
@@ -17,7 +17,7 @@ class ReferenceTypeCollectionFacade extends AbstractFacade
     public $collectionName = 'reference_types';
 
     /**
-     * @Serializer\Type("array<Itkg\ReferenceBundle\Facade\ReferenceTypeFacade>")
+     * @Serializer\Type("array<Itkg\ReferenceApiBundle\Facade\ReferenceTypeFacade>")
      */
     protected $referenceTypes = array();
 

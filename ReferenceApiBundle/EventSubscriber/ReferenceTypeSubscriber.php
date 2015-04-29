@@ -1,9 +1,9 @@
 <?php
-namespace Itkg\ReferenceBundle\EventSubscriber;
+namespace Itkg\ReferenceApiBundle\EventSubscriber;
 
 use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use OpenOrchestra\ModelInterface\Model\FieldTypeInterface;
-use Itkg\ReferenceBundle\Repository\ReferenceTypeRepository;
+use Itkg\ReferenceApiBundle\Repository\ReferenceTypeRepository;
 use Symfony\Component\Form\FormEvent;
 
 /**

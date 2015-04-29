@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\ReferenceBundle\DependencyInjection;
+namespace Itkg\ReferenceApiBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

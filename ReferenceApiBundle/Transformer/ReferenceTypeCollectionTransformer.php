@@ -1,8 +1,8 @@
 <?php
 
-namespace Itkg\ReferenceBundle\Transformer;
+namespace Itkg\ReferenceApiBundle\Transformer;
 
-use Itkg\ReferenceBundle\Facade\ReferenceTypeCollectionFacade;
+use Itkg\ReferenceApiBundle\Facade\ReferenceTypeCollectionFacade;
 use OpenOrchestra\ApiBundle\Transformer\AbstractTransformer;
 
 /**
