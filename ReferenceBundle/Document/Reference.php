@@ -90,6 +90,14 @@ class Reference implements ReferenceInterface
     }
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
      * @return ArrayCollection
      */
     public function getAttributes()
