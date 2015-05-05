@@ -171,7 +171,13 @@ class ReferenceType implements ReferenceTypeInterface
             return $language == $translatedValue->getLanguage();
         });
 
-        return $choosenLanguage->first()->getValue();
+        $name = "";
+
+        if ($choosenLanguage && $choosenLanguage->first()) {
+            $name = $choosenLanguage->first()->getValue();
+        }
+
+        return $name;
     }
 
     /**

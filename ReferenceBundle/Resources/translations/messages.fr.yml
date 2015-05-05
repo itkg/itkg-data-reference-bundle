@@ -3,3 +3,10 @@ itkg_reference_bundle:
         administration:
             reference_type:
                 list: Types de Référence
+    backoffice:
+        form:
+            reference_type:
+                names: Nom dans toutes les langues
+                fields: Champs
+                referenceTypeId: Id du type de reference
+                success: Le type de référence à été ajouté
