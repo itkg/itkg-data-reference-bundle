@@ -1,8 +1,21 @@
 parameters:
-    itkg_reference_bundle.type.itkg_reference.class : Itkg\ReferenceBundle\Form\Type\ReferenceType
-    itkg_reference_bundle.document.reference.class : Itkg\ReferenceBundle\Document\ReferenceType
+    itkg_reference_bundle.type.itkg_reference_type.class : Itkg\ReferenceBundle\Form\Type\ReferenceType
+    itkg_reference_bundle.document.reference_type.class : Itkg\ReferenceBundle\Document\ReferenceType
 
+    itkg_reference_bundle.type.itkg_reference.class : Itkg\ReferenceBundle\Form\Type\ReferenceType
+    itkg_reference_bundle.document.reference.class : Itkg\ReferenceBundle\Document\Reference
 services:
+    # Reference Type Form Builder
+    itkg_reference_bundle.type.itkg_reference_type:
+        class: %itkg_reference_bundle.type.itkg_reference_type.class%
+        arguments:
+            - @itkg_reference.repository.reference_type
+            - %itkg_reference_bundle.document.reference_type.class%
+            - %open_orchestra_model.document.content_attribute.class%
+            - @open_orchestra_backoffice.manager.translation_choice
+        tags:
+            - {name: form.type, alias: itkg_reference_type}
+
     # Reference Form Builder
     itkg_reference_bundle.type.itkg_reference:
         class: %itkg_reference_bundle.type.itkg_reference.class%
@@ -12,4 +25,4 @@ services:
             - %open_orchestra_model.document.content_attribute.class%
             - @open_orchestra_backoffice.manager.translation_choice
         tags:
-            - {name: form.type, alias: itkg_reference_type}
+            - {name: form.type, alias: itkg_reference}

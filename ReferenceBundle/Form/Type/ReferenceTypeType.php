@@ -2,12 +2,13 @@
 
 namespace Itkg\ReferenceBundle\Form\Type;
 
-use OpenOrchestra\UserBundle\EventSubscriber\AddSubmitButtonSubscriber;
-use Itkg\ReferenceBundle\EventSubscriber\ReferenceTypeSubscriber;
-use Symfony\Component\Form\FormBuilderInterface;
-use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
+use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
+use OpenOrchestra\BackofficeBundle\EventSubscriber\AddSubmitButtonSubscriber;
+use Itkg\ReferenceBundle\Repository\ReferenceTypeRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Class ReferenceType
@@ -21,9 +22,9 @@ class ReferenceType extends AbstractType
 
     /**
      * @param ReferenceTypeRepositoryInterface $referenceTypeRepository
-     * @param string                         $referenceClass
-     * @param string                         $contentAttributClass
-     * @param TranslationChoiceManager       $translationChoiceManager
+     * @param string                           $referenceClass
+     * @param string                           $contentAttributClass
+     * @param TranslationChoiceManager         $translationChoiceManager
      */
     public function __construct(
         ReferenceTypeRepositoryInterface $referenceTypeRepository,
@@ -46,7 +47,11 @@ class ReferenceType extends AbstractType
     {
         $builder
             ->add('name', 'text', array(
-                'label' => 'itkg_reference_bundle.left_menu.editorial'
+                'label' => 'open_orchestra_backoffice.form.content.name'
+            ))
+            ->add('keywords', 'orchestra_keywords', array(
+                'label' => 'open_orchestra_backoffice.form.content_type.keywords',
+                'required' => false
             ));
 
         $builder->addEventSubscriber(new ReferenceTypeSubscriber(
@@ -54,7 +59,6 @@ class ReferenceType extends AbstractType
             $this->contentAttributClass,
             $this->translationChoiceManager
         ));
-
         $builder->addEventSubscriber(new AddSubmitButtonSubscriber());
     }
 
@@ -63,6 +67,16 @@ class ReferenceType extends AbstractType
      */
     public function getName()
     {
-        return 'itkg_reference';
+        return 'itkg_reference_type';
+    }
+
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => $this->referenceClass,
+        ));
     }
 }

@@ -36,6 +36,20 @@ class ReferenceTransformer extends AbstractTransformer
             $facade->addAttribute($this->getTransformer('content_attribute')->transform($attribute));
         }
 
+        $facade->addLink('_self_form', $this->generateRoute('itkg_reference_bundle_reference_form', array(//itkg_reference_bundle_reference_form
+            'referenceId' => $mixed->getReferenceId(),
+            'language' => $mixed->getLanguage()
+        )));
+
+        $facade->addLink('_self_delete', $this->generateRoute('open_orchestra_api_content_delete', array(
+            'contentId' => $mixed->getId()
+        )));
+/*
+        $facade->addLink('_self', $this->generateRoute('open_orchestra_api_content_show', array(
+            'contentId' => $mixed->getReferenceId(),
+            'language' => $mixed->getLanguage()
+        )));*/
+
         return $facade;
     }
 

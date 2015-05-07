@@ -3,3 +3,5 @@ itkg_reference_bundle:
         administration:
             reference_type:
                 list: Types de Référence
+        editorial:
+            references: Références

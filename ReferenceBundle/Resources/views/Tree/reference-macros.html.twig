@@ -1,0 +1,17 @@
+{% macro menu_reference_types_for_reference(referenceTypes, name) %}
+    {% for referenceType in referenceTypes %}
+        <li
+            data-element-id="{{ referenceType.referenceTypeId }}"
+            data-type="ReferenceType"
+        >
+            <a
+                id="nav-references_{{referenceType.referenceTypeId}}"
+                href="#references_{{referenceType.referenceTypeId}}/list"
+                data-url="{{ path('open_orchestra_api_reference_list', {'reference_type': referenceType.referenceTypeId}) }}"
+                data-displayed-elements="reference_id, name"
+            >
+                {{ referenceType.names| trans_choose }}
+            </a>
+        </li>
+    {% endfor %}
+{% endmacro %}

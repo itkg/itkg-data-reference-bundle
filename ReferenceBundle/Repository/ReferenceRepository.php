@@ -45,7 +45,7 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
      */
     protected function createQueryBuilderWithLanguage($language = null)
     {
-        $qb = $this->createQueryBuilder('r');
+        $qb = $this->createQueryBuilder('reference');
         if($language != null)
         {
             $qb->field('language')->equals($language);
@@ -77,6 +77,34 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
     public function findOneByReferenceId($referenceId)
     {
         return $this->findOneBy(array('referenceId' => $referenceId));
+    }
+
+    /**
+     * @param string $referenceType
+     *
+     * @return ReferenceInterface
+     */
+    public function findByReferenceTypeNotDeleted($referenceType = null)
+    {
+        $qb = $this->createQueryBuilder('reference');
+
+        if ($referenceType) {
+            $qb->field('referenceType')->equals($referenceType);
+        }
+
+        $qb->field('deleted')->equals(false);
+
+        $list = $qb->getQuery()->execute();
+
+        $references = array();
+
+        foreach ($list as $reference) {
+            if (empty($references[$reference->getReferenceId()])) {
+                $references[$reference->getReferenceId()] = $reference;
+            }
+        }
+
+        return $references;
     }
 
     /**

@@ -4,8 +4,8 @@ parameters:
     itkg_reference.document.reference_type.class : Itkg\ReferenceBundle\Document\ReferenceType
     itkg_reference.document.reference.class : Itkg\ReferenceBundle\Document\Reference
 
-    itkg_reference_backoffice.left_panel.reference_type.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferenceTypeForContentPanel
     itkg_reference.left_panel.reference_types.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferenceTypePanelStrategy
+    itkg_reference.left_panel.reference.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferenceTypeForReferencePanelStrategy
 
     itkg_reference.manager.reference_type.class : Itkg\ReferenceBundle\Manager\ReferenceTypeManager
 
@@ -36,6 +36,13 @@ services:
             - ROLE_ACCESS_REFERENCE_TYPE
             - ItkgReferenceBundle
             - 12
+        tags:
+            - { name: open_orchestra_backoffice.left_panel.strategy }
+
+    itkg_reference.left_panel.reference:
+        class: %itkg_reference.left_panel.reference.class%
+        arguments:
+            - @itkg_reference.repository.reference_type
         tags:
             - { name: open_orchestra_backoffice.left_panel.strategy }
 
