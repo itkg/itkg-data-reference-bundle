@@ -2,7 +2,6 @@
 namespace Itkg\ReferenceBundle\Controller;
 
 use Itkg\ReferenceInterface\Event\ReferenceEvent;
-
 use Itkg\ReferenceInterface\ReferenceEvents;
 use OpenOrchestra\BackofficeBundle\Controller\AbstractAdminController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;

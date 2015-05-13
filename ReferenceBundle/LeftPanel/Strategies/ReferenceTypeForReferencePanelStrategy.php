@@ -2,7 +2,6 @@
 namespace Itkg\ReferenceBundle\LeftPanel\Strategies;
 
 use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
-
 use OpenOrchestra\Backoffice\LeftPanel\Strategies\AbstractLeftPanelStrategy;
 
 /**

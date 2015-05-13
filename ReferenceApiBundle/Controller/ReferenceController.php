@@ -84,11 +84,12 @@ class ReferenceController extends BaseController
         if (!$reference) {
             $oldReference = $referenceRepository->findOneByReferenceId($referenceId);
 
-            $reference = $this->get('itkg_reference.manager.reference')->createNewLanguageReference($oldReference, $language);
-
-            $dm = $this->get('doctrine.odm.mongodb.document_manager');
-            $dm->persist($reference);
-            $dm->flush($reference);
+            if ($oldReference) {
+                $reference = $this->get('itkg_reference.manager.reference')->createNewLanguageReference($oldReference, $language);
+                $dm = $this->get('doctrine.odm.mongodb.document_manager');
+                $dm->persist($reference);
+                $dm->flush($reference);
+            }
         }
 
         return $this->get('open_orchestra_api.transformer_manager')->get('reference')->transform($reference);

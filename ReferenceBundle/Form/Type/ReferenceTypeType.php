@@ -48,10 +48,6 @@ class ReferenceType extends AbstractType
         $builder
             ->add('name', 'text', array(
                 'label' => 'open_orchestra_backoffice.form.content.name'
-            ))
-            ->add('keywords', 'orchestra_keywords', array(
-                'label' => 'open_orchestra_backoffice.form.content_type.keywords',
-                'required' => false
             ));
 
         $builder->addEventSubscriber(new ReferenceTypeSubscriber(
