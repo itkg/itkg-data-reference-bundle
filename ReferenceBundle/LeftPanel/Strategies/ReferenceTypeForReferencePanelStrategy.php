@@ -9,7 +9,6 @@ use OpenOrchestra\Backoffice\LeftPanel\Strategies\AbstractLeftPanelStrategy;
  * Class ReferenceTypeForReferencePanelStrategy
  */
 
-
 class ReferenceTypeForReferencePanelStrategy extends AbstractLeftPanelStrategy
 {
     const ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE = 'ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE';

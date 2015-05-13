@@ -72,7 +72,6 @@ class ReferenceTypeSubscriber extends AbstractBlockReferenceTypeSubscriber
         $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeId($reference->getReferenceType());
 
         if (is_object($referenceType)) {
-            //$reference->setContentTypeVersion($referenceType->getVersion());
             foreach ($referenceType->getFields() as $field) {
                 $fieldId = $field->getFieldId();
                 if ($attribute = $reference->getAttributeByName($fieldId)) {
