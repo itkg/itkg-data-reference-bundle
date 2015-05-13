@@ -1,5 +1,5 @@
 parameters:
-    itkg_reference.repository.reference.class : Itkg\ReferenceBundle\Document\ReferenceRepository
+    itkg_reference.repository.reference.class : Itkg\ReferenceBundle\Repository\ReferenceRepository
     itkg_reference.repository.reference_type.class : Itkg\ReferenceBundle\Repository\ReferenceTypeRepository
     itkg_reference.document.reference_type.class : Itkg\ReferenceBundle\Document\ReferenceType
     itkg_reference.document.reference.class : Itkg\ReferenceBundle\Document\Reference
