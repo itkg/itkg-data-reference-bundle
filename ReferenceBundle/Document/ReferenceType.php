@@ -65,6 +65,13 @@ class ReferenceType implements ReferenceTypeInterface
     protected $fields;
 
     /**
+     * @var string $template
+     * 
+     * @ODM\Field(type="string")
+     */
+    protected $template;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -225,4 +232,11 @@ class ReferenceType implements ReferenceTypeInterface
         $this->names = new ArrayCollection();
     }
 
+    /**
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
 }

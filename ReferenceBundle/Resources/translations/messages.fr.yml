@@ -3,3 +3,16 @@ itkg_reference_bundle:
         administration:
             reference_type:
                 list: Types de Référence
+        editorial:
+            references: Références
+    form:
+        reference:
+            name: Nom de la reference
+            creation: La reference a bien été créée
+            success: La reference a bien été modifiée
+open_orchestra_backoffice:
+    table:
+        reference_type:
+            reference_id: Id de Référence 
+            name: Nom
+            language: Langue

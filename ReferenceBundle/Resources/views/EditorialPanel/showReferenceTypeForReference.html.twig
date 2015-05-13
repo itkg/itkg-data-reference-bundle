@@ -1,0 +1,8 @@
+{% extends 'OpenOrchestraBackofficeBundle:Tree:tree.html.twig' %}
+{% import "ItkgReferenceBundle:Tree:reference-macros.html.twig" as reference_macros %}
+
+{% set name = 'itkg_reference_bundle.left_menu.editorial.references'|trans %}
+
+{% block menu %}
+    {{ reference_macros.menu_reference_types_for_reference(referenceTypes) }}
+{% endblock %}
