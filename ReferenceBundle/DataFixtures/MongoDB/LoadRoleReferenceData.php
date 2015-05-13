@@ -25,7 +25,15 @@ class LoadRoleReferenceData extends AbstractFixture implements OrderedFixtureInt
         $roleReference->addDescription($this->generateTranslatedValue('de', 'Der Zugriff auf Referenztypen'));
         $roleReference->addDescription($this->generateTranslatedValue('es', 'Acceso a los tipos de referencia'));
 
+        $roleReferenceTypeForReference = new Role();
+        $roleReferenceTypeForReference->setName('ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE');
+        $roleReferenceTypeForReference->addDescription($this->generateTranslatedValue('en', 'ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE'));
+        $roleReferenceTypeForReference->addDescription($this->generateTranslatedValue('fr', 'ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE'));
+        $roleReferenceTypeForReference->addDescription($this->generateTranslatedValue('de', 'ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE'));
+        $roleReferenceTypeForReference->addDescription($this->generateTranslatedValue('es', 'ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE'));
+
         $manager->persist($roleReference);
+        $manager->persist($roleReferenceTypeForReference);
 
         $manager->flush();
     }
