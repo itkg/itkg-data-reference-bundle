@@ -8,7 +8,7 @@
                 id="nav-references_{{referenceType.referenceTypeId}}"
                 href="#references_{{referenceType.referenceTypeId}}/list"
                 data-url="{{ path('open_orchestra_api_reference_list', {'reference_type': referenceType.referenceTypeId}) }}"
-                data-displayed-elements="reference_id, name"
+                data-displayed-elements="reference_id, name, language"
             >
                 {{ referenceType.names| trans_choose }}
             </a>

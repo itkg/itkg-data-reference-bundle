@@ -89,6 +89,15 @@ class Reference implements ReferenceInterface
     }
 
     /**
+     * Clone method
+     */
+    public function __clone()
+    {
+        $this->id = null;
+        $this->initializeCollections();
+    }
+
+    /**
      * @return string
      */
     public function __toString()

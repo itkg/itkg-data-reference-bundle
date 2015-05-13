@@ -8,6 +8,7 @@ parameters:
     itkg_reference.left_panel.reference.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferenceTypeForReferencePanelStrategy
 
     itkg_reference.manager.reference_type.class : Itkg\ReferenceBundle\Manager\ReferenceTypeManager
+    itkg_reference.manager.reference.class : Itkg\ReferenceBundle\Manager\ReferenceManager
 
 services:
 
@@ -50,3 +51,8 @@ services:
 
     itkg_reference.manager.reference_type:
          class: %itkg_reference.manager.reference_type.class%
+
+    itkg_reference.manager.reference:
+         class: %itkg_reference.manager.reference.class%
+         arguments:
+            - @open_orchestra_backoffice.context_manager

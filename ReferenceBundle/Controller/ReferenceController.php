@@ -51,7 +51,7 @@ class ReferenceController extends AbstractAdminController
         $referenceClass = $this->container->getParameter('itkg_reference.document.reference.class');
         $reference = new $referenceClass();
         $reference->setReferenceType($referenceType);
-        //$reference->setLanguage($this->get('open_orchestra.manager.current_site')->getCurrentSiteDefaultLanguage());
+        $reference->setLanguage($this->get('open_orchestra.manager.current_site')->getCurrentSiteDefaultLanguage());
 
         $form = $this->createForm('itkg_reference', $reference, array(
             'action' => $this->generateUrl('itkg_reference_bundle_reference_new', array(
@@ -75,11 +75,16 @@ class ReferenceController extends AbstractAdminController
             );
 
             return $this->redirect(
-                $this->generateUrl('open_orchestra_backoffice_reference_form', array(
+                $this->generateUrl('itkg_reference_bundle_reference_form', array(
                     'referenceId' => $reference->getReferenceId()
                 ))
             );
         }
+
+        return $this->render(
+            $this->getFormTemplate($referenceType),
+            array('form' => $form->createView())
+        );
     }
 
     /**
@@ -114,7 +119,7 @@ class ReferenceController extends AbstractAdminController
         );
 
         $this->dispatchEvent(ReferenceEvents::REFERENCE_UPDATE, new ReferenceEvent($reference));
-        
+
         return $this->renderAdminForm(
             $form,
             array(),

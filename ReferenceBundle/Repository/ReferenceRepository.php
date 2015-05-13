@@ -80,6 +80,17 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
     }
 
     /**
+     * @param string $referenceId
+     * @param string $language
+     *
+     * @return ReferenceInterface
+     */
+    public function findOneByReferenceIdAndLanguage($referenceId, $language)
+    {
+        return $this->findOneBy(array('referenceId' => $referenceId, 'language' => $language));
+    }
+
+    /**
      * @param string $referenceType
      *
      * @return ReferenceInterface

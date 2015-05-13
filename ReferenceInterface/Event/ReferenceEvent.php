@@ -13,7 +13,7 @@ class ReferenceEvent extends Event
     protected $reference;
 
     /**
-     * @param ContentInterface $content
+     * @param ReferenceInterface $reference
      */
     public function __construct(ReferenceInterface $reference)
     {
@@ -21,9 +21,9 @@ class ReferenceEvent extends Event
     }
 
     /**
-     * @return ContentInterface
+     * @return referenceInterface
      */
-    public function getContent()
+    public function getReference()
     {
         return $this->reference;
     }

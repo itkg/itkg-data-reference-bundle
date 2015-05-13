@@ -46,7 +46,7 @@ class ReferenceType extends AbstractType
     {
         $builder
             ->add('name', 'text', array(
-                'label' => 'itkg_reference_bundle.left_menu.editorial'
+                'label' => 'itkg_reference_bundle.form.reference.name'
             ));
 
         $builder->addEventSubscriber(new ReferenceTypeSubscriber(

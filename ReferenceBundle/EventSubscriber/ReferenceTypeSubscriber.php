@@ -61,30 +61,30 @@ class ReferenceTypeSubscriber extends AbstractBlockReferenceTypeSubscriber
         }
     }
 
-    /* *
+    /**
      * @param FormEvent $event
-     * /
+     */
     public function preSubmit(FormEvent $event)
     {
         $form = $event->getForm();
-        $content = $form->getData();
+        $reference = $form->getData();
         $data = $event->getData();
-        $contentType = $this->contentTypeRepository->findOneByContentTypeIdAndVersion($content->getContentType(), $content->getContentTypeVersion());
+        $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeId($reference->getReferenceType());
 
-        if (is_object($contentType)) {
-            $content->setContentTypeVersion($contentType->getVersion());
-            foreach ($contentType->getFields() as $field) {
+        if (is_object($referenceType)) {
+            //$reference->setContentTypeVersion($referenceType->getVersion());
+            foreach ($referenceType->getFields() as $field) {
                 $fieldId = $field->getFieldId();
-                if ($attribute = $content->getAttributeByName($fieldId)) {
+                if ($attribute = $reference->getAttributeByName($fieldId)) {
                     $attribute->setValue($this->transformData($data[$fieldId], $form->get($fieldId)));
                 } elseif (is_null($attribute)) {
                     $contentAttributClass = $this->contentAttributClass;
                     $attribute = new $contentAttributClass;
                     $attribute->setName($fieldId);
                     $attribute->setValue($this->transformData($data[$fieldId], $form->get($fieldId)));
-                    $content->addAttribute($attribute);
+                    $reference->addAttribute($attribute);
                 }
             }
         }
-    }*/
+    }
 }

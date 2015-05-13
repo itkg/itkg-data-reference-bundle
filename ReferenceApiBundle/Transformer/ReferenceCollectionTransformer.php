@@ -24,11 +24,6 @@ class ReferenceCollectionTransformer extends AbstractTransformer
         foreach ($mixed as $reference) {
             $facade->addReference($this->getTransformer('reference')->transform($reference,$referenceType));
         }
-        /*
-        $facade->addLink('_self', $this->generateRoute(
-            'open_orchestra_api_reference_list',
-            array()
-        ));*/
 
         if ($referenceType) {
             $facade->addLink('_self_add', $this->generateRoute(
@@ -37,7 +32,7 @@ class ReferenceCollectionTransformer extends AbstractTransformer
             ));
         }
 
-        //$facade->addLink('_translate', $this->generateRoute('open_orchestra_api_translate'));
+        $facade->addLink('_translate', $this->generateRoute('open_orchestra_api_translate'));
 
         return $facade;
     }
