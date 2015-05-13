@@ -2,6 +2,8 @@
 
 namespace Itkg\ReferenceApiBundle\Controller;
 
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
 use Itkg\ReferenceInterface\ReferenceEvents;
 use Itkg\ReferenceInterface\Event\ReferenceEvent;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +35,7 @@ class ReferenceController extends BaseController
     public function listAction(Request $request)
     {
         $referenceType = $request->get('reference_type');
-        $referenceTypeCollection = $this->get('itkg_reference.repository.reference')->findByReferenceType($referenceType);
+        $referenceTypeCollection = $this->get('itkg_reference.repository.reference')->findByReferenceTypeNotDeleted($referenceType);
 
         $facade = $this->get('open_orchestra_api.transformer_manager')->get('reference_collection')->transform($referenceTypeCollection, $referenceType);
 
@@ -84,12 +86,14 @@ class ReferenceController extends BaseController
         if (!$reference) {
             $oldReference = $referenceRepository->findOneByReferenceId($referenceId);
 
-            if ($oldReference) {
-                $reference = $this->get('itkg_reference.manager.reference')->createNewLanguageReference($oldReference, $language);
-                $dm = $this->get('doctrine.odm.mongodb.document_manager');
-                $dm->persist($reference);
-                $dm->flush($reference);
+            if (!$oldReference) {
+                throw new HttpException(500, 'No reference Found');
             }
+
+            $reference = $this->get('itkg_reference.manager.reference')->createNewLanguageReference($oldReference, $language);
+            $dm = $this->get('doctrine.odm.mongodb.document_manager');
+            $dm->persist($reference);
+            $dm->flush($reference);
         }
 
         return $this->get('open_orchestra_api.transformer_manager')->get('reference')->transform($reference);

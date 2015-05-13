@@ -8,6 +8,7 @@ itkg_reference_bundle:
     form:
         reference:
             name: Reference name
+            creation: The reference has been created
             success: The reference has been modified 
 open_orchestra_backoffice:
     table:
