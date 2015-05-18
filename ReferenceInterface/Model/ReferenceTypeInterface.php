@@ -76,4 +76,9 @@ interface ReferenceTypeInterface extends FieldTypeContainerInterface, Translated
      * @return int
      */
     public function getVersion();
+
+    /**
+     * @return string
+     */
+    public function getTemplate();
 }

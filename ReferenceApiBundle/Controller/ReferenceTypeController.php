@@ -1,10 +1,14 @@
 <?php
 namespace Itkg\ReferenceApiBundle\Controller;
 
-use OpenOrchestra\ApiBundle\Controller\BaseController;
-use OpenOrchestra\ApiBundle\Controller\Annotation as Api;
+use OpenOrchestra\BaseApi\Facade\FacadeInterface;
+use OpenOrchestra\BaseApiBundle\Controller\BaseController;
+use OpenOrchestra\BaseApiBundle\Controller\Annotation as Api;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 
+/**
+ * Class ReferenceTypeController
+ */
 class ReferenceTypeController extends BaseController
 {
     /**
