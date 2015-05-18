@@ -3,7 +3,9 @@
 namespace Itkg\ReferenceApiBundle\Transformer;
 
 use Itkg\ReferenceApiBundle\Facade\ReferenceTypeCollectionFacade;
-use OpenOrchestra\ApiBundle\Transformer\AbstractTransformer;
+use Itkg\ReferenceInterface\Model\ReferenceInterface;
+use OpenOrchestra\BaseApi\Facade\FacadeInterface;
+use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 
 /**
  * Class ReferenceTypeCollectionTransformer

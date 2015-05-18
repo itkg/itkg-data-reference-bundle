@@ -3,6 +3,7 @@
 namespace Itkg\ReferenceBundle\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
 use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
 
 /**
@@ -22,8 +23,8 @@ class ReferenceTypeRepository extends DocumentRepository implements ReferenceTyp
 
     /**
      * @param string $referenceTypeId
-     * 
-     * @return array
+     *
+     * @return ReferenceTypeInterface
      */
     public function findOneByReferenceTypeId($referenceTypeId)
     {

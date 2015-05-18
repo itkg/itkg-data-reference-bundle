@@ -1,7 +1,9 @@
 <?php
+
 namespace Itkg\ReferenceBundle\Controller;
 
 use Itkg\ReferenceInterface\Event\ReferenceEvent;
+use Itkg\ReferenceInterface\Model\ReferenceInterface;
 use Itkg\ReferenceInterface\ReferenceEvents;
 use OpenOrchestra\BackofficeBundle\Controller\AbstractAdminController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
@@ -15,9 +17,9 @@ class ReferenceController extends AbstractAdminController
 {
     /**
      * Get Form Template related to content of $contentTypeId
-     * 
-     * @param string $contentTypeId
-     * 
+     *
+     * @param string $referenceTypeId
+     *
      * @return string
      */
     protected function getFormTemplate($referenceTypeId)
@@ -48,6 +50,7 @@ class ReferenceController extends AbstractAdminController
     public function newAction(Request $request, $referenceType)
     {
         $referenceClass = $this->container->getParameter('itkg_reference.document.reference.class');
+        /** @var ReferenceInterface $reference */
         $reference = new $referenceClass();
         $reference->setReferenceType($referenceType);
         $reference->setLanguage($this->get('open_orchestra.manager.current_site')->getCurrentSiteDefaultLanguage());

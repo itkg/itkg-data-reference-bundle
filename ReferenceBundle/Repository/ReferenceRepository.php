@@ -3,6 +3,7 @@
 namespace Itkg\ReferenceBundle\Repository;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
+use Itkg\ReferenceInterface\Model\ReferenceInterface;
 use OpenOrchestra\ModelInterface\Repository\FieldAutoGenerableRepositoryInterface;
 use Itkg\ReferenceInterface\Repository\ReferenceRepositoryInterface;
 use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
@@ -33,13 +34,11 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
      */
     public function testUnicityInContext($name)
     {
-        return $this->findOneByName($name) !== null;
+        return $this->findOneBy(array('name' => $name)) !== null;
     }
 
     /**
-     * @param string      $referenceId
      * @param string|null $language
-     * @param int|null    $version
      *
      * @return Builder
      */
@@ -109,6 +108,7 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
 
         $references = array();
 
+        /** @var ReferenceInterface $reference */
         foreach ($list as $reference) {
             if (empty($references[$reference->getReferenceId()])) {
                 $references[$reference->getReferenceId()] = $reference;

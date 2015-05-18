@@ -2,7 +2,7 @@
 
 namespace Itkg\ReferenceApiBundle\Facade;
 
-use OpenOrchestra\ApiBundle\Facade\FacadeInterface;
+use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\ApiBundle\Facade\DeletedFacade;
 use JMS\Serializer\Annotation as Serializer;
 

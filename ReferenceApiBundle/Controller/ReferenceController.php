@@ -2,27 +2,26 @@
 
 namespace Itkg\ReferenceApiBundle\Controller;
 
-use Symfony\Component\HttpKernel\Exception\HttpException;
-
 use Itkg\ReferenceInterface\ReferenceEvents;
 use Itkg\ReferenceInterface\Event\ReferenceEvent;
+use OpenOrchestra\BaseApi\Facade\FacadeInterface;
+use OpenOrchestra\BaseApiBundle\Controller\BaseController;
+use OpenOrchestra\BaseApiBundle\Controller\Annotation as Api;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\Event\ManagerEventArgs;
 use Symfony\Component\HttpFoundation\Response;
-use OpenOrchestra\ApiBundle\Controller\BaseController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use OpenOrchestra\ApiBundle\Controller\Annotation as Api;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 
 /**
  * Class ReferenceController
  *
- * @Route("reference")
+ * @Config\Route("reference")
  */
 class ReferenceController extends BaseController
 {
     /**
+     * @param Request $request
+     *
      * @Config\Route("/reference-type/list", name="open_orchestra_api_reference_list")
      * @Config\Method({"GET"})
      *

@@ -2,10 +2,10 @@
 
 namespace Itkg\ReferenceApiBundle\Transformer;
 
-use Itkg\ReferenceApiBundle\Document\ReferenceType;
 use Itkg\ReferenceApiBundle\Facade\ReferenceTypeFacade;
 use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
-use OpenOrchestra\ApiBundle\Transformer\AbstractTransformer;
+use OpenOrchestra\BaseApi\Facade\FacadeInterface;
+use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 
 
 /**
@@ -13,6 +13,9 @@ use OpenOrchestra\ApiBundle\Transformer\AbstractTransformer;
  */
 class ReferenceTypeTransformer extends AbstractTransformer
 {
+    /**
+     * @var TranslationChoiceManager
+     */
     protected $translationChoiceManager;
 
     /**

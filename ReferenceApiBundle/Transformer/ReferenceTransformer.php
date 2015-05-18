@@ -2,12 +2,10 @@
 
 namespace Itkg\ReferenceApiBundle\Transformer;
 
-use OpenOrchestra\ApiBundle\Transformer\AbstractTransformer;
+use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 use Itkg\ReferenceApiBundle\Facade\ReferenceFacade;
 use Itkg\ReferenceInterface\Model\ReferenceInterface;
-use OpenOrchestra\ApiBundle\Facade\FacadeInterface;
-
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 
 /**
  * Class ReferenceTransformer
