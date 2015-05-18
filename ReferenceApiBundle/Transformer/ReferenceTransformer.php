@@ -23,7 +23,7 @@ class ReferenceTransformer extends AbstractTransformer
 
         $facade->referenceId = $mixed->getReferenceId();
         $facade->id = $mixed->getId();
-        $facade->referenceType = $mixed->getReferenceType();
+        $facade->referenceType = $mixed->getReferenceTypeId();
         $facade->name = $mixed->getName();
         $facade->language = $mixed->getLanguage();
         $facade->createdAt = $mixed->getCreatedAt();

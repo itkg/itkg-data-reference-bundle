@@ -99,7 +99,7 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
         $qb = $this->createQueryBuilder('reference');
 
         if ($referenceType) {
-            $qb->field('referenceType')->equals($referenceType);
+            $qb->field('referenceTypeId')->equals($referenceType);
         }
 
         $qb->field('deleted')->equals(false);

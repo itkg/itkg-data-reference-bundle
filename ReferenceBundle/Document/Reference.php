@@ -50,7 +50,7 @@ class Reference implements ReferenceInterface
      *
      * @ODM\Field(type="string")
      */
-    protected $referenceType;
+    protected $referenceTypeId;
 
     /**
      * @var string $name
@@ -162,19 +162,19 @@ class Reference implements ReferenceInterface
     }
 
     /**
-     * @param string $referenceType
+     * @param $referenceTypeId
      */
-    public function setReferenceType($referenceType)
+    public function setReferenceTypeId($referenceTypeId)
     {
-        $this->referenceType = $referenceType;
+        $this->referenceTypeId = $referenceTypeId;
     }
 
     /**
      * @return string
      */
-    public function getReferenceType()
+    public function getReferenceTypeId()
     {
-        return $this->referenceType;
+        return $this->referenceTypeId;
     }
 
     /**

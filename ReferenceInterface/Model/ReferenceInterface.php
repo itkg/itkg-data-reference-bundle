@@ -45,14 +45,14 @@ interface ReferenceInterface extends TimestampableInterface, BlameableInterface,
     public function getReferenceId();
 
     /**
-     * @param string $referenceType
+     * @param string $referenceTypeId
      */
-    public function setReferenceType($referenceType);
+    public function setReferenceTypeId($referenceTypeId);
 
     /**
      * @return string
      */
-    public function getReferenceType();
+    public function getReferenceTypeId();
 
     /**
      * @param boolean $deleted
