@@ -3,9 +3,9 @@
 namespace Itkg\ReferenceApiBundle\Transformer;
 
 use Itkg\ReferenceApiBundle\Facade\ReferenceCollectionFacade;
-use OpenOrchestra\ApiBundle\Transformer\AbstractTransformer;
+use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 use Doctrine\Common\Collections\ArrayCollection;
-use OpenOrchestra\ApiBundle\Facade\FacadeInterface;
+use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 
 /**
  * Class ReferenceCollectionTransformer
