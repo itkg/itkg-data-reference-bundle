@@ -26,7 +26,8 @@ class ReferenceController extends AbstractAdminController
     {
         $template = AbstractAdminController::TEMPLATE;
 
-        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeId($referenceTypeId);
+        $referenceType = $this->get('itkg_reference.repository.reference_type')
+            ->findOneByReferenceTypeId($referenceTypeId);
 
         $customTemplate = $referenceType->getTemplate();
 
@@ -39,6 +40,7 @@ class ReferenceController extends AbstractAdminController
 
     /**
      * @param Request $request
+     * @param string  $referenceType
      *
      * @Config\Route("/reference/new/{referenceType}", name="itkg_reference_bundle_reference_new")
      * @Config\Method({"GET", "POST"})
@@ -52,7 +54,7 @@ class ReferenceController extends AbstractAdminController
         $referenceClass = $this->container->getParameter('itkg_reference.document.reference.class');
         /** @var ReferenceInterface $reference */
         $reference = new $referenceClass();
-        $reference->setReferenceType($referenceType);
+        $reference->setReferenceTypeId($referenceType);
         $reference->setLanguage($this->get('open_orchestra.manager.current_site')->getCurrentSiteDefaultLanguage());
 
         $form = $this->createForm('itkg_reference', $reference, array(
@@ -91,6 +93,7 @@ class ReferenceController extends AbstractAdminController
 
     /**
      * @param Request $request
+     * @param         $referenceId
      *
      * @Config\Route("/reference/form/{referenceId}", name="itkg_reference_bundle_reference_form")
      * @Config\Method({"GET", "POST"})
@@ -103,7 +106,8 @@ class ReferenceController extends AbstractAdminController
     {
         $language = $request->get('language');
 
-        $reference = $this->get('itkg_reference.repository.reference')->findOneByIdAndLanguageNotDeleted($referenceId, $language);
+        $reference = $this->get('itkg_reference.repository.reference')
+            ->findOneByIdAndLanguageNotDeleted($referenceId, $language);
 
         $form = $this->createForm('itkg_reference', $reference, array(
             'action' => $this->generateUrl('itkg_reference_bundle_reference_form', array(
@@ -126,7 +130,7 @@ class ReferenceController extends AbstractAdminController
             $form,
             array(),
             null,
-            $this->getFormTemplate($reference->getReferenceType()
-        ));
+            $this->getFormTemplate($reference->getReferenceTypeId())
+        );
     }
 }

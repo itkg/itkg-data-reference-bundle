@@ -2,40 +2,40 @@
 
 namespace Itkg\ReferenceBundle\Form\Type;
 
+use Itkg\ReferenceBundle\EventSubscriber\ReferenceTypeSubscriber;
 use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
 use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use OpenOrchestra\BackofficeBundle\EventSubscriber\AddSubmitButtonSubscriber;
-use Itkg\ReferenceBundle\Repository\ReferenceTypeRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Class ReferenceType
+ * Class ReferenceTypeType
  */
-class ReferenceType extends AbstractType
+class ReferenceTypeType extends AbstractType
 {
     protected $referenceTypeRepository;
     protected $referenceClass;
-    protected $contentAttributClass;
+    protected $contentAttributeClass;
     protected $translationChoiceManager;
 
     /**
      * @param ReferenceTypeRepositoryInterface $referenceTypeRepository
      * @param string                           $referenceClass
-     * @param string                           $contentAttributClass
+     * @param string                           $contentAttributeClass
      * @param TranslationChoiceManager         $translationChoiceManager
      */
     public function __construct(
         ReferenceTypeRepositoryInterface $referenceTypeRepository,
         $referenceClass,
-        $contentAttributClass,
+        $contentAttributeClass,
         TranslationChoiceManager $translationChoiceManager
     )
     {
         $this->referenceTypeRepository = $referenceTypeRepository;
         $this->referenceClass = $referenceClass;
-        $this->contentAttributClass = $contentAttributClass;
+        $this->contentAttributeClass = $contentAttributeClass;
         $this->translationChoiceManager = $translationChoiceManager;
     }
 
@@ -46,13 +46,13 @@ class ReferenceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'text', array(
+            ->add('reference_type_id', 'text', array(
                 'label' => 'open_orchestra_backoffice.form.content.name'
             ));
 
         $builder->addEventSubscriber(new ReferenceTypeSubscriber(
             $this->referenceTypeRepository,
-            $this->contentAttributClass,
+            $this->contentAttributeClass,
             $this->translationChoiceManager
         ));
         $builder->addEventSubscriber(new AddSubmitButtonSubscriber());

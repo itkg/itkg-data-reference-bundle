@@ -14,21 +14,21 @@ class ReferenceTypeSubscriber extends AbstractBlockReferenceTypeSubscriber
 {
     protected $translationChoiceManager;
     protected $referenceTypeRepository;
-    protected $contentAttributClass;
+    protected $contentAttributeClass;
 
     /**
      * @param ReferenceTypeRepositoryInterface $referenceTypeRepository
-     * @param string                         $contentAttributClass
+     * @param string                         $contentAttributeClass
      * @param TranslationChoiceManager       $translationChoiceManager
      */
     public function __construct(
         ReferenceTypeRepositoryInterface $referenceTypeRepository,
-        $contentAttributClass,
+        $contentAttributeClass,
         TranslationChoiceManager $translationChoiceManager
     )
     {
         $this->referenceTypeRepository = $referenceTypeRepository;
-        $this->contentAttributClass = $contentAttributClass;
+        $this->contentAttributeClass = $contentAttributeClass;
         $this->translationChoiceManager = $translationChoiceManager;
     }
 
@@ -39,7 +39,8 @@ class ReferenceTypeSubscriber extends AbstractBlockReferenceTypeSubscriber
     {
         $form = $event->getForm();
         $data = $event->getData();
-        $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeId($data->getReferenceType());
+        $referenceType = $this->referenceTypeRepository
+            ->findOneByReferenceTypeId($data->getReferenceTypeId());
 
         if (is_object($referenceType)) {
             /** @var FieldTypeInterface $field */
@@ -69,7 +70,8 @@ class ReferenceTypeSubscriber extends AbstractBlockReferenceTypeSubscriber
         $form = $event->getForm();
         $reference = $form->getData();
         $data = $event->getData();
-        $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeId($reference->getReferenceType());
+        $referenceType = $this->referenceTypeRepository
+            ->findOneByReferenceTypeId($reference->getReferenceTypeId());
 
         if (is_object($referenceType)) {
             foreach ($referenceType->getFields() as $field) {
@@ -77,8 +79,8 @@ class ReferenceTypeSubscriber extends AbstractBlockReferenceTypeSubscriber
                 if ($attribute = $reference->getAttributeByName($fieldId)) {
                     $attribute->setValue($this->transformData($data[$fieldId], $form->get($fieldId)));
                 } elseif (is_null($attribute)) {
-                    $contentAttributClass = $this->contentAttributClass;
-                    $attribute = new $contentAttributClass;
+                    $contentAttributeClass = $this->contentAttributeClass;
+                    $attribute = new $contentAttributeClass;
                     $attribute->setName($fieldId);
                     $attribute->setValue($this->transformData($data[$fieldId], $form->get($fieldId)));
                     $reference->addAttribute($attribute);

@@ -25,6 +25,8 @@ class ReferenceTypeCollectionTransformer extends AbstractTransformer
             $facade->addReferenceType($this->getTransformer("reference_type")->transform($referenceType));
         }
 
+        $facade->addLink('_self_add', $this->generateRoute('itkg_reference_bo_bundle_reference_type_new'));
+
         return $facade;
     }
 
