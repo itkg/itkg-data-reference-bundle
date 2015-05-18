@@ -40,6 +40,12 @@ class ReferenceTypeController extends AbstractAdminController
 
         $form->handleRequest($request);
 
+        if ($form->isValid()) {
+            $om = $this->get('doctrine.odm.mongodb.document_manager');
+            $om->persist($referenceType);
+            $om->flush();
+        }
+
         return $this->render('OpenOrchestraBackofficeBundle::form.html.twig', array(
             'form' => $form->createView()
         ));

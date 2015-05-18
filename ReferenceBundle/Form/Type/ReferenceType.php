@@ -16,25 +16,25 @@ class ReferenceType extends AbstractType
 {
     protected $referenceTypeRepository;
     protected $referenceClass;
-    protected $contentAttributClass;
+    protected $contentAttributeClass;
     protected $translationChoiceManager;
 
     /**
      * @param ReferenceTypeRepositoryInterface $referenceTypeRepository
      * @param string                         $referenceClass
-     * @param string                         $contentAttributClass
+     * @param string                         $contentAttributeClass
      * @param TranslationChoiceManager       $translationChoiceManager
      */
     public function __construct(
         ReferenceTypeRepositoryInterface $referenceTypeRepository,
         $referenceClass,
-        $contentAttributClass,
+        $contentAttributeClass,
         TranslationChoiceManager $translationChoiceManager
     )
     {
         $this->referenceTypeRepository = $referenceTypeRepository;
         $this->referenceClass = $referenceClass;
-        $this->contentAttributClass = $contentAttributClass;
+        $this->contentAttributClass = $contentAttributeClass;
         $this->translationChoiceManager = $translationChoiceManager;
     }
 
@@ -51,7 +51,7 @@ class ReferenceType extends AbstractType
 
         $builder->addEventSubscriber(new ReferenceTypeSubscriber(
             $this->referenceTypeRepository,
-            $this->contentAttributClass,
+            $this->contentAttributeClass,
             $this->translationChoiceManager
         ));
 

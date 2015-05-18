@@ -39,6 +39,8 @@ class ReferenceType implements ReferenceTypeInterface
     protected $referenceTypeId;
 
     /**
+     * @var ArrayCollection $names
+     *
      * @ODM\EmbedMany(targetDocument="OpenOrchestra\ModelInterface\Model\TranslatedValueInterface")
      */
     protected $names;
@@ -178,7 +180,11 @@ class ReferenceType implements ReferenceTypeInterface
             return $language == $translatedValue->getLanguage();
         });
 
-        return $choosenLanguage->first()->getValue();
+        if ($choosenLanguage->first()) {
+            return $choosenLanguage->first()->getValue();
+        }
+
+        return '';
     }
 
     /**
