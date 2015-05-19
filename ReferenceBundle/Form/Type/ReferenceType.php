@@ -34,7 +34,7 @@ class ReferenceType extends AbstractType
     {
         $this->referenceTypeRepository = $referenceTypeRepository;
         $this->referenceClass = $referenceClass;
-        $this->contentAttributClass = $contentAttributeClass;
+        $this->contentAttributeClass = $contentAttributeClass;
         $this->translationChoiceManager = $translationChoiceManager;
     }
 
