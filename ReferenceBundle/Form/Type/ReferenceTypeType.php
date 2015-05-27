@@ -47,25 +47,25 @@ class ReferenceTypeType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this->translateValueInitializer, 'preSetData'));
         $builder
             ->add($referenceTypeIdName, 'text', array(
-                'label' => 'itkg_reference_bundle.form.reference.reference_type.id',
+                'label' => 'itkg_reference_bundle.form.reference_type.id',
                 'attr' => array(
                     'class' => 'generate-id-dest',
                 )
             ))
             ->add('names', 'translated_value_collection', array(
-                'label' => 'itkg_reference_bundle.form.reference.reference_type.names'
+                'label' => 'itkg_reference_bundle.form.reference_type.names'
             ))
             ->add('fields', 'collection', array(
                 'type' => 'field_type',
                 'allow_add' => true,
                 'allow_delete' => true,
-                'label' => 'itkg_reference_bundle.form.reference.reference_type.fields',
+                'label' => 'itkg_reference_bundle.form.reference_type.fields',
                 'attr' => array(
-                    'data-prototype-label-add' => $this->translator->trans('itkg_reference_bundle.form.reference.reference_type.add'),
-                    'data-prototype-label-new' => $this->translator->trans('itkg_reference_bundle.form.reference.reference_type.new'),
-                    'data-prototype-label-remove' => $this->translator->trans('itkg_reference_bundle.form.reference.reference_type.delete'),
+                    'data-prototype-label-add' => $this->translator->trans('itkg_reference_bundle.form.reference_type.add'),
+                    'data-prototype-label-new' => $this->translator->trans('itkg_reference_bundle.form.reference_type.new'),
+                    'data-prototype-label-remove' => $this->translator->trans('itkg_reference_bundle.form.reference_type.delete'),
                     'data-prototype-callback-add' => "checkReferenceTypeId('#". $this->getName() . "_". $referenceTypeIdName . "')",
-                    'data-prototype-callback-error-message' => $this->translator->trans('itkg_reference_bundle.form.reference.reference_type.error_reference_id')
+                    'data-prototype-callback-error-message' => $this->translator->trans('itkg_reference_bundle.form.reference_type.error_reference_id')
                 )
             ));
 

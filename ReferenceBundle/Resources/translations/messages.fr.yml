@@ -14,6 +14,13 @@ itkg_reference_bundle:
             name: Nom du type de reference
             creation: Le type de reference a bien été créée
             success: Le type de reference a bien été modifiée
+            id: Id du type de reference
+            names: Nom dans toutes les langues
+            fields: Champs
+            add: Ajout d'un champ
+            new: Le type de reference a été créé
+            delete: Suppression d'un champ
+            error_reference_id: Champ id du type de reference obligatoire
 open_orchestra_backoffice:
     table:
         reference_type:

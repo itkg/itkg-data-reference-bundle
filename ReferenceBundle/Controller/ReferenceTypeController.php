@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 
 /**
- * Class ReferencTypeController
+ * Class ReferenceTypeController
  */
 class ReferenceTypeController extends AbstractAdminController
 {
@@ -42,7 +42,7 @@ class ReferenceTypeController extends AbstractAdminController
 
         $form->handleRequest($request);
         if (!$request->get('no_save')) {
-            $this->handleForm($form, $this->get('translator')->trans('itkg_reference_bundle.form.reference.reference_type.success'), $referenceType);
+            $this->handleForm($form, $this->get('translator')->trans('itkg_reference_bundle.form.reference_type.success'), $referenceType);
             $this->dispatchEvent(ReferenceTypeEvents::REFERENCE_TYPE_UPDATE, new ReferenceTypeEvent($referenceType));
         }
 
@@ -79,7 +79,7 @@ class ReferenceTypeController extends AbstractAdminController
 
         $form->handleRequest($request);
         if (!$request->get('no_save')) {
-            $handleForm = $this->handleForm($form, $this->get('translator')->trans('itkg_reference_bundle.form.reference.reference_type.creation'), $referenceType);
+            $handleForm = $this->handleForm($form, $this->get('translator')->trans('itkg_reference_bundle.form.reference_type.creation'), $referenceType);
 
             if ( $handleForm && !is_null($referenceType->getId())) {
                 $this->dispatchEvent(ReferenceTypeEvents::REFERENCE_TYPE_CREATE, new ReferenceTypeEvent($referenceType));

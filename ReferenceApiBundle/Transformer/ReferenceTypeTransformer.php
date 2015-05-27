@@ -42,6 +42,19 @@ class ReferenceTypeTransformer extends AbstractTransformer
             $facade->addField($this->getTransformer('field_type')->transform($field));
         }
 
+        $facade->addLink('_self', $this->generateRoute(
+            'open_orchestra_api_reference_type_show',
+            array('referenceTypeId' => $mixed->getReferenceTypeId())
+        ));
+        $facade->addLink('_self_delete', $this->generateRoute(
+            'open_orchestra_api_reference_type_delete',
+            array('referenceTypeId' => $mixed->getReferenceTypeId())
+        ));
+        $facade->addLink('_self_form', $this->generateRoute(
+            'itkg_reference_bundle_reference_type_form',
+            array('referenceTypeId' => $mixed->getReferenceTypeId())
+        ));
+
         return $facade;
     }
 
