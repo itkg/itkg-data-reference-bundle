@@ -9,7 +9,18 @@ itkg_reference_bundle:
         reference:
             name: Reference name
             creation: The reference has been created
-            success: The reference has been modified 
+            success: The reference has been modified
+        reference_type:
+            name: Reference Type name
+            creation: The reference type has been created
+            success: The reference has been modified
+            id: Reference type id
+            names: Names in all the languages
+            fields: Fields
+            add: Add field
+            new: The reference type has been created
+            delete: Delete field
+            error_reference_id: Required reference id field
 open_orchestra_backoffice:
     table:
         reference_type:
