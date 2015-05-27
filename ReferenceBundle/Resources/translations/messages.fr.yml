@@ -10,6 +10,10 @@ itkg_reference_bundle:
             name: Nom de la reference
             creation: La reference a bien été créée
             success: La reference a bien été modifiée
+        reference_type:
+            name: Nom du type de reference
+            creation: Le type de reference a bien été créée
+            success: Le type de reference a bien été modifiée
 open_orchestra_backoffice:
     table:
         reference_type:

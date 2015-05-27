@@ -68,16 +68,6 @@ interface ReferenceTypeInterface extends FieldTypeContainerInterface, Translated
     public function getNames();
 
     /**
-     * @param int $version
-     */
-    public function setVersion($version);
-
-    /**
-     * @return int
-     */
-    public function getVersion();
-
-    /**
      * @return string
      */
     public function getTemplate();
