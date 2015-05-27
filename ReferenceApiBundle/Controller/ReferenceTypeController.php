@@ -2,7 +2,6 @@
 namespace Itkg\ReferenceApiBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-
 use Itkg\ReferenceInterface\Event\ReferenceTypeEvent;
 use Itkg\ReferenceInterface\ReferenceTypeEvents;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
