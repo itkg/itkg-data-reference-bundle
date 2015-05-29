@@ -11,30 +11,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 
 /**
  * Class ReferenceTypeController
+ *
+ * @Config\Route("/reference-type")
  */
 class ReferenceTypeController extends BaseController
 {
     /**
-     * @param string $referenceTypeId
-     *
-     * @Config\Route("/{referenceTypeId}", name="open_orchestra_api_reference_type_show")
-     * @Config\Method({"GET"})
-     *
-     * @Config\Security("has_role('ROLE_ACCESS_REFERENCE_TYPE')")
-     *
-     * @Api\Serialize()
-     *
-     * @return FacadeInterface
-     */
-    public function showAction($referenceTypeId)
-    {
-        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeId($referenceTypeId);
-
-        return $this->get('open_orchestra_api.transformer_manager')->get('reference_type')->transform($referenceType);
-    }
-
-    /**
-     * @Config\Route("/reference-type/list", name="open_orchestra_api_reference_type_list")
+     * @Config\Route("/list", name="open_orchestra_api_reference_type_list")
      * @Config\Method({"GET"})
      *
      * @Config\Security("has_role('ROLE_ACCESS_REFERENCE_TYPE')")
@@ -68,5 +51,24 @@ class ReferenceTypeController extends BaseController
         $this->get('doctrine.odm.mongodb.document_manager')->flush();
 
         return new Response('', 200);
+    }
+
+    /**
+     * @param string $referenceTypeId
+     *
+     * @Config\Route("/{referenceTypeId}", name="open_orchestra_api_reference_type_show")
+     * @Config\Method({"GET"})
+     *
+     * @Config\Security("has_role('ROLE_ACCESS_REFERENCE_TYPE')")
+     *
+     * @Api\Serialize()
+     *
+     * @return FacadeInterface
+     */
+    public function showAction($referenceTypeId)
+    {
+        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeId($referenceTypeId);
+
+        return $this->get('open_orchestra_api.transformer_manager')->get('reference_type')->transform($referenceType);
     }
 }
