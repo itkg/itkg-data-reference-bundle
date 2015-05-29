@@ -49,8 +49,6 @@ class ReferenceTransformer extends AbstractTransformer
 
         $facade->addLink('_language_list', $this->generateRoute('open_orchestra_api_parameter_languages_show'));
 
-        $facade->addLink('_translate', $this->generateRoute('open_orchestra_api_translate'));
-
        return $facade;
     }
 
