@@ -9,6 +9,9 @@
                 href="#references_{{referenceType.referenceTypeId}}/list"
                 data-url="{{ path('open_orchestra_api_reference_list', {'reference_type': referenceType.referenceTypeId}) }}"
                 data-displayed-elements="reference_id, name, language"
+                data-translated-header="{{ 'open_orchestra_backoffice.table.reference_type.reference_id'|trans }},
+                {{ 'open_orchestra_backoffice.table.reference_type.name'|trans }},
+                {{ 'open_orchestra_backoffice.table.reference_type.language'|trans }}"
             >
                 {{ referenceType.names| trans_choose }}
             </a>
