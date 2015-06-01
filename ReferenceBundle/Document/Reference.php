@@ -134,7 +134,7 @@ class Reference implements ReferenceInterface
      */
     public function addAttribute(ContentAttributeInterface $attribute)
     {
-        $this->attributes->set($attribute->getName(),$attribute);
+        $this->attributes->set($attribute->getName(), $attribute);
     }
 
     /**
