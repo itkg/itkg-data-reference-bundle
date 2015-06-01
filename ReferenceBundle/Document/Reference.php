@@ -76,7 +76,7 @@ class Reference implements ReferenceInterface
     /**
      * @var ArrayCollection
      *
-     * @ODM\EmbedMany(targetDocument="OpenOrchestra\ModelInterface\Model\ContentAttributeInterface")
+     * @ODM\EmbedMany(targetDocument="OpenOrchestra\ModelInterface\Model\ContentAttributeInterface", strategy="set")
      */
     protected $attributes;
 
@@ -134,7 +134,7 @@ class Reference implements ReferenceInterface
      */
     public function addAttribute(ContentAttributeInterface $attribute)
     {
-        $this->attributes->add($attribute);
+        $this->attributes->set($attribute->getName(), $attribute);
     }
 
     /**
