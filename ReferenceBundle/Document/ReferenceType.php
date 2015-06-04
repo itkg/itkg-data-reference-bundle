@@ -239,6 +239,14 @@ class ReferenceType implements ReferenceTypeInterface
     }
 
     /**
+     * @param string $template
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+    }
+
+    /**
      * @return string
      */
     public function getTemplate()
