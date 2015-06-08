@@ -120,7 +120,13 @@ class Reference implements ReferenceInterface
      */
     public function getAttributeByName($name)
     {
-        return $this->attributes[$name];
+        foreach ($this->attributes as $attribute) {
+            if ($name == $attribute->getName()) {
+                return $attribute;
+            }
+        }
+
+        return null;
     }
 
     /**
