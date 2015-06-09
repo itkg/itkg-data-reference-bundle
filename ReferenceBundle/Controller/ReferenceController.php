@@ -55,7 +55,7 @@ class ReferenceController extends AbstractAdminController
         /** @var ReferenceInterface $reference */
         $reference = new $referenceClass();
         $reference->setReferenceTypeId($referenceType);
-        $reference->setLanguage($this->get('open_orchestra.manager.current_site')->getCurrentSiteDefaultLanguage());
+        
 
         $form = $this->createForm('itkg_reference', $reference, array(
             'action' => $this->generateUrl('itkg_reference_bundle_reference_new', array(

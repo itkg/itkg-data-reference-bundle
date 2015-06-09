@@ -55,6 +55,11 @@ class ReferenceTypeType extends AbstractType
             ->add('names', 'translated_value_collection', array(
                 'label' => 'itkg_reference_bundle.form.reference_type.names'
             ))
+            ->add('template', 'text', array(
+                'label' => 'open_orchestra_backoffice.form.content_type.template.label',
+                'required' => false,
+                'attr' => array('help_text' => 'open_orchestra_backoffice.form.content_type.template.helper'),
+            ))
             ->add('fields', 'collection', array(
                 'type' => 'field_type',
                 'allow_add' => true,

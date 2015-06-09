@@ -32,6 +32,19 @@ class ReferenceFacade extends DeletedFacade
     protected $attributes = array();
 
     /**
+     * @Serializer\Type("array<string,string>")
+     */
+    protected $linearizeAttributes = array();
+
+    /**
+     * @param FacadeInterface $facade
+     */
+    public function addLinearizeAttribute(FacadeInterface $facade)
+    {
+        $this->linearizeAttributes[$facade->name] = $facade->value;
+    }
+
+    /**
      * @param FacadeInterface $facade
      */
     public function addAttribute(FacadeInterface $facade)
