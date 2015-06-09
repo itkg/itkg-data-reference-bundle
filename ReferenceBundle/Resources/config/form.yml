@@ -4,6 +4,7 @@ parameters:
 
     itkg_reference_bundle.type.itkg_reference.class : Itkg\ReferenceBundle\Form\Type\ReferenceType
     itkg_reference_bundle.document.reference.class : Itkg\ReferenceBundle\Document\Reference
+    itkg_reference_bundle.event.reference_type_subscriber.class : Itkg\ReferenceBundle\EventSubscriber\ReferenceTypeSubscriber
 services:
     # Reference Type Form Builder
     itkg_reference_bundle.type.itkg_reference_type:
@@ -23,5 +24,6 @@ services:
             - %itkg_reference_bundle.document.reference.class%
             - %open_orchestra_model.document.content_attribute.class%
             - @open_orchestra_backoffice.manager.translation_choice
+            - %itkg_reference_bundle.event.reference_type_subscriber.class%
         tags:
             - {name: form.type, alias: itkg_reference}
