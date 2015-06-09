@@ -18,24 +18,28 @@ class ReferenceType extends AbstractType
     protected $referenceClass;
     protected $contentAttributeClass;
     protected $translationChoiceManager;
+    protected $referenceTypeSubscriberClass;
 
     /**
      * @param ReferenceTypeRepositoryInterface $referenceTypeRepository
      * @param string                         $referenceClass
      * @param string                         $contentAttributeClass
      * @param TranslationChoiceManager       $translationChoiceManager
+     * @param string                         $referenceTypeSubscriberClass
      */
     public function __construct(
         ReferenceTypeRepositoryInterface $referenceTypeRepository,
         $referenceClass,
         $contentAttributeClass,
-        TranslationChoiceManager $translationChoiceManager
+        TranslationChoiceManager $translationChoiceManager,
+        $referenceTypeSubscriberClass
     )
     {
         $this->referenceTypeRepository = $referenceTypeRepository;
         $this->referenceClass = $referenceClass;
         $this->contentAttributeClass = $contentAttributeClass;
         $this->translationChoiceManager = $translationChoiceManager;
+        $this->referenceTypeSubscriberClass = $referenceTypeSubscriberClass;
     }
 
     /**
@@ -49,7 +53,7 @@ class ReferenceType extends AbstractType
                 'label' => 'itkg_reference_bundle.form.reference.name'
             ));
 
-        $builder->addEventSubscriber(new ReferenceTypeSubscriber(
+        $builder->addEventSubscriber(new $this->referenceTypeSubscriberClass(
             $this->referenceTypeRepository,
             $this->contentAttributeClass,
             $this->translationChoiceManager
