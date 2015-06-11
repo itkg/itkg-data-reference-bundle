@@ -34,7 +34,12 @@ class ReferenceController extends BaseController
     public function listAction(Request $request)
     {
         $referenceType = $request->get('reference_type');
-        $referenceTypeCollection = $this->get('itkg_reference.repository.reference')->findByReferenceTypeNotDeleted($referenceType);
+        $repository = $this->get('itkg_reference.repository.reference');
+
+        $context = $this->get('open_orchestra_backoffice.context_manager');
+        $currentSiteId = $context->getCurrentSiteId();
+
+        $referenceTypeCollection = $repository->findByReferenceTypeNotDeleted($referenceType, $currentSiteId);
 
         $facade = $this->get('open_orchestra_api.transformer_manager')->get('reference_collection')->transform($referenceTypeCollection, $referenceType);
 
