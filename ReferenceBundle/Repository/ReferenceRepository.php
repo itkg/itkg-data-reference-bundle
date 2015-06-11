@@ -94,7 +94,7 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
      *
      * @return ReferenceInterface
      */
-    public function findByReferenceTypeNotDeleted($referenceType = null)
+    public function findByReferenceTypeNotDeleted($referenceType = null, $siteId = null)
     {
         $qb = $this->createQueryBuilder('reference');
 
@@ -103,6 +103,10 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
         }
 
         $qb->field('deleted')->equals(false);
+
+        if (isset($siteId)) {
+            $qb->field('attributes.site_id.value')->equals($siteId);
+        }
 
         $list = $qb->getQuery()->execute();
 
