@@ -131,8 +131,6 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
             $qb->field('referenceTypeId')->equals($referenceType);
         }
 
-        $qb->field('deleted')->equals(false);
-
         $list = $qb->getQuery()->execute();
 
         $references = array();
