@@ -119,6 +119,33 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
     }
 
     /**
+     * @param string $referenceType
+     *
+     * @return ReferenceInterface
+     */
+    public function findByReferenceType($referenceType = null)
+    {
+        $qb = $this->createQueryBuilder('reference');
+
+        if ($referenceType) {
+            $qb->field('referenceTypeId')->equals($referenceType);
+        }
+
+        $list = $qb->getQuery()->execute();
+
+        $references = array();
+
+        /** @var ReferenceInterface $reference */
+        foreach ($list as $reference) {
+            if (empty($references[$reference->getReferenceId()])) {
+                $references[$reference->getReferenceId()] = $reference;
+            }
+        }
+
+        return $references;
+    }
+
+    /**
      * @return array
      */
     public function findAllDeleted()
