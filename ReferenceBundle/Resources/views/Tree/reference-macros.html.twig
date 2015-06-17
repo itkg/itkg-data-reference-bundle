@@ -1,5 +1,16 @@
 {% macro menu_reference_types_for_reference(referenceTypes, name) %}
     {% for referenceType in referenceTypes %}
+        {% set displayedElement = 'name, status_label, version, language' %}
+        {% set translatedHeader = 'open_orchestra_backoffice.table.content_type.name'|trans ~ ', ' ~
+                                    'open_orchestra_backoffice.table.content_type.language'|trans %}
+        {% set visibleElement = '0, 1, 2, 3' %}
+        {% for field in referenceType.fields %}
+            {% set displayedElement = displayedElement ~ ', linearize_attributes.' ~ field.fieldId %}
+            {% set translatedHeader = translatedHeader ~ ', ' ~ field.labels|trans_choose %}
+            {% if field.listable %}
+                {% set visibleElement = visibleElement ~ ', ' ~ (loop.index + 3) %}
+            {% endif %}
+        {% endfor %}
         <li
             data-element-id="{{ referenceType.referenceTypeId }}"
             data-type="ReferenceType"
@@ -8,8 +19,9 @@
                 id="nav-references_{{referenceType.referenceTypeId}}"
                 href="#references_{{referenceType.referenceTypeId}}/list"
                 data-url="{{ path('open_orchestra_api_reference_list', {'reference_type': referenceType.referenceTypeId}) }}"
-                data-displayed-elements="reference_id, name, language"
-                data-translated-header="{{ 'open_orchestra_backoffice.table.reference_type.reference_id'|trans }},
+                data-displayed-elements="{{ displayedElement }}"
+                data-translated-header="{{ translatedHeader }}"
+                data-visible-elements="{{ visibleElement }}"
                 {{ 'open_orchestra_backoffice.table.reference_type.name'|trans }},
                 {{ 'open_orchestra_backoffice.table.reference_type.language'|trans }}"
             >
