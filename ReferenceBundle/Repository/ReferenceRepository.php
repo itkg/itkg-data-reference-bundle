@@ -32,7 +32,7 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
      *
      * @return boolean
      */
-    public function testUnicityInContext($name)
+    public function testUniquenessInContext($name)
     {
         return $this->findOneBy(array('name' => $name)) !== null;
     }
