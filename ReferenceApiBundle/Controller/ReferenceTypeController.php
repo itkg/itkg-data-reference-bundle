@@ -18,7 +18,7 @@ class ReferenceTypeController extends BaseController
 {
     /**
      * @Config\Route("/list", name="open_orchestra_api_reference_type_list")
-     * @Config\Method({"GET"})
+     * @Config\Method({"GET", "POST"})
      *
      * @Config\Security("has_role('ROLE_ACCESS_REFERENCE_TYPE')")
      *

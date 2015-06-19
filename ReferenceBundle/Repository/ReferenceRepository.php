@@ -2,7 +2,8 @@
 
 namespace Itkg\ReferenceBundle\Repository;
 
-use Doctrine\ODM\MongoDB\DocumentRepository;
+use OpenOrchestra\ModelBundle\Repository\RepositoryTrait\PaginateAndSearchFilterTrait;
+use OpenOrchestra\ModelBundle\Repository\AbstractRepository;
 use Itkg\ReferenceInterface\Model\ReferenceInterface;
 use OpenOrchestra\ModelInterface\Repository\FieldAutoGenerableRepositoryInterface;
 use Itkg\ReferenceInterface\Repository\ReferenceRepositoryInterface;
@@ -12,8 +13,10 @@ use Doctrine\ODM\MongoDB\Query\Builder;
 /**
  * Class ReferenceRepository
  */
-class ReferenceRepository extends DocumentRepository implements FieldAutoGenerableRepositoryInterface, ReferenceRepositoryInterface
+class ReferenceRepository extends AbstractRepository implements FieldAutoGenerableRepositoryInterface, ReferenceRepositoryInterface
 {
+    use PaginateAndSearchFilterTrait;
+
     /**
      * @var CurrentSiteIdInterface
      */
@@ -124,5 +127,92 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
     public function findAllDeleted()
     {
         return $this->findBy(array('deleted' => true));
+    }
+
+    /**
+     * @param $contentType
+     *
+     * @return \Solution\MongoAggregation\Pipeline\Stage
+     */
+    protected function createAggregateQueryWithReferenceTypeFilter($referenceType)
+    {
+        $qa = $this->createAggregationQuery();
+
+        if ($referenceType) {
+            $qa->match(array('referenceType' => $referenceType));
+        }
+
+        return $qa;
+    }
+
+    /**
+     * @param string|null $contentType
+     * @param array|null $descriptionEntity
+     * @param array|null $columns
+     * @param string|null $search
+     * @param string|null $siteId
+     * @param array|null $order
+     * @param int|null $skip
+     * @param int|null $limit
+     *
+     * @return array
+     */
+    public function findByReferenceTypeForPaginateAndSearchAndSiteId(
+        $referenceType = null,
+        $descriptionEntity = null,
+        $columns = null,
+        $search = null,
+        $siteId = null,
+        $order = null,
+        $skip = null,
+        $limit = null)
+    {
+        $qa = $this->createAggregateQueryWithReferenceTypeFilter($referenceType);
+        $qa = $this->generateFilterForSearch($qa, $descriptionEntity, $columns, $search);
+        $qa->match($this->generateDeletedFilter());
+        if (!is_null($siteId)) {
+            $qa->match(array('$or' => array(array('siteId' => $siteId), array('linkedToSite' => false))));
+        }
+
+        $elementName = 'reference';
+
+        $qa = $this->generateFilterSort($qa, $order, $descriptionEntity, $columns, $elementName);
+
+        $qa = $this->generateSkipFilter($qa, $skip);
+        $qa = $this->generateLimitFilter($qa, $limit);
+
+        return $this->hydrateAggregateQuery($qa, $elementName);
+    }
+
+    /**
+     * @param string|null $referenceType
+     *
+     * @return int
+     */
+    public function countByReferenceType($referenceType = null)
+    {
+        $qa = $this->createAggregateQueryWithReferenceTypeFilter($referenceType);
+        $qa->match($this->generateDeletedFilter());
+        $elementName = 'reference';
+
+        return $this->countDocumentAggregateQuery($qa);
+    }
+
+    /**
+     * @param string|null $contentType
+     * @param array|null  $descriptionEntity
+     * @param array|null  $columns
+     * @param string|null $search
+     *
+     * @return int
+     */
+    public function countByReferenceTypeWithSearchFilter($referenceType = null, $descriptionEntity = null, $columns = null, $search = null)
+    {
+        $qa = $this->createAggregateQueryWithReferenceTypeFilter($referenceType);
+        $qa = $this->generateFilterForSearch($qa, $descriptionEntity, $columns, $search);
+        $qa->match($this->generateDeletedFilter());
+        $elementName = 'reference';
+
+        return $this->countDocumentAggregateQuery($qa, $elementName);
     }
 }

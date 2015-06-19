@@ -2,6 +2,8 @@
 
 namespace Itkg\ReferenceApiBundle\Controller;
 
+use OpenOrchestra\ApiBundle\Controller\ListStatus;
+use OpenOrchestra\ApiBundle\Controller\ControllerTrait\HandleRequestDataTable;
 use Itkg\ReferenceInterface\ReferenceEvents;
 use Itkg\ReferenceInterface\Event\ReferenceEvent;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
@@ -15,15 +17,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 /**
  * Class ReferenceController
  *
- * @Config\Route("reference")
+ * @Config\Route("/reference")
  */
 class ReferenceController extends BaseController
 {
+    use ListStatus;
+    use HandleRequestDataTable;
+
     /**
      * @param Request $request
      *
-     * @Config\Route("/reference-type/list", name="open_orchestra_api_reference_list")
-     * @Config\Method({"GET"})
+     * @Config\Route("/list", name="open_orchestra_api_reference_list")
+     * @Config\Method({"GET", "POST"})
      *
      * @Config\Security("has_role('ROLE_ACCESS_REFERENCE_TYPE')")
      *
@@ -34,9 +39,33 @@ class ReferenceController extends BaseController
     public function listAction(Request $request)
     {
         $referenceType = $request->get('reference_type');
-        $referenceTypeCollection = $this->get('itkg_reference.repository.reference')->findByReferenceTypeNotDeleted($referenceType);
+        //$referenceTypeCollection = $this->get('itkg_reference.repository.reference')->findByReferenceTypeNotDeleted($referenceType);
+        list($columns, $search, $order, $skip, $limit) = $this->extractParameterRequestDataTable($request);
+        $columnsNameToEntityAttribute = array(
+            'name'         => array('key' => 'name'),
+            'status_label' => array('key' => 'status.name'),
+            'language'     => array('key' => 'language'),
+        );
+        $repository =  $this->get('itkg_reference.repository.reference');
+        $context = $this->get('open_orchestra_backoffice.context_manager');
+        $currentSiteId = $context->getCurrentSiteId();
+        $referenceCollection = $repository->findByReferenceTypeForPaginateAndSearchAndSiteId(
+            $referenceType,
+            $columnsNameToEntityAttribute,
+            $columns,
+            $search,
+            $currentSiteId,
+            $order,
+            $skip,
+            $limit);
+        $recordsTotal = $repository->countByReferenceType($referenceType);
+        $recordsFiltered = $repository->countByReferenceTypeWithSearchFilter($referenceType, $columnsNameToEntityAttribute, $columns, $search);
 
-        $facade = $this->get('open_orchestra_api.transformer_manager')->get('reference_collection')->transform($referenceTypeCollection, $referenceType);
+        $facade = $this->get('open_orchestra_api.transformer_manager')->get('reference_collection')->transform($referenceCollection, $referenceType);
+        $facade->recordsTotal = $recordsTotal;
+        $facade->recordsFiltered = $recordsFiltered;
+
+        //$facade = $this->get('open_orchestra_api.transformer_manager')->get('reference_collection')->transform($referenceTypeCollection, $referenceType);
 
         return $facade;
     }
