@@ -49,6 +49,6 @@ class ReferenceFacade extends DeletedFacade
      */
     public function addAttribute(FacadeInterface $facade)
     {
-        $this->attributes[] = $facade;
+        $this->attributes[$facade->name] = $facade;
     }
 }
