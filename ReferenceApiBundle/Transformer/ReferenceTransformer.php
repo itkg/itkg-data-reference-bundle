@@ -31,7 +31,9 @@ class ReferenceTransformer extends AbstractTransformer
         $facade->deleted = $mixed->getDeleted();
 
         foreach ($mixed->getAttributes() as $attribute) {
-            $facade->addAttribute($this->getTransformer('content_attribute')->transform($attribute));
+            $contentAttribute = $this->getTransformer('content_attribute')->transform($attribute);
+            $facade->addAttribute($contentAttribute);
+            $facade->addLinearizeAttribute($contentAttribute);
         }
 
         $facade->addLink('_self_form', $this->generateRoute('itkg_reference_bundle_reference_form', array(
