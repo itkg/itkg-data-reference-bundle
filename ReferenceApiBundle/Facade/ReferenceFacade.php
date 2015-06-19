@@ -27,7 +27,7 @@ class ReferenceFacade extends DeletedFacade
     public $language;
 
     /**
-     * @Serializer\Type("array<OpenOrchestra\ApiBundle\Facade\ContentAttributeFacade>")
+     * @Serializer\Type("array<string, OpenOrchestra\ApiBundle\Facade\ContentAttributeFacade>")
      */
     protected $attributes = array();
 
@@ -49,6 +49,6 @@ class ReferenceFacade extends DeletedFacade
      */
     public function addAttribute(FacadeInterface $facade)
     {
-        $this->attributes[] = $facade;
+        $this->attributes[$facade->name] = $facade;
     }
 }
