@@ -7,9 +7,13 @@
             {%  set displayed =  'reference_id, name' %}
             {%  set translated = 'open_orchestra_backoffice.table.reference_type.reference_id'|trans ~ ',' ~
                 'open_orchestra_backoffice.table.reference_type.name'|trans %}
-            {% for field in referenceType.fields if field.listable %}
+            {% set visibleElement = '0, 1' %}
+            {% for field in referenceType.fields %}
                 {% set displayed =  displayed ~ ',attributes.' ~ field.fieldId ~ '.value' %}
                 {% set translated =  translated ~ ',' ~ field.labels|trans_choose %}
+                {% if field.listable %}
+                    {% set visibleElement = visibleElement ~ ', ' ~ (loop.index + 1) %}
+                {% endif %}
             {% endfor %}
             <a
                 id="nav-references_{{referenceType.referenceTypeId}}"
@@ -17,6 +21,7 @@
                 data-url="{{ path('open_orchestra_api_reference_list', {'reference_type': referenceType.referenceTypeId}) }}"
                 data-displayed-elements="{{ displayed }}"
                 data-translated-header="{{ translated }}"
+                data-visible-elements="{{ visibleElement }}"
             >
                 {{ referenceType.names| trans_choose }}
             </a>
