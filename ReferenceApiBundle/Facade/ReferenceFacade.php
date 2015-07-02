@@ -2,6 +2,7 @@
 
 namespace Itkg\ReferenceApiBundle\Facade;
 
+use OpenOrchestra\ApiBundle\Facade\ContentAttributeFacade;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\ApiBundle\Facade\DeletedFacade;
 use JMS\Serializer\Annotation as Serializer;
@@ -49,6 +50,10 @@ class ReferenceFacade extends DeletedFacade
      */
     public function addAttribute(FacadeInterface $facade)
     {
-        $this->attributes[] = $facade;
+        if($facade instanceof ContentAttributeFacade) {
+            $this->attributes[$facade->name] = $facade;
+        } else {
+            $this->attributes[] = $facade;
+        }
     }
 }
