@@ -2,12 +2,11 @@
 
 namespace Itkg\ReferenceBundle\Document;
 
-use Gedmo\Timestampable\TimestampableDocumentTest;
 use Itkg\ReferenceInterface\Model\ReferenceInterface;
 use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
-use OpenOrchestra\ModelInterface\MongoTrait\Keywordable;
+use OpenOrchestra\MongoTrait\Keywordable;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use OpenOrchestra\ModelInterface\Mapping\Annotations as ORCHESTRA;
 use Doctrine\Common\Collections\ArrayCollection;
