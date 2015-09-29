@@ -1,13 +1,12 @@
 <?php
 
-namespace Itkg\ReferenceBundle\LeftPanel\Strategies;
+namespace Itkg\ReferenceBundle\NavigationPanel\Strategies;
 
-use OpenOrchestra\Backoffice\LeftPanel\Strategies\AdministrationPanelStrategy;
+use OpenOrchestra\Backoffice\NavigationPanel\Strategies\AdministrationPanelStrategy;
 
 /**
  * Class ReferenceTypePanelStrategy
  */
-
 class ReferenceTypePanelStrategy extends AdministrationPanelStrategy
 {
     /**
@@ -17,15 +16,10 @@ class ReferenceTypePanelStrategy extends AdministrationPanelStrategy
      * @param int    $weight
      * @param string $parent
      */
-
-    protected $path;
-
-    public function __construct($name, $role, $bundle, $weight = 0, $parent = self::ADMINISTRATION)
+    public function __construct($name, $role, $bundle, $weight = 0, $parent = 'administration')
     {
-        $this->name = $name;
-        $this->role = $role;
-        $this->weight = $weight;
-        $this->parent = $parent;
+        parent::__construct($name, $role, $weight, $parent);
+
         $this->bundle = $bundle;
     }
 
