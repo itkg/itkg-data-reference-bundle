@@ -5,8 +5,8 @@ parameters:
     itkg_reference.document.reference_type.class : Itkg\ReferenceBundle\Document\ReferenceType
     itkg_reference.document.reference.class : Itkg\ReferenceBundle\Document\Reference
 
-    itkg_reference.left_panel.reference_types.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferenceTypePanelStrategy
-    itkg_reference.left_panel.reference.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferenceTypeForReferencePanelStrategy
+    itkg_reference.navigation_panel.reference_types.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferenceTypePanelStrategy
+    itkg_reference.navigation_panel.reference.class : Itkg\ReferenceBundle\LeftPanel\Strategies\ReferenceTypeForReferencePanelStrategy
 
     itkg_reference.manager.reference_type.class : Itkg\ReferenceBundle\Manager\ReferenceTypeManager
     itkg_reference.manager.reference.class : Itkg\ReferenceBundle\Manager\ReferenceManager
@@ -31,22 +31,22 @@ services:
 
 ## MENU STRATEGIES ##
 
-    itkg_reference.left_panel.reference_types:
-        class: %itkg_reference.left_panel.reference_types.class%
+    itkg_reference.navigation_panel.reference_types:
+        class: %itkg_reference.navigation_panel.reference_types.class%
         arguments:
             - reference_types
             - ROLE_ACCESS_REFERENCE_TYPE
             - ItkgReferenceBundle
             - 12
         tags:
-            - { name: open_orchestra_backoffice.left_panel.strategy }
+            - { name: open_orchestra_backoffice.navigation_panel.strategy }
 
-    itkg_reference.left_panel.reference:
-        class: %itkg_reference.left_panel.reference.class%
+    itkg_reference.navigation_panel.reference:
+        class: %itkg_reference.navigation_panel.reference.class%
         arguments:
             - @itkg_reference.repository.reference_type
         tags:
-            - { name: open_orchestra_backoffice.left_panel.strategy }
+            - { name: open_orchestra_backoffice.navigation_panel.strategy }
 
 ## MANAGER ##
 

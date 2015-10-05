@@ -1,14 +1,14 @@
 <?php
-namespace Itkg\ReferenceBundle\LeftPanel\Strategies;
+namespace Itkg\ReferenceBundle\NavigationPanel\Strategies;
 
 use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
-use OpenOrchestra\Backoffice\LeftPanel\Strategies\AbstractLeftPanelStrategy;
+use OpenOrchestra\Backoffice\NavigationPanel\Strategies\AbstractNavigationPanelStrategy;
 
 /**
  * Class ReferenceTypeForReferencePanelStrategy
  */
 
-class ReferenceTypeForReferencePanelStrategy extends AbstractLeftPanelStrategy
+class ReferenceTypeForReferencePanelStrategy extends AbstractNavigationPanelStrategy
 {
     const ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE = 'ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE';
 
@@ -45,7 +45,7 @@ class ReferenceTypeForReferencePanelStrategy extends AbstractLeftPanelStrategy
      */
     public function getParent()
     {
-        return self::EDITORIAL;
+        return 'editorial';
     }
 
     /**

@@ -1,5 +1,5 @@
 itkg_reference_bundle:
-    left_menu:
+    navigation_panel:
         administration:
             reference_type:
                 list: Types de Référence
