@@ -2,11 +2,14 @@
 
 namespace Itkg\ReferenceApiBundle\Controller;
 
+use Itkg\ReferenceApiBundle\Facade\ReferenceCollectionFacade;
 use Itkg\ReferenceInterface\ReferenceEvents;
 use Itkg\ReferenceInterface\Event\ReferenceEvent;
+use OpenOrchestra\ApiBundle\Controller\ControllerTrait\HandleRequestDataTable;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\BaseApiBundle\Controller\BaseController;
 use OpenOrchestra\BaseApiBundle\Controller\Annotation as Api;
+use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -19,6 +22,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
  */
 class ReferenceController extends BaseController
 {
+    use HandleRequestDataTable;
+
     /**
      * @param Request $request
      *
@@ -33,10 +38,18 @@ class ReferenceController extends BaseController
      */
     public function listAction(Request $request)
     {
-        $referenceType = $request->get('reference_type');
-        $referenceTypeCollection = $this->get('itkg_reference.repository.reference')->findByReferenceTypeNotDeleted($referenceType);
+        $mappingEntity = $this->get('open_orchestra_api.annotation_search_reader')->extractMapping('Itkg\ReferenceBundle\Document\Reference');
+        $configuration = PaginateFinderConfiguration::generateFromRequest($request);
+        $configuration->setDescriptionEntity($mappingEntity);
 
+        $referenceType = $request->get('reference_type');
+        $referenceTypeCollection = $this->get('itkg_reference.repository.reference')->findByReferenceTypeNotDeletedWithPagination($configuration, $referenceType);
+
+        /** @var ReferenceCollectionFacade $facade */
         $facade = $this->get('open_orchestra_api.transformer_manager')->get('reference_collection')->transform($referenceTypeCollection, $referenceType);
+
+        $facade->recordsTotal = $this->get('itkg_reference.repository.reference')->countByReferenceTypeNotDeleted($referenceType);
+        $facade->recordsFiltered = count($referenceTypeCollection);
 
         return $facade;
     }

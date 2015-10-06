@@ -2,18 +2,22 @@
 
 namespace Itkg\ReferenceBundle\Repository;
 
-use Doctrine\ODM\MongoDB\DocumentRepository;
+use OpenOrchestra\Repository\AbstractAggregateRepository;
+use Doctrine\ODM\MongoDB\Query\Builder;
 use Itkg\ReferenceInterface\Model\ReferenceInterface;
-use OpenOrchestra\ModelInterface\Repository\FieldAutoGenerableRepositoryInterface;
 use Itkg\ReferenceInterface\Repository\ReferenceRepositoryInterface;
 use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
-use Doctrine\ODM\MongoDB\Query\Builder;
+use OpenOrchestra\ModelInterface\Repository\FieldAutoGenerableRepositoryInterface;
+use OpenOrchestra\Pagination\MongoTrait\PaginationTrait;
+use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
 
 /**
  * Class ReferenceRepository
  */
-class ReferenceRepository extends DocumentRepository implements FieldAutoGenerableRepositoryInterface, ReferenceRepositoryInterface
+class ReferenceRepository extends AbstractAggregateRepository implements FieldAutoGenerableRepositoryInterface, ReferenceRepositoryInterface
 {
+    use PaginationTrait;
+
     /**
      * @var CurrentSiteIdInterface
      */
@@ -44,9 +48,8 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
      */
     protected function createQueryBuilderWithLanguage($language = null)
     {
-        $qb = $this->createQueryBuilder('reference');
-        if($language != null)
-        {
+        $qb = $this->createQueryBuilder();
+        if ($language != null) {
             $qb->field('language')->equals($language);
         }
         $qb->field('deleted')->equals(false);
@@ -92,17 +95,12 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
     /**
      * @param string $referenceType
      *
-     * @return ReferenceInterface
+     * @return ReferenceInterface[]
      */
     public function findByReferenceTypeNotDeleted($referenceType = null)
     {
-        $qb = $this->createQueryBuilder('reference');
-
-        if ($referenceType) {
-            $qb->field('referenceTypeId')->equals($referenceType);
-        }
-
-        $qb->field('deleted')->equals(false);
+        $qb = $this->createQueryBuilder();
+        $this->addReferenceTypeAndNotDeletedConstraint($qb, $referenceType);
 
         $list = $qb->getQuery()->execute();
 
@@ -119,10 +117,71 @@ class ReferenceRepository extends DocumentRepository implements FieldAutoGenerab
     }
 
     /**
+     * @param PaginateFinderConfiguration $configuration
+     * @param string                      $referenceType
+     *
+     * @return ReferenceInterface[]
+     */
+    public function findByReferenceTypeNotDeletedWithPagination(PaginateFinderConfiguration $configuration, $referenceType = null)
+    {
+        $stage = $this->createAggregationQuery();
+        $this->generateFilterForPaginate($stage, $configuration);
+
+        $constraints = [
+            'deleted' => false,
+        ];
+
+        if ($referenceType !== null) {
+            $constraints['referenceTypeId'] = $referenceType;
+        }
+
+        $stage->match($constraints);
+
+        $list = $this->hydrateAggregateQuery($stage);
+
+        $references = array();
+
+        /** @var ReferenceInterface $reference */
+        foreach ($list as $reference) {
+            if (empty($references[$reference->getReferenceId()])) {
+                $references[$reference->getReferenceId()] = $reference;
+            }
+        }
+
+        return $references;
+    }
+
+    /**
+     * @param string $referenceType
+     *
+     * @return ReferenceInterface
+     */
+    public function countByReferenceTypeNotDeleted($referenceType = null)
+    {
+        $qb = $this->createQueryBuilder();
+        $this->addReferenceTypeAndNotDeletedConstraint($qb, $referenceType);
+
+        return $qb->getQuery()->execute()->count();
+    }
+
+    /**
      * @return array
      */
     public function findAllDeleted()
     {
         return $this->findBy(array('deleted' => true));
+    }
+
+    /**
+     * @param Builder $qb
+     * @param string  $referenceType
+     */
+    private function addReferenceTypeAndNotDeletedConstraint(Builder $qb, $referenceType = null)
+    {
+        if ($referenceType) {
+            $qb->field('referenceTypeId')->equals($referenceType);
+        }
+
+        $qb->field('deleted')->equals(false);
     }
 }

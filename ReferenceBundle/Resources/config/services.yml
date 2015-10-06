@@ -21,7 +21,8 @@ services:
         factory_method:   "getRepository"
         arguments:
             - %itkg_reference.document.reference_type.class%
-
+        calls:
+            - [setAggregationQueryBuilder, ["@doctrine_mongodb.odm.default_aggregation_query"]]
     itkg_reference.repository.reference:
         class:            %itkg_reference.repository.reference.class%
         factory_service:  "doctrine.odm.mongodb.document_manager"
