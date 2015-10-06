@@ -41,6 +41,7 @@ class Reference implements ReferenceInterface
      * @var int $referenceId
      *
      * @ODM\Field(type="string")
+     * @ORCHESTRA\Search(key="referenceId", field="referenceId", type="string")
      */
     protected $referenceId;
 
@@ -55,6 +56,7 @@ class Reference implements ReferenceInterface
      * @var string $name
      *
      * @ODM\Field(type="string")
+     * @ORCHESTRA\Search(key="name", field="name", type="string")
      */
     protected $name;
 
