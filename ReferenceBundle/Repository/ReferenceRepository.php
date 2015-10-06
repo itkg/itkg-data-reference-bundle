@@ -154,7 +154,7 @@ class ReferenceRepository extends AbstractAggregateRepository implements FieldAu
     /**
      * @param string $referenceType
      *
-     * @return ReferenceInterface
+     * @return int
      */
     public function countByReferenceTypeNotDeleted($referenceType = null)
     {
