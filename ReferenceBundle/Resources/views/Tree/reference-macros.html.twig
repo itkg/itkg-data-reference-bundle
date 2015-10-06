@@ -7,12 +7,12 @@
             {%  set displayed =  'reference_id, name' %}
             {%  set translated = 'open_orchestra_backoffice.table.reference_type.reference_id'|trans ~ ',' ~
                 'open_orchestra_backoffice.table.reference_type.name'|trans %}
-            {% set visibleElement = '0, 1' %}
+            {% set visibleElement = displayed %}
             {% for field in referenceType.fields %}
                 {% set displayed =  displayed ~ ',attributes.' ~ field.fieldId ~ '.value' %}
                 {% set translated =  translated ~ ',' ~ field.labels|trans_choose %}
                 {% if field.listable %}
-                    {% set visibleElement = visibleElement ~ ', ' ~ (loop.index + 1) %}
+                    {% set visibleElement = visibleElement ~ ',attributes.' ~ field.fieldId ~ '.value' %}
                 {% endif %}
             {% endfor %}
             <a
