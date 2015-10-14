@@ -18,8 +18,6 @@ class LoadRoleReferenceData extends AbstractFixture implements OrderedFixtureInt
      */
     public function load(ObjectManager $manager)
     {
-        $group2 = $this->getReference('group2');
-
         $roleReference = new Role();
         $roleReference->setName('ROLE_ACCESS_REFERENCE_TYPE');
         $roleReference->addDescription($this->generateTranslatedValue('en', 'Reference types acces'));
@@ -27,16 +25,12 @@ class LoadRoleReferenceData extends AbstractFixture implements OrderedFixtureInt
         $roleReference->addDescription($this->generateTranslatedValue('de', 'Der Zugriff auf Referenztypen'));
         $roleReference->addDescription($this->generateTranslatedValue('es', 'Acceso a los tipos de referencia'));
 
-        $group2->addRole('ROLE_ACCESS_REFERENCE_TYPE');
-
         $roleReferenceTypeForReference = new Role();
         $roleReferenceTypeForReference->setName('ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE');
         $roleReferenceTypeForReference->addDescription($this->generateTranslatedValue('en', 'ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE'));
         $roleReferenceTypeForReference->addDescription($this->generateTranslatedValue('fr', 'ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE'));
         $roleReferenceTypeForReference->addDescription($this->generateTranslatedValue('de', 'ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE'));
         $roleReferenceTypeForReference->addDescription($this->generateTranslatedValue('es', 'ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE'));
-
-        $group2->addRole('ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE');
 
         $manager->persist($roleReference);
         $manager->persist($roleReferenceTypeForReference);
