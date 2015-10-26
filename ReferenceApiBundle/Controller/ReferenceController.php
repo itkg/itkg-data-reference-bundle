@@ -38,7 +38,7 @@ class ReferenceController extends BaseController
      */
     public function listAction(Request $request)
     {
-        $mappingEntity = $this->get('open_orchestra_api.annotation_search_reader')->extractMapping('Itkg\ReferenceBundle\Document\Reference');
+        $mappingEntity = $this->get('open_orchestra_base.annotation_search_reader')->extractMapping('Itkg\ReferenceBundle\Document\Reference');
         $configuration = PaginateFinderConfiguration::generateFromRequest($request);
         $configuration->setDescriptionEntity($mappingEntity);
 
