@@ -11,12 +11,11 @@
         "open-orchestra/open-orchestra-model-bundle": ">=1.0.0"
     },
     "autoload": {
-        "psr-0": {
-            "Itkg\\ReferenceBundle": "",
-            "Itkg\\ReferenceApiBundle": "",
-            "Itkg\\ReferenceInterface": ""
+        "psr-4": {
+            "Itkg\\ReferenceBundle\\": "ReferenceBundle/",
+            "Itkg\\ReferenceApiBundle\\": "ReferenceApiBundle/",
+            "Itkg\\ReferenceInterface\\": "ReferenceInterface/"
         }
-    },
-    "target-dir": "Itkg"
+    }
 }
 
