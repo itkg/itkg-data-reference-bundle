@@ -24,7 +24,7 @@ As the project is not published on `packagist` you need to complete the `reposit
     }
 ```
 
-Once the bundle is installed, active it in the `AppKernel.php` file :
+Once the bundle is installed, enable it in the `AppKernel.php` file :
 
 ```php
 
@@ -44,7 +44,7 @@ In the `Gruntfile.js` file :
     config = merge.recursive(true, config, loadDirConfig('./vendor/itkg/itkg-data-reference-bundle/GruntTasks/Options/'));
 ```
 
-Check the path, they are linked to the autoloading (psr-0 or psr-4).
+Check the paths, they are linked to the autoloading (psr-0 or psr-4).
 
 Add the concatenation task in the `javascript_tasks.js` :
 
