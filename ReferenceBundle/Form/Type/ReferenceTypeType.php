@@ -2,7 +2,6 @@
 
 namespace Itkg\ReferenceBundle\Form\Type;
 
-use OpenOrchestra\BackofficeBundle\EventSubscriber\AddSubmitButtonSubscriber;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -73,8 +72,6 @@ class ReferenceTypeType extends AbstractType
                     'data-prototype-callback-error-message' => $this->translator->trans('itkg_reference_bundle.form.reference_type.error_reference_id')
                 )
             ));
-
-        $builder->addEventSubscriber(new AddSubmitButtonSubscriber());
     }
 
     /**

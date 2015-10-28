@@ -2,8 +2,6 @@
 
 namespace Itkg\ReferenceBundle\Form\Type;
 
-use OpenOrchestra\UserBundle\EventSubscriber\AddSubmitButtonSubscriber;
-use Itkg\ReferenceBundle\EventSubscriber\ReferenceTypeSubscriber;
 use Symfony\Component\Form\FormBuilderInterface;
 use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
@@ -58,8 +56,6 @@ class ReferenceType extends AbstractType
             $this->contentAttributeClass,
             $this->translationChoiceManager
         ));
-
-        $builder->addEventSubscriber(new AddSubmitButtonSubscriber());
     }
 
     /**
