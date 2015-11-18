@@ -9,6 +9,8 @@ use OpenOrchestra\Backoffice\NavigationPanel\Strategies\AdministrationPanelStrat
  */
 class ReferenceTypePanelStrategy extends AdministrationPanelStrategy
 {
+    const ROLE_ACCESS_REFERENCE_TYPE = 'ROLE_ACCESS_REFERENCE_TYPE';
+
     /**
      * @param string $name
      * @param string $role
