@@ -1,4 +1,5 @@
 <?php
+
 namespace Itkg\ReferenceBundle\NavigationPanel\Strategies;
 
 use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
@@ -7,7 +8,6 @@ use OpenOrchestra\Backoffice\NavigationPanel\Strategies\AbstractNavigationPanelS
 /**
  * Class ReferenceTypeForReferencePanelStrategy
  */
-
 class ReferenceTypeForReferencePanelStrategy extends AbstractNavigationPanelStrategy
 {
     const ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE = 'ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE';
