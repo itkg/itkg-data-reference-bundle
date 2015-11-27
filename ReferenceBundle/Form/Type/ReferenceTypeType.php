@@ -51,7 +51,7 @@ class ReferenceTypeType extends AbstractType
                     'class' => 'generate-id-dest',
                 )
             ))
-            ->add('names', 'translated_value_collection', array(
+            ->add('names', 'oo_translated_value_collection', array(
                 'label' => 'itkg_reference_bundle.form.reference_type.names'
             ))
             ->add('template', 'text', array(
@@ -60,7 +60,7 @@ class ReferenceTypeType extends AbstractType
                 'attr' => array('help_text' => 'open_orchestra_backoffice.form.content_type.template.helper'),
             ))
             ->add('fields', 'collection', array(
-                'type' => 'field_type',
+                'type' => 'oo_field_type',
                 'allow_add' => true,
                 'allow_delete' => true,
                 'label' => 'itkg_reference_bundle.form.reference_type.fields',
