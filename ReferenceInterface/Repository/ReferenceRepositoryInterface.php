@@ -15,6 +15,13 @@ interface ReferenceRepositoryInterface
     public function findAll();
 
     /**
+     * @param string $id
+     *
+     * @return ReferenceInterface
+     */
+    public function find($id);
+
+    /**
      * @param string $referenceId
      *
      * @return ReferenceInterface
