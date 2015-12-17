@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\ReferenceBundle\Document;
+namespace Itkg\ReferenceModelBundle\Document;
 
 use Itkg\ReferenceInterface\Model\ReferenceInterface;
 use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ODM\Document(
  *   collection="reference",
- *   repositoryClass="Itkg\ReferenceBundle\Repository\ReferenceRepository"
+ *   repositoryClass="Itkg\ReferenceModelBundle\Repository\ReferenceRepository"
  * )
  * @ORCHESTRA\Document(
  *   generatedField="referenceId",

@@ -1,0 +1,24 @@
+parameters:
+    itkg_reference.repository.reference.class : Itkg\ReferenceModelBundle\Repository\ReferenceRepository
+    itkg_reference.repository.reference_type.class : Itkg\ReferenceModelBundle\Repository\ReferenceTypeRepository
+
+    itkg_reference.document.reference_type.class : Itkg\ReferenceModelBundle\Document\ReferenceType
+    itkg_reference.document.reference.class : Itkg\ReferenceModelBundle\Document\Reference
+
+services:
+
+    itkg_reference.repository.reference_type:
+        class:            %itkg_reference.repository.reference_type.class%
+        factory_service:  "doctrine.odm.mongodb.document_manager"
+        factory_method:   "getRepository"
+        arguments:
+            - %itkg_reference.document.reference_type.class%
+
+    itkg_reference.repository.reference:
+        class:            %itkg_reference.repository.reference.class%
+        factory_service:  "doctrine.odm.mongodb.document_manager"
+        factory_method:   "getRepository"
+        arguments:
+            - %itkg_reference.document.reference.class%
+        calls:
+            - [setAggregationQueryBuilder, ["@doctrine_mongodb.odm.default_aggregation_query"]]
