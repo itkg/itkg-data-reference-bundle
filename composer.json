@@ -14,7 +14,8 @@
         "psr-4": {
             "Itkg\\ReferenceBundle\\": "ReferenceBundle/",
             "Itkg\\ReferenceApiBundle\\": "ReferenceApiBundle/",
-            "Itkg\\ReferenceInterface\\": "ReferenceInterface/"
+            "Itkg\\ReferenceInterface\\": "ReferenceInterface/",
+            "Itkg\\ReferenceModelBundle\\": "ReferenceModelBundle/"
         }
     }
 }
