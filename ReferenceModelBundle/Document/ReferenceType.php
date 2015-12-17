@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\ReferenceBundle\Document;
+namespace Itkg\ReferenceModelBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Gedmo\Blameable\Traits\BlameableDocument;
@@ -16,7 +16,7 @@ use OpenOrchestra\ModelInterface\Model\TranslatedValueInterface;
  *
  * @ODM\Document(
  *   collection="reference_type",
- *   repositoryClass="Itkg\ReferenceBundle\Repository\ReferenceTypeRepository"
+ *   repositoryClass="Itkg\ReferenceModelBundle\Repository\ReferenceTypeRepository"
  * )
  */
 class ReferenceType implements ReferenceTypeInterface
@@ -68,7 +68,7 @@ class ReferenceType implements ReferenceTypeInterface
 
     /**
      * @var string $template
-     * 
+     *
      * @ODM\Field(type="string")
      */
     protected $template;

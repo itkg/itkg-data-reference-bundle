@@ -1,6 +1,6 @@
 <?php
 
-namespace Itkg\ReferenceBundle\Repository;
+namespace Itkg\ReferenceModelBundle\Repository;
 
 use OpenOrchestra\Repository\AbstractAggregateRepository;
 use Doctrine\ODM\MongoDB\Query\Builder;

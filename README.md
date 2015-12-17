@@ -28,6 +28,7 @@ Once the bundle is installed, enable it in the `AppKernel.php` file :
 
 ```php
 
+    new Itkg\ReferenceModelBundle\ItkgReferenceModelBundle(),
     new Itkg\ReferenceApiBundle\ItkgReferenceApiBundle(),
     new Itkg\ReferenceBundle\ItkgReferenceBundle(),
 ```
