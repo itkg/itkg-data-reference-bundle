@@ -64,8 +64,8 @@ And in the main concatenation file `concat.js.js` :
 Configuration
 -------------
 
-Pour avoir le bon mapping des attributs "$attribute" (ReferenceBundle\Document\Reference.php),
-"$name" et "$fields" (ReferenceBundle\Document\ReferenceType.php),
+Pour avoir le bon mapping des attributs "$attribute" (ReferenceModelBundle\Document\Reference.php),
+"$name" et "$fields" (ReferenceModelBundle\Document\ReferenceType.php),
 pensez à mettre à jour le fichier app/config/config.yml avec les paramètres suivants :
 
 ```
