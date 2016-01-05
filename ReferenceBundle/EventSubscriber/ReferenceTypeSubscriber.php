@@ -1,4 +1,5 @@
 <?php
+
 namespace Itkg\ReferenceBundle\EventSubscriber;
 
 use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
@@ -77,6 +78,7 @@ class ReferenceTypeSubscriber extends AbstractBlockReferenceTypeSubscriber
             foreach ($referenceType->getFields() as $field) {
                 $fieldId = $field->getFieldId();
                 if ($attribute = $reference->getAttributeByName($fieldId)) {
+                    $data[$fieldId] = isset($data[$fieldId]) ? $data[$fieldId] : null;
                     $attribute->setValue($this->transformData($data[$fieldId], $form->get($fieldId)));
                 } elseif (is_null($attribute)) {
                     $contentAttributeClass = $this->contentAttributeClass;
