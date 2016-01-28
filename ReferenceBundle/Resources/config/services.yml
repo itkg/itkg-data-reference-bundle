@@ -14,8 +14,10 @@ services:
         arguments:
             - reference_types
             - ROLE_ACCESS_REFERENCE_TYPE
-            - ItkgReferenceBundle
             - 12
+            - %open_orchestra_backoffice.navigation_panel.menu.administration%
+            - %itkg_reference.navigation_panel.reference_types.parameters%
+            - @translator
         tags:
             - { name: open_orchestra_backoffice.navigation_panel.strategy }
 

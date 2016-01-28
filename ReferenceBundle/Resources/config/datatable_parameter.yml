@@ -1,0 +1,14 @@
+parameters:
+    itkg_reference.navigation_panel.reference_types.parameters :
+        -
+          name : reference_type_id
+          title : itkg_reference_bundle.form.reference_type.id
+          visible : true
+          activateColvis : true
+          searchField : text
+        -
+          name : name
+          title : itkg_reference_bundle.form.reference_type.name
+          visible : true
+          activateColvis : true
+          searchField : text
