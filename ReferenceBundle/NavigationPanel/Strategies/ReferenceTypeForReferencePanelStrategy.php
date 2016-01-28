@@ -105,7 +105,7 @@ class ReferenceTypeForReferencePanelStrategy extends AbstractNavigationPanelStra
                 $dataParameter[$referenceTypeId][] = array(
                     'name' => 'attributes.' . $field->getFieldId() . '.string_value',
                     'title' => $this->translationChoiceManager->choose($field->getLabels()),
-                    'visible' => $field->getListable() === true,
+                    'visible' => $field->getListable(),
                     'activateColvis' => true,
                     'searchField' => $field->getFieldTypeSearchable(),
                 );
