@@ -25,6 +25,9 @@ services:
         class: %itkg_reference.navigation_panel.reference.class%
         arguments:
             - @itkg_reference.repository.reference_type
+            - %itkg_reference.navigation_panel.reference_type.parameters%
+            - @open_orchestra_backoffice.manager.translation_choice
+            - @translator
         tags:
             - { name: open_orchestra_backoffice.navigation_panel.strategy }
 

@@ -4,5 +4,5 @@
 {% set name = 'itkg_reference_bundle.navigation_panel.editorial.references'|trans %}
 
 {% block menu %}
-    {{ reference_macros.menu_reference_types_for_reference(referenceTypes) }}
+    {{ reference_macros.menu_reference_types_for_reference(referenceTypes, datatableParameterNames) }}
 {% endblock %}
