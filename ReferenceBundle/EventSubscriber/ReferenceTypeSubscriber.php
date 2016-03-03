@@ -130,14 +130,14 @@ class ReferenceTypeSubscriber extends AbstractBlockReferenceTypeSubscriber
         if (is_object($referenceType)) {
             foreach ($referenceType->getFields() as $field) {
                 $fieldId = $field->getFieldId();
+                $fieldIdData = isset($data[$fieldId]) ? $data[$fieldId] : null;
                 if ($attribute = $reference->getAttributeByName($fieldId)) {
-                    $data[$fieldId] = isset($data[$fieldId]) ? $data[$fieldId] : null;
-                    $attribute->setValue($this->transformData($data[$fieldId], $form->get($fieldId)));
+                    $attribute->setValue($this->transformData($fieldIdData, $form->get($fieldId)));
                 } elseif (is_null($attribute)) {
                     $contentAttributeClass = $this->contentAttributeClass;
                     $attribute = new $contentAttributeClass;
                     $attribute->setName($fieldId);
-                    $attribute->setValue($this->transformData($data[$fieldId], $form->get($fieldId)));
+                    $attribute->setValue($this->transformData($fieldIdData, $form->get($fieldId)));
                     $reference->addAttribute($attribute);
                 }
             }
