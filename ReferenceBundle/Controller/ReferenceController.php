@@ -55,6 +55,7 @@ class ReferenceController extends AbstractAdminController
         /** @var ReferenceInterface $reference */
         $reference = new $referenceClass();
         $reference->setReferenceTypeId($referenceType);
+        $reference->setLanguage($this->get('open_orchestra_backoffice.context_manager')->getCurrentLocale());
         
 
         $form = $this->createForm('itkg_reference', $reference, array(
