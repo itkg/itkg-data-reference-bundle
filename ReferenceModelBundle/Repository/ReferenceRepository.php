@@ -38,7 +38,7 @@ class ReferenceRepository extends AbstractAggregateRepository implements FieldAu
      */
     public function testUniquenessInContext($name)
     {
-        return $this->findOneBy(array('name' => $name)) !== null;
+        return $this->findOneBy(array('referenceId' => $name)) !== null;
     }
 
     /**
