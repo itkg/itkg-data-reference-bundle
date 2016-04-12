@@ -137,18 +137,7 @@ class ReferenceRepository extends AbstractAggregateRepository implements FieldAu
 
         $stage->match($constraints);
 
-        $list = $this->hydrateAggregateQuery($stage);
-
-        $references = array();
-
-        /** @var ReferenceInterface $reference */
-        foreach ($list as $reference) {
-            if (empty($references[$reference->getReferenceId()])) {
-                $references[$reference->getReferenceId()] = $reference;
-            }
-        }
-
-        return $references;
+        return $this->hydrateAggregateQuery($stage, null, 'getReferenceId');
     }
 
     /**
