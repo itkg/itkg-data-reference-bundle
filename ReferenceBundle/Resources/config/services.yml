@@ -29,7 +29,8 @@ services:
         arguments:
             - %itkg_reference.document.reference.class%
         calls:
-            - [setAggregationQueryBuilder, ["@doctrine_mongodb.odm.default_aggregation_query"]]
+            - [setAggregationQueryBuilder, ['@doctrine_mongodb.odm.default_aggregation_query']]
+            - [setFilterTypeManager, ['@open_orchestra_pagination.filter_type.manager']]
 
 ## MENU STRATEGIES ##
 
