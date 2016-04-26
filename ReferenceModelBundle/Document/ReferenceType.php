@@ -2,13 +2,13 @@
 
 namespace Itkg\ReferenceModelBundle\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
+use OpenOrchestra\Mapping\Annotations as ORCHESTRA;
 use OpenOrchestra\ModelInterface\Model\FieldTypeInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use OpenOrchestra\ModelInterface\Model\TranslatedValueInterface;
 
 /**
@@ -35,6 +35,7 @@ class ReferenceType implements ReferenceTypeInterface
      * @var string $referenceTypeId
      *
      * @ODM\Field(type="string")
+     * @ORCHESTRA\Search(key="reference_type_id")
      */
     protected $referenceTypeId;
 
@@ -42,6 +43,7 @@ class ReferenceType implements ReferenceTypeInterface
      * @var ArrayCollection $names
      *
      * @ODM\EmbedMany(targetDocument="OpenOrchestra\ModelInterface\Model\TranslatedValueInterface")
+     * @ORCHESTRA\Search(key="name", type="translatedValue")
      */
     protected $names;
 

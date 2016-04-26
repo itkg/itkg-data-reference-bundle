@@ -1,13 +1,16 @@
 <?php
 namespace Itkg\ReferenceApiBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
 use Itkg\ReferenceInterface\Event\ReferenceTypeEvent;
 use Itkg\ReferenceInterface\ReferenceTypeEvents;
+use OpenOrchestra\ApiBundle\Controller\ControllerTrait\HandleRequestDataTable;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
-use OpenOrchestra\BaseApiBundle\Controller\BaseController;
 use OpenOrchestra\BaseApiBundle\Controller\Annotation as Api;
+use OpenOrchestra\BaseApiBundle\Controller\BaseController;
+use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class ReferenceTypeController
@@ -16,7 +19,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
  */
 class ReferenceTypeController extends BaseController
 {
+    use HandleRequestDataTable;
+
     /**
+     * @param Request $request
+     *
      * @Config\Route("/list", name="open_orchestra_api_reference_type_list")
      * @Config\Method({"GET"})
      *
@@ -26,11 +33,26 @@ class ReferenceTypeController extends BaseController
      *
      * @return FacadeInterface
      */
-    public function listAction()
+    public function listAction(Request $request)
     {
-        $referenceTypeCollection = $this->get('itkg_reference.repository.reference_type')->findAllByNotDeleted();
+        $repository = $this->get('itkg_reference.repository.reference_type');
+        $transformer = $this->get('open_orchestra_api.transformer_manager')->get('reference_type_collection');
 
-        return $this->get('open_orchestra_api.transformer_manager')->get('reference_type_collection')->transform($referenceTypeCollection);
+        if ($request->get('entityId')) {
+            $element = $repository->find($request->get('entityId'));
+            return $transformer->transform(array($element));
+        }
+
+        $configuration = PaginateFinderConfiguration::generateFromRequest($request);
+        $mapping = $this
+            ->get('open_orchestra.annotation_search_reader')
+            ->extractMapping($this->container->getParameter('itkg_reference.document.reference_type.class'));
+        $configuration->setDescriptionEntity($mapping);
+        $referenceTypeCollection = $repository->findAllNotDeletedInLastVersionForPaginate($configuration);
+        $recordsTotal = $repository->countByContentTypeInLastVersion();
+        $recordsFiltered = $repository->countNotDeletedInLastVersionWithSearchFilter($configuration);
+
+        return $this->generateFacadeDataTable($transformer, $referenceTypeCollection, $recordsTotal, $recordsFiltered);
     }
 
     /**
