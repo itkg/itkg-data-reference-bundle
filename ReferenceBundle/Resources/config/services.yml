@@ -13,9 +13,9 @@ services:
         class: %itkg_reference.navigation_panel.reference_types.class%
         arguments:
             - reference_types
-            - ROLE_ACCESS_REFERENCE_TYPE
             - 12
             - %open_orchestra_backoffice.navigation_panel.menu.administration%
+            - ROLE_ACCESS_REFERENCE_TYPE
             - %itkg_reference.navigation_panel.reference_types.parameters%
             - @translator
         tags:
