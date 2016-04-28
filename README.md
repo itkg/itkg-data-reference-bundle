@@ -4,24 +4,28 @@ ReferenceBundle
 Installation
 ------------
 
-To install the project, you need to require it in your project `composer.json` file.
-
-In the `require` section :
+To install the project, you need to require it in your project `composer.json` file (adapt with version you need on your project).
 
 ```json
-
-    "itkg/itkg-data-reference-bundle": "dev-master"
+{
+    "require": {
+        "itkg/itkg-data-reference-bundle": "~1.1"
+    }
+}
 
 ```
 
 As the project is not published on `packagist` you need to complete the `repositories` section :
 
 ```json
-
-    {
-        "type": "vcs",
-        "url": "https://github.com/itkg/itkg-data-reference-bundle.git"
-    }
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/itkg/itkg-data-reference-bundle.git"
+        }
+    ]
+}
 ```
 
 Once the bundle is installed, enable it in the `AppKernel.php` file :
@@ -68,19 +72,4 @@ module.exports = {
     'web/built/referencebundle.js'
   ]
 }
-```
-
-Configuration
--------------
-
-Pour avoir le bon mapping des attributs "$attribute" (ReferenceModelBundle\Document\Reference.php),
-"$name" et "$fields" (ReferenceModelBundle\Document\ReferenceType.php),
-pensez à mettre à jour le fichier app/config/config.yml avec les paramètres suivants :
-
-```
-doctrine_mongodb:
-    resolve_target_documents:
-        OpenOrchestra\ModelInterface\Model\ContentAttributeInterface: OpenOrchestra\ModelBundle\Document\ContentAttribute
-        OpenOrchestra\ModelInterface\Model\TranslatedValueInterface: OpenOrchestra\ModelBundle\Document\TranslatedValue
-        OpenOrchestra\ModelInterface\Model\FieldTypeInterface: OpenOrchestra\ModelBundle\Document\FieldType
 ```
