@@ -2,14 +2,14 @@
 
 namespace Itkg\ReferenceApiBundle\Facade;
 
+use OpenOrchestra\ApiBundle\Facade\PaginateCollectionFacade;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
-use OpenOrchestra\BaseApi\Facade\AbstractFacade;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Class ReferenceTypeCollectionFacade
  */
-class ReferenceTypeCollectionFacade extends AbstractFacade
+class ReferenceTypeCollectionFacade extends PaginateCollectionFacade
 {
     /**
      * @Serializer\Type("string")
