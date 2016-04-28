@@ -35,30 +35,39 @@ Once the bundle is installed, enable it in the `AppKernel.php` file :
 
 Then configure grunt to compile the bundles assets.
 
-In the `Gruntfile.js` file :
+In the `grunt/app_config.js` file, add the bundle's Grunt targets:
 
 ```js
 
-    grunt.loadTasks('./vendor/itkg/itkg-data-reference-bundle/GruntTasks');
-
-    // config declaration
-    config = merge.recursive(true, config, loadDirConfig('./vendor/itkg/itkg-data-reference-bundle/GruntTasks/Options/'));
+module.exports = {
+  targetsDir: [
+    './vendor/itkg/itkg-data-reference-bundle/GruntTasks/Targets'
+  ]
+}
 ```
 
-Check the paths, they are linked to the autoloading (psr-0 or psr-4).
-
-Add the concatenation task in the `javascript_tasks.js` :
+Add the concatenation task in the `grunt/tasks/javascript_task.js` :
 
 ```js
-
-    'concat:referencebundlejs',
+module.exports = function(grunt) {
+  grunt.registerTask(
+    'javascript',
+    'Main project task to generate javascripts',
+    [
+        'concat:referencebundlejs'
+    ]
+  );
+};    
 ```
 
-And in the main concatenation file `concat.js.js` :
+And in the main concatenation file `grunt/targets/concat.all_js.js` :
 
 ```js
-
+module.exports = {
+  src: [
     'web/built/referencebundle.js'
+  ]
+}
 ```
 
 Configuration
