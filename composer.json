@@ -5,11 +5,11 @@
     "description": "reference bundle based on contentBundle of open orchestra",
     "minimum-stability": "dev",
     "require": {
-        "open-orchestra/open-orchestra-base-api-bundle": ">=1.1.0-RC",
-        "open-orchestra/open-orchestra-libs": ">=1.1.0-RC",
-        "open-orchestra/open-orchestra-model-interface": ">=1.1.0-RC",
-        "open-orchestra/open-orchestra-model-bundle": ">=1.1.0-RC",
-        "open-orchestra/open-orchestra-mongo-libs": ">=1.1.0-RC"
+        "open-orchestra/open-orchestra-base-api-bundle": ">=1.1.0",
+        "open-orchestra/open-orchestra-libs": ">=1.1.0",
+        "open-orchestra/open-orchestra-model-interface": ">=1.1.0",
+        "open-orchestra/open-orchestra-model-bundle": ">=1.1.0",
+        "open-orchestra/open-orchestra-mongo-libs": ">=1.1.0"
     },
     "autoload": {
         "psr-4": {
