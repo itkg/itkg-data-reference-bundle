@@ -26,5 +26,6 @@ class ItkgReferenceExtension extends Extension
         $loader->load('services.yml');
         $loader->load('form.yml');
         $loader->load('datatable_parameter.yml');
+        $loader->load('role_parameter.yml');
     }
 }

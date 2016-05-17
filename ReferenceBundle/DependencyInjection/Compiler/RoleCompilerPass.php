@@ -25,5 +25,13 @@ class RoleCompilerPass extends AbstractRoleCompilerPass
             ReferenceTypeForReferencePanelStrategy::ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE,
             ReferenceTypePanelStrategy::ROLE_ACCESS_REFERENCE_TYPE,
         ));
+
+        if ($container->hasParameter('open_orchestra_backoffice.role')) {
+            $param = $container->getParameter('open_orchestra_backoffice.role');
+            if ($container->hasParameter('itkg_reference.role')) {
+                $param = array_merge_recursive($param, $container->getParameter('itkg_reference.role'));
+            }
+            $container->setParameter('open_orchestra_backoffice.role', $param);
+        }
     }
 }

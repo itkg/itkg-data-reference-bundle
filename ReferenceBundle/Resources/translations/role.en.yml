@@ -1,3 +1,5 @@
 open_orchestra_role:
-    role_access_reference_type: Reference types acces
-    role_access_reference_type_for_reference: References access
+    label_access_reference_type: Reference
+    role_access_reference_type: Access
+    label_access_for_reference: Reference type
+    role_access_reference_type_for_reference: Access
