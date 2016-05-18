@@ -21,7 +21,7 @@ class ReferenceTypeController extends AbstractAdminController
      * @Config\Route("/reference-type/form/{referenceTypeId}", name="itkg_reference_bundle_reference_type_form")
      * @Config\Method({"GET", "POST", "PATCH"})
      *
-     * @Config\Security("has_role('ROLE_ACCESS_REFERENCE_TYPE')")
+     * @Config\Security("is_granted('ROLE_ACCESS_REFERENCE_TYPE')")
      *
      * @return Response
      */
@@ -57,7 +57,7 @@ class ReferenceTypeController extends AbstractAdminController
      * @Config\Route("/reference-type/new", name="itkg_reference_bundle_reference_type_new")
      * @Config\Method({"GET", "POST", "PATCH"})
      *
-     * @Config\Security("has_role('ROLE_ACCESS_REFERENCE_TYPE')")
+     * @Config\Security("is_granted('ROLE_ACCESS_REFERENCE_TYPE')")
      *
      * @return Response
      */

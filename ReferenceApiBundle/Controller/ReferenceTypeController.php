@@ -27,7 +27,7 @@ class ReferenceTypeController extends BaseController
      * @Config\Route("/list", name="open_orchestra_api_reference_type_list")
      * @Config\Method({"GET"})
      *
-     * @Config\Security("has_role('ROLE_ACCESS_REFERENCE_TYPE')")
+     * @Config\Security("is_granted('ROLE_ACCESS_REFERENCE_TYPE')")
      *
      * @Api\Serialize()
      *
@@ -61,7 +61,7 @@ class ReferenceTypeController extends BaseController
      * @Config\Route("/{referenceTypeId}/delete", name="open_orchestra_api_reference_type_delete")
      * @Config\Method({"DELETE"})
      *
-     * @Config\Security("has_role('ROLE_ACCESS_REFERENCE_TYPE')")
+     * @Config\Security("is_granted('ROLE_ACCESS_REFERENCE_TYPE')")
      *
      * @return Response
      */
@@ -81,7 +81,7 @@ class ReferenceTypeController extends BaseController
      * @Config\Route("/{referenceTypeId}", name="open_orchestra_api_reference_type_show")
      * @Config\Method({"GET"})
      *
-     * @Config\Security("has_role('ROLE_ACCESS_REFERENCE_TYPE')")
+     * @Config\Security("is_granted('ROLE_ACCESS_REFERENCE_TYPE')")
      *
      * @Api\Serialize()
      *
