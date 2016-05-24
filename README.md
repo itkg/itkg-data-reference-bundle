@@ -1,6 +1,10 @@
 ReferenceBundle
 ===============
 
+[![Build Status](https://travis-ci.com/itkg/itkg-data-reference-bundle.svg?token=ASZJDqSq1aY7qys6tNP3&branch=master)](https://travis-ci.com/itkg/itkg-data-reference-bundle.svg?token=ASZJDqSq1aY7qys6tNP3&branch=master) 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/itkg/itkg-data-reference-bundle/badges/quality-score.png?b=master&s=fa16b0e1800535b1dd94b878802f36e8fdb1944c)](https://scrutinizer-ci.com/g/itkg/itkg-data-reference-bundle/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/itkg/itkg-data-reference-bundle/badges/coverage.png?b=master&s=88c379e412b1070b666c0f964be28c593c9c6309)](https://scrutinizer-ci.com/g/itkg/itkg-data-reference-bundle/?branch=master)
+
 Installation
 ------------
 
