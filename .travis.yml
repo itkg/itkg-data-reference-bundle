@@ -1,4 +1,5 @@
 language: php
+sudo: false
 
 php:
   - 5.5
@@ -7,6 +8,10 @@ php:
 cache:
   directories:
     - ~/.composer/cache
+    - ~/composer
+
+matrix:
+  fast_finish: true
 
 addons:
   apt:
@@ -18,16 +23,17 @@ addons:
 
 before_install:
   - phpenv config-add .travis.php.ini
+  - if [ -f ~/composer/composer.phar ]; then mv ~/composer/composer.phar ./; else wget https://getcomposer.org/composer.phar; fi
   - composer config -g github-oauth.github.com $CI_USER_TOKEN
   - until nc -z localhost 27017; do echo Waiting for MongoDB; sleep 1; done
   - mongo admin --eval "db.createUser({user:'root', pwd:'root', roles:[]})"
 
 install:
   - export SYMFONY_ENV=test
-  - composer install --no-progress --prefer-dist
+  - php -d memory_limit=-1 ./composer.phar install --no-progress --prefer-dist
 
 script:
-  - ./vendor/bin/phpunit -c phpunit.xml.dist
+  - ./vendor/bin/phpunit
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
