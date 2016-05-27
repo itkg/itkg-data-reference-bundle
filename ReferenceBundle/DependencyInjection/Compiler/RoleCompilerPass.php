@@ -4,7 +4,7 @@ namespace Itkg\ReferenceBundle\DependencyInjection\Compiler;
 
 use OpenOrchestra\BackofficeBundle\DependencyInjection\Compiler\AbstractRoleCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Itkg\ReferenceBundle\NavigationPanel\Strategies\ReferenceTypeForReferencePanelStrategy;
+use Itkg\ReferenceBundle\NavigationPanel\Strategies\ReferencePanelStrategy;
 use Itkg\ReferenceBundle\NavigationPanel\Strategies\ReferenceTypePanelStrategy;
 
 /**
@@ -22,7 +22,7 @@ class RoleCompilerPass extends AbstractRoleCompilerPass
     public function process(ContainerBuilder $container)
     {
         $this->addRoles($container, array(
-            ReferenceTypeForReferencePanelStrategy::ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE,
+            ReferencePanelStrategy::ROLE_ACCESS_REFERENCE,
             ReferenceTypePanelStrategy::ROLE_ACCESS_REFERENCE_TYPE,
         ));
 

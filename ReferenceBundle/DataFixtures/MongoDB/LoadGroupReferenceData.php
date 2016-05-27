@@ -5,7 +5,7 @@ namespace Itkg\ReferenceBundle\DataFixtures\MongoDB;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Itkg\ReferenceBundle\NavigationPanel\Strategies\ReferenceTypeForReferencePanelStrategy;
+use Itkg\ReferenceBundle\NavigationPanel\Strategies\ReferencePanelStrategy;
 use Itkg\ReferenceBundle\NavigationPanel\Strategies\ReferenceTypePanelStrategy;
 use OpenOrchestra\ModelInterface\DataFixtures\OrchestraProductionFixturesInterface;
 
@@ -21,7 +21,7 @@ class LoadGroupReferenceData extends AbstractFixture implements OrderedFixtureIn
     {
         $group2 = $this->getReference('group2');
         $group2->addRole(ReferenceTypePanelStrategy::ROLE_ACCESS_REFERENCE_TYPE);
-        $group2->addRole(ReferenceTypeForReferencePanelStrategy::ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE);
+        $group2->addRole(ReferencePanelStrategy::ROLE_ACCESS_REFERENCE);
 
         $manager->flush();
     }

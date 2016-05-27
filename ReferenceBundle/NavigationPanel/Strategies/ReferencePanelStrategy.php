@@ -10,11 +10,11 @@ use OpenOrchestra\ModelInterface\Model\FieldTypeInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * Class ReferenceTypeForReferencePanelStrategy
+ * Class ReferencePanelStrategy
  */
-class ReferenceTypeForReferencePanelStrategy extends AbstractNavigationPanelStrategy
+class ReferencePanelStrategy extends AbstractNavigationPanelStrategy
 {
-    const ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE = 'ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE';
+    const ROLE_ACCESS_REFERENCE = 'ROLE_ACCESS_REFERENCE';
 
     protected $translator;
     protected $referenceTypeRepository;
@@ -50,7 +50,7 @@ class ReferenceTypeForReferencePanelStrategy extends AbstractNavigationPanelStra
         }
 
         return $this->render(
-            'ItkgReferenceBundle:EditorialPanel:showReferenceTypeForReference.html.twig',
+            'ItkgReferenceBundle:EditorialPanel:reference.html.twig',
             array(
                 'referenceTypes' => $this->getReferenceTypes(),
                 'datatableParameterNames' => $datatableParameterNames,
@@ -71,7 +71,7 @@ class ReferenceTypeForReferencePanelStrategy extends AbstractNavigationPanelStra
      */
     public function getName()
     {
-        return 'reference_type_for_reference';
+        return 'reference';
     }
 
     /**
@@ -79,7 +79,7 @@ class ReferenceTypeForReferencePanelStrategy extends AbstractNavigationPanelStra
      */
     public function getRole()
     {
-        return self::ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE;
+        return self::ROLE_ACCESS_REFERENCE;
     }
 
     /**

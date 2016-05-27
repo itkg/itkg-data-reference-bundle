@@ -60,7 +60,7 @@ class ReferenceController extends BaseController
      * @Config\Route("/{referenceId}/delete", name="open_orchestra_api_reference_delete")
      * @Config\Method({"DELETE"})
      *
-     * @Config\Security("is_granted('ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE')")
+     * @Config\Security("is_granted('ROLE_ACCESS_REFERENCE')")
      *
      * @return Response
      */
@@ -82,7 +82,7 @@ class ReferenceController extends BaseController
      * @Config\Route("/{referenceId}", name="open_orchestra_api_reference_show")
      * @Config\Method({"GET"})
      *
-     * @Config\Security("is_granted('ROLE_ACCESS_REFERENCE_TYPE_FOR_REFERENCE')")
+     * @Config\Security("is_granted('ROLE_ACCESS_REFERENCE')")
      *
      * @Api\Serialize()
      *

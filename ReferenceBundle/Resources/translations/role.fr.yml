@@ -1,5 +1,5 @@
 open_orchestra_role:
-    label_access_reference_type: Référence
+    label_access_reference: Référence
+    role_access_reference: Accéder
+    label_access_reference_type: Type de référence
     role_access_reference_type: Accéder
-    label_access_for_reference: Type de référence
-    role_access_reference_type_for_reference: Accéder
