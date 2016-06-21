@@ -28,4 +28,12 @@ class ReferenceCollectionFacade extends PaginateCollectionFacade
     {
         $this->references[] = $facade;
     }
+
+    /**
+     * @return FacadeInterface[]
+     */
+    public function getReferences()
+    {
+        return $this->references;
+    }
 }
