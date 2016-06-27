@@ -14,6 +14,7 @@ class ReferenceCollectionTransformer extends AbstractTransformer
 {
     /**
      * @param ArrayCollection $mixed
+     * @param string|null     $referenceType
      *
      * @return FacadeInterface
      */
@@ -22,14 +23,17 @@ class ReferenceCollectionTransformer extends AbstractTransformer
         $facade = new ReferenceCollectionFacade();
 
         foreach ($mixed as $reference) {
-            $facade->addReference($this->getTransformer('reference')->transform($reference,$referenceType));
+            $facade->addReference($this->getTransformer('reference')->transform($reference, $referenceType));
         }
 
         if ($referenceType) {
-            $facade->addLink('_self_add', $this->generateRoute(
-                'itkg_reference_bundle_reference_new',
-                array('referenceType' => $referenceType)
-            ));
+            $facade->addLink(
+                '_self_add',
+                $this->generateRoute(
+                    'itkg_reference_bundle_reference_new',
+                    array('referenceType' => $referenceType)
+                )
+            );
         }
 
         return $facade;

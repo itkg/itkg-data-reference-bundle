@@ -26,5 +26,6 @@ services:
             - @open_orchestra_backoffice.manager.translation_choice
             - %itkg_reference_bundle.event.reference_type_subscriber.class%
             - %open_orchestra_backoffice.field_types%
+            - @open_orchestra_backoffice.value_transformer.manager
         tags:
             - {name: form.type, alias: itkg_reference}

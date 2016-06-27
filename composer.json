@@ -1,5 +1,5 @@
 {
-    "name": "itkg/itkg-data-reference-bundle", 
+    "name": "itkg/itkg-data-reference-bundle",
     "license": "MIT",
     "type": "project",
     "description": "reference bundle based on contentBundle of open orchestra",
@@ -9,7 +9,12 @@
         "open-orchestra/open-orchestra-libs": ">=1.1.0",
         "open-orchestra/open-orchestra-model-interface": ">=1.1.0",
         "open-orchestra/open-orchestra-model-bundle": ">=1.1.0",
-        "open-orchestra/open-orchestra-mongo-libs": ">=1.1.0"
+        "open-orchestra/open-orchestra-mongo-libs": ">=1.1.0",
+        "open-orchestra/open-orchestra-cms-bundle": ">=1.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8.16",
+        "phake/phake": "~2.3.0"
     },
     "autoload": {
         "psr-4": {
@@ -20,4 +25,3 @@
         }
     }
 }
-

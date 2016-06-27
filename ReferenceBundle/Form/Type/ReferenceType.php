@@ -2,6 +2,7 @@
 
 namespace Itkg\ReferenceBundle\Form\Type;
 
+use OpenOrchestra\Backoffice\ValueTransformer\ValueTransformerManager;
 use Symfony\Component\Form\FormBuilderInterface;
 use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
@@ -25,7 +26,8 @@ class ReferenceType extends AbstractType
      * @param string                         $contentAttributeClass
      * @param TranslationChoiceManager       $translationChoiceManager
      * @param string                         $referenceTypeSubscriberClass
-     * @param array                            $fieldTypesConfiguration
+     * @param array                          $fieldTypesConfiguration
+     * @param ValueTransformerManager        $valueTransformerManager
      */
     public function __construct(
         ReferenceTypeRepositoryInterface $referenceTypeRepository,
@@ -33,7 +35,8 @@ class ReferenceType extends AbstractType
         $contentAttributeClass,
         TranslationChoiceManager $translationChoiceManager,
         $referenceTypeSubscriberClass,
-        array $fieldTypesConfiguration
+        array $fieldTypesConfiguration,
+        ValueTransformerManager $valueTransformerManager
     )
     {
         $this->referenceTypeRepository = $referenceTypeRepository;
@@ -42,6 +45,7 @@ class ReferenceType extends AbstractType
         $this->translationChoiceManager = $translationChoiceManager;
         $this->referenceTypeSubscriberClass = $referenceTypeSubscriberClass;
         $this->fieldTypesConfiguration = $fieldTypesConfiguration;
+        $this->valueTransformerManager = $valueTransformerManager;
     }
 
     /**
@@ -59,7 +63,8 @@ class ReferenceType extends AbstractType
             $this->referenceTypeRepository,
             $this->contentAttributeClass,
             $this->translationChoiceManager,
-            $this->fieldTypesConfiguration
+            $this->fieldTypesConfiguration,
+            $this->valueTransformerManager
         ));
     }
 
