@@ -125,7 +125,6 @@ class ReferenceRepository extends AbstractAggregateRepository implements FieldAu
     public function findByReferenceTypeNotDeletedWithPagination(PaginateFinderConfiguration $configuration, $referenceType = null)
     {
         $stage = $this->createAggregationQuery();
-        $this->generateFilterForPaginate($stage, $configuration);
 
         $constraints = [
             'deleted' => false,
@@ -136,6 +135,7 @@ class ReferenceRepository extends AbstractAggregateRepository implements FieldAu
         }
 
         $stage->match($constraints);
+        $this->generateFilterForPaginate($stage, $configuration);
 
         return $this->hydrateAggregateQuery($stage, null, 'getReferenceId');
     }
