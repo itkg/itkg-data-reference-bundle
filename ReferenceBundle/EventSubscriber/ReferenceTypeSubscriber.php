@@ -4,6 +4,7 @@ namespace Itkg\ReferenceBundle\EventSubscriber;
 
 use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
 use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
+use OpenOrchestra\Backoffice\ValueTransformer\ValueTransformerManager;
 use OpenOrchestra\ModelInterface\Model\FieldTypeInterface;
 use Itkg\ReferenceApiBundle\Repository\ReferenceTypeRepository;
 use Symfony\Component\Form\FormEvent;
@@ -21,24 +22,28 @@ class ReferenceTypeSubscriber extends AbstractBlockReferenceTypeSubscriber
     protected $referenceTypeRepository;
     protected $contentAttributeClass;
     protected $fieldTypesConfiguration;
+    protected $valueTransformerManager;
 
     /**
      * @param ReferenceTypeRepositoryInterface $referenceTypeRepository
      * @param string                           $contentAttributeClass
      * @param TranslationChoiceManager         $translationChoiceManager
      * @param array                            $fieldTypesConfiguration
+     * @param ValueTransformerManager          $valueTransformerManager
      */
     public function __construct(
         ReferenceTypeRepositoryInterface $referenceTypeRepository,
         $contentAttributeClass,
         TranslationChoiceManager $translationChoiceManager,
-        array $fieldTypesConfiguration
+        array $fieldTypesConfiguration,
+        ValueTransformerManager $valueTransformerManager
     )
     {
         $this->referenceTypeRepository = $referenceTypeRepository;
         $this->contentAttributeClass = $contentAttributeClass;
         $this->translationChoiceManager = $translationChoiceManager;
         $this->fieldTypesConfiguration = $fieldTypesConfiguration;
+        $this->valueTransformerManager = $valueTransformerManager;
     }
 
     /**
@@ -140,6 +145,7 @@ class ReferenceTypeSubscriber extends AbstractBlockReferenceTypeSubscriber
                     $attribute->setValue($this->transformData($fieldIdData, $form->get($fieldId)));
                     $reference->addAttribute($attribute);
                 }
+                $attribute->setStringValue($this->valueTransformerManager->transform($field->getType(), $fieldIdData));
             }
         }
     }
