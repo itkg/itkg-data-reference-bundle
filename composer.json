@@ -10,7 +10,7 @@
         "open-orchestra/open-orchestra-model-interface": ">=1.1.0",
         "open-orchestra/open-orchestra-model-bundle": ">=1.1.0",
         "open-orchestra/open-orchestra-mongo-libs": ">=1.1.0",
-        "open-orchestra/open-orchestra-cms-bundle": ">=1.1.0"
+        "open-orchestra/open-orchestra-cms-bundle": "~1.1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.8.16",
