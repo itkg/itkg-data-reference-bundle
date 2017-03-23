@@ -6,3 +6,6 @@ itkg_reference:
             reference_type: Reference Type
     reference_type:
         title_list: Reference Type
+        table:
+            name: Name
+            id: Id

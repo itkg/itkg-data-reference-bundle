@@ -10,6 +10,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
 use OpenOrchestra\BaseApi\Exceptions\TransformerParameterTypeException;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
+use OpenOrchestra\ApiBundle\Context\CMSGroupContext;
+use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 
 /**
  * Class ReferenceTypeTransformer
@@ -38,7 +40,6 @@ class ReferenceTypeTransformer extends AbstractSecurityCheckerAwareTransformer
         $this->multiLanguagesChoiceManager = $multiLanguagesChoiceManager;
         $this->referenceRepository = $referenceRepository;
         $this->referenceTypeRepository = $referenceTypeRepository;
-
     }
 
     /**

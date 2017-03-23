@@ -22,7 +22,7 @@ class ReferenceTypesListView extends mix(AbstractDataTableView).with(UrlPaginate
             this._getColumnsDefinitionDeleteCheckbox(),
             {
                 name: "name",
-                title: Translator.trans('open_orchestra_backoffice.table.reference_types.name'),
+                title: Translator.trans('itkg_reference.table.reference_types.name'),
                 orderable: true,
                 orderDirection: 'desc',
                 visibile: true,
@@ -30,13 +30,13 @@ class ReferenceTypesListView extends mix(AbstractDataTableView).with(UrlPaginate
             },
             {
                 name: "reference_type_id",
-                title: Translator.trans('open_orchestra_backoffice.table.reference_types.reference_type_id'),
+                title: Translator.trans('itkg_reference.table.reference_types.reference_type_id'),
                 orderable: true,
                 visibile: true
             },
             {
                 name: "linked_to_site",
-                title: Translator.trans('open_orchestra_backoffice.table.reference_types.linked_to_site'),
+                title: Translator.trans('itkg_reference.table.reference_types.linked_to_site'),
                 orderable: true,
                 visibile: true,
                 render: this._translateLinkedToSite

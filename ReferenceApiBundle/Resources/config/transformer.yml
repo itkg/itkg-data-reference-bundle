@@ -18,7 +18,7 @@ services:
     itkg_reference.transformer.reference_type:
         class    : '%itkg_reference.transformer.reference_type.class%'
         arguments:
-            - '%itkg_reference.transformer.reference_type.class%'
+            - '%itkg_reference.facade.reference_type.class%'
             - '@open_orchestra_backoffice.manager.multi_languages_choice'
             - '@itkg_reference.repository.reference'
             - '@itkg_reference.repository.reference_type'
@@ -27,8 +27,8 @@ services:
             - { name: open_orchestra_api.transformer.strategy}
 
     itkg_reference.transformer.reference_type_collection:
-        class: '%itkg_reference.transformer.reference_type_collection.class%'
+        class    : '%itkg_reference.transformer.reference_type_collection.class%'
         arguments:
             - '%itkg_reference.facade.reference_type_collection.class%'
-        tags :
+        tags     :
             - { name: open_orchestra_api.transformer.strategy}

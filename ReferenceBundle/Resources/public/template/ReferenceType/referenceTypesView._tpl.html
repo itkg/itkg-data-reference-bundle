@@ -1,23 +1,23 @@
 <div class="top-action-buttons">
     <a class="btn btn-info" href="#<%= Backbone.history.generateUrl('newReferenceType') %>" role="button"><%= Translator.trans('open_orchestra_backoffice.add')%></a>
 </div>
-<h1> <%= Translator.trans('open_orchestra_backoffice.reference_type.title_list') %></h1>
+<h1> <%= Translator.trans('itkg_reference.reference_type.title_list') %></h1>
 <form class="form-horizontal search-engine">
     <div class="form-group col-lg-6">
-        <label for="name" class="control-label col-md-4"><%= Translator.trans('open_orchestra_backoffice.reference_type.search_engine.name')%></label>
+        <label for="name" class="control-label col-md-4"><%= Translator.trans('itkg_reference.reference_type.table.name')%></label>
         <div class="col-md-8">
             <input type="text" name='name' class="form-control" id="name">
             <input type="hidden" name='language' value="<%= language %>">
         </div>
     </div>
     <div class="form-group col-lg-6">
-        <label for="referenceTypeId" class="control-label col-md-4"><%= Translator.trans('open_orchestra_backoffice.reference_type.search_engine.id')%></label>
+        <label for="referenceTypeId" class="control-label col-md-4"><%= Translator.trans('itkg_reference.reference_type.table.id')%></label>
         <div class="col-md-8">
             <input type="text" name='referenceTypeId' class="form-control" id="referenceTypeId">
         </div>
     </div>
     <div class="form-group col-lg-6">
-        <label for="linkedToSite" class="control-label col-md-4"><%= Translator.trans('open_orchestra_backoffice.reference_type.search_engine.linked_to_site')%></label>
+        <label for="linkedToSite" class="control-label col-md-4"><%= Translator.trans('itkg_reference.reference_type.table.linked_to_site')%></label>
         <div class="col-md-8">
             <div class="radio radio-inline">
                 <input id="inputRadio1" value="1" name="linkedToSite" type="radio">
