@@ -13,7 +13,7 @@ To install the project, you need to require it in your project `composer.json` f
 ```json
 {
     "require": {
-        "itkg/itkg-data-reference-bundle": "~1.1"
+        "itkg/itkg-data-reference-bundle": "~2.0"
     }
 }
 
