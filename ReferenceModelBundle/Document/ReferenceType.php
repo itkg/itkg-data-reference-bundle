@@ -2,14 +2,16 @@
 
 namespace Itkg\ReferenceModelBundle\Document;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use OpenOrchestra\MongoTrait\SoftDeleteable;
 use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
-use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
-use OpenOrchestra\Mapping\Annotations as ORCHESTRA;
 use OpenOrchestra\ModelInterface\Model\FieldTypeInterface;
-use OpenOrchestra\ModelInterface\Model\TranslatedValueInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use OpenOrchestra\MongoTrait\SiteLinkable;
+use OpenOrchestra\MongoTrait\Versionable;
 
 /**
  * Description of ReferenceType
@@ -23,6 +25,9 @@ class ReferenceType implements ReferenceTypeInterface
 {
     use BlameableDocument;
     use TimestampableDocument;
+    use Versionable;
+    use SiteLinkable;
+    use SoftDeleteable;
 
     /**
      * @var string $id
@@ -35,31 +40,27 @@ class ReferenceType implements ReferenceTypeInterface
      * @var string $referenceTypeId
      *
      * @ODM\Field(type="string")
-     * @ORCHESTRA\Search(key="reference_type_id")
      */
     protected $referenceTypeId;
 
     /**
-     * @var ArrayCollection $names
-     *
-     * @ODM\EmbedMany(targetDocument="OpenOrchestra\ModelInterface\Model\TranslatedValueInterface")
-     * @ORCHESTRA\Search(key="name", type="translatedValue")
+     * @ODM\Field(type="hash")
      */
     protected $names;
 
     /**
-     * @var int $version
+     * @var ArrayCollection $defaultListable
      *
-     * @ODM\Field(type="int")
+     * @ODM\Field(type="hash")
      */
-    protected $version = 1;
-
+    protected $defaultListable;
+    
     /**
-     * @var boolean $deleted
+     * @var string $template
      *
-     * @ODM\Field(type="boolean")
+     * @ODM\Field(type="string")
      */
-    protected $deleted = false;
+    protected $template;
 
     /**
      * @var ArrayCollection $fields
@@ -69,18 +70,34 @@ class ReferenceType implements ReferenceTypeInterface
     protected $fields;
 
     /**
-     * @var string $template
+     * @var boolean definingVersionable
      *
-     * @ODM\Field(type="string")
+     * @ODM\Field(type="boolean")
      */
-    protected $template;
+    protected $definingVersionable = true;
+
+    /**
+     * @var boolean definingStatusable
+     *
+     * @ODM\Field(type="boolean")
+     */
+    protected $definingStatusable = true;
+
+    /**
+     * @var boolean alwaysShared
+     *
+     * @ODM\Field(type="boolean")
+     */
+    protected $alwaysShared = false;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->initializeCollections();
+        $this->fields = new ArrayCollection();
+        $this->names = array();
+        $this->defaultListable = array();
     }
 
     /**
@@ -100,19 +117,19 @@ class ReferenceType implements ReferenceTypeInterface
     }
 
     /**
-     * @param boolean $deleted
+     * @param string $template
      */
-    public function setDeleted($deleted)
+    public function setTemplate($template)
     {
-        $this->deleted = $deleted;
+        $this->template = $template;
     }
 
     /**
-     * @return boolean
+     * @return string
      */
-    public function getDeleted()
+    public function getTemplate()
     {
-        return $this->deleted;
+        return $this->template;
     }
 
     /**
@@ -124,9 +141,9 @@ class ReferenceType implements ReferenceTypeInterface
     }
 
     /**
-     * @param FieldTypeInterface $fields
+     * @param Collection $fields
      */
-    public function setFields(FieldTypeInterface $fields)
+    public function setFields(Collection $fields)
     {
         $this->fields = $fields;
     }
@@ -156,19 +173,24 @@ class ReferenceType implements ReferenceTypeInterface
     }
 
     /**
-     * @param TranslatedValueInterface $name
+     * @param string $language
+     * @param string $name
      */
-    public function addName(TranslatedValueInterface $name)
+    public function addName($language, $name)
     {
-        $this->names->add($name);
+        if (is_string($language) && is_string($name)) {
+            $this->names[$language] = $name;
+        }
     }
 
     /**
-     * @param TranslatedValueInterface $name
+     * @param string $language
      */
-    public function removeName(TranslatedValueInterface $name)
+    public function removeName($language)
     {
-        $this->names->removeElement($name);
+        if (is_string($language) && isset($this->names[$language])) {
+            unset($this->names[$language]);
+        }
     }
 
     /**
@@ -176,21 +198,17 @@ class ReferenceType implements ReferenceTypeInterface
      *
      * @return string
      */
-    public function getName($language = 'en')
+    public function getName($language)
     {
-        $choosenLanguage = $this->names->filter(function (TranslatedValueInterface $translatedValue) use ($language) {
-            return $language == $translatedValue->getLanguage();
-        });
-
-        if ($choosenLanguage->first()) {
-            return $choosenLanguage->first()->getValue();
+        if (isset($this->names[$language])) {
+            return $this->names[$language];
         }
 
         return '';
     }
 
     /**
-     * @return ArrayCollection
+     * @return array
      */
     public function getNames()
     {
@@ -198,19 +216,94 @@ class ReferenceType implements ReferenceTypeInterface
     }
 
     /**
-     * @param int $version
+     * @param array $names
      */
-    public function setVersion($version)
+    public function setNames(array $names)
     {
-        $this->version = $version;
+        foreach ($names as $language => $name) {
+            $this->addName($language, $name);
+        }
     }
 
     /**
-     * @return int
+     * @return array
      */
-    public function getVersion()
+    public function getDefaultListable()
     {
-        return $this->version;
+        return $this->defaultListable;
+    }
+
+    /**
+     * @param string  $name
+     * @param boolean $value
+     */
+    public function addDefaultListable($name, $value)
+    {
+        $this->defaultListable[$name] = $value;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function removeDefaultListable($name)
+    {
+        $this->defaultListable->removeElement($name);
+    }
+
+    /**
+     * @param array $defaultListable
+     */
+    public function setDefaultListable(array $defaultListable)
+    {
+        $this->defaultListable = $defaultListable;
+    }
+
+    /**
+     * @param boolean $definingVersionable
+     */
+    public function setDefiningVersionable($definingVersionable)
+    {
+        $this->definingVersionable = $definingVersionable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDefiningVersionable()
+    {
+        return $this->definingVersionable;
+    }
+
+    /**
+     * @param boolean $definingStatusable
+     */
+    public function setDefiningStatusable($definingStatusable)
+    {
+        $this->definingStatusable = $definingStatusable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDefiningStatusable()
+    {
+        return $this->definingStatusable;
+    }
+
+    /**
+     * @param boolean $alwaysShared
+     */
+    public function setAlwaysShared($alwaysShared)
+    {
+        $this->alwaysShared = $alwaysShared;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAlwaysShared()
+    {
+        return $this->alwaysShared;
     }
 
     /**
@@ -222,37 +315,15 @@ class ReferenceType implements ReferenceTypeInterface
     }
 
     /**
-     * @return array
+     * Clone the element
      */
-    public function getTranslatedProperties()
+    public function __clone()
     {
-        return array(
-            'getNames'
-        );
-    }
-
-    /**
-     * initialize collections
-     */
-    protected function initializeCollections()
-    {
-        $this->fields = new ArrayCollection();
-        $this->names = new ArrayCollection();
-    }
-
-    /**
-     * @param string $template
-     */
-    public function setTemplate($template)
-    {
-        $this->template = $template;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTemplate()
-    {
-        return $this->template;
+        if (!is_null($this->id)) {
+            $this->id = null;
+            $this->fields = new ArrayCollection();
+            $this->setUpdatedAt(new \DateTime());
+            $this->setVersion($this->getVersion() + 1);
+        }
     }
 }

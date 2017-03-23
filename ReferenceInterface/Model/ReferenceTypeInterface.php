@@ -2,19 +2,21 @@
 
 namespace Itkg\ReferenceInterface\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use OpenOrchestra\ModelInterface\Model\FieldTypeContainerInterface;
-use OpenOrchestra\ModelInterface\Model\TranslatedValueContainerInterface;
 use OpenOrchestra\ModelInterface\Model\BlameableInterface;
 use OpenOrchestra\ModelInterface\Model\TimestampableInterface;
-use OpenOrchestra\ModelInterface\Model\FieldTypeInterface;
-use OpenOrchestra\ModelInterface\Model\TranslatedValueInterface;
+use OpenOrchestra\ModelInterface\Model\VersionableInterface;
+use OpenOrchestra\ModelInterface\Model\SiteLinkableInterface;
+use OpenOrchestra\ModelInterface\Model\SoftDeleteableInterface;
 
 /**
  * Interface ReferenceTypeInterface
  */
-interface ReferenceTypeInterface extends FieldTypeContainerInterface, TranslatedValueContainerInterface, BlameableInterface, TimestampableInterface
+interface ReferenceTypeInterface extends FieldTypeContainerInterface, BlameableInterface, TimestampableInterface, VersionableInterface, SiteLinkableInterface, SoftDeleteableInterface
 {
+    const ENTITY_TYPE = 'reference_type';
+
     /**
      * @param string $referenceTypeId
      */
@@ -26,19 +28,19 @@ interface ReferenceTypeInterface extends FieldTypeContainerInterface, Translated
     public function getReferenceTypeId();
 
     /**
-     * @param boolean $deleted
+     * @param string $template
      */
-    public function setDeleted($deleted);
+    public function setTemplate($template);
 
     /**
-     * @return boolean
+     * @return string
      */
-    public function getDeleted();
+    public function getTemplate();
 
     /**
-     * @param FieldTypeInterface $fields
+     * @param Collection $fields
      */
-    public function setFields(FieldTypeInterface $fields);
+    public function setFields(Collection $fields);
 
     /**
      * @return string
@@ -46,29 +48,81 @@ interface ReferenceTypeInterface extends FieldTypeContainerInterface, Translated
     public function getId();
 
     /**
-     * @param TranslatedValueInterface $name
+     * @param string $language
+     * @param string $name
      */
-    public function addName(TranslatedValueInterface $name);
+    public function addName($language, $name);
 
     /**
-     * @param TranslatedValueInterface $name
+     * @param string $language
      */
-    public function removeName(TranslatedValueInterface $name);
+    public function removeName($language);
 
     /**
      * @param string $language
      *
      * @return string
      */
-    public function getName($language = 'en');
+    public function getName($language);
 
     /**
-     * @return ArrayCollection
+     * @return array
      */
     public function getNames();
 
     /**
-     * @return string
+     * @param array $names
      */
-    public function getTemplate();
+    public function setNames(array $names);
+
+    /**
+     * @return array
+     */
+    public function getDefaultListable();
+
+    /**
+     * @param string  $name
+     * @param boolean $value
+     */
+    public function addDefaultListable($name, $value);
+
+    /**
+     * @param string $name
+     */
+    public function removeDefaultListable($name);
+
+    /**
+     * @param array $defaultListable
+     */
+    public function setDefaultListable(array $defaultListable);
+
+    /**
+     * @param boolean $definingVersionable
+     */
+    public function setDefiningVersionable($definingVersionable);
+
+    /**
+     * @return boolean
+     */
+    public function isDefiningVersionable();
+
+    /**
+     * @param boolean $definingStatusable
+     */
+    public function setDefiningStatusable($definingStatusable);
+
+    /**
+     * @return boolean
+     */
+    public function isDefiningStatusable();
+
+    /**
+     * @param boolean $alwaysShared
+     */
+    public function setAlwaysShared($alwaysShared);
+
+    /**
+     * @return boolean
+     */
+    public function isAlwaysShared();
 }

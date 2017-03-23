@@ -2,43 +2,41 @@
 
 namespace Itkg\ReferenceModelBundle\Repository;
 
-use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
-use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
-use OpenOrchestra\Pagination\Configuration\FinderConfiguration;
-use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
-use OpenOrchestra\Pagination\MongoTrait\PaginationTrait;
-use OpenOrchestra\Repository\AbstractAggregateRepository;
 use Solution\MongoAggregation\Pipeline\Stage;
+use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
+use OpenOrchestra\Repository\AbstractAggregateRepository;
+use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
 
 /**
  * Class ReferenceTypeRepository
  */
-class ReferenceTypeRepository extends AbstractAggregateRepository implements ReferenceTypeRepositoryInterface
+class ReferenceTypeRepository  extends AbstractAggregateRepository implements ReferenceTypeRepositoryInterface
 {
-    use PaginationTrait;
-
     /**
+     * @param $language
+     *
      * @return array
      */
-    public function findAllByNotDeleted()
+    public function findAllNotDeletedInLastVersion($language = null)
     {
-        $qb = $this->createQueryBuilder('reference_type');
-        $qb->field('deleted')->equals(false);
+        $qa = $this->createAggregationQuery();
+        $qa->match(
+            array(
+                'deleted' => false
+            )
+        );
+        $elementName = 'referenceType';
+        $this->generateLastVersionFilter($qa, $elementName);
 
-        return $qb->getQuery()->execute();
-    }
+        if ($language) {
+            $qa->sort(
+                array(
+                    $elementName . '.names.' . $language. '.value' => 1
+                )
+            );
+        }
 
-    /**
-     * @param string $referenceTypeId
-     *
-     * @return ReferenceTypeInterface
-     */
-    public function findOneByReferenceTypeId($referenceTypeId)
-    {
-        $qb = $this->createQueryBuilder('reference_type');
-        $qb->field('referenceTypeId')->equals($referenceTypeId);
-
-        return $qb->getQuery()->getSingleResult();
+        return $this->hydrateAggregateQuery($qa, $elementName, 'getReferenceTypeId');
     }
 
     /**
@@ -48,46 +46,53 @@ class ReferenceTypeRepository extends AbstractAggregateRepository implements Ref
      */
     public function findAllNotDeletedInLastVersionForPaginate(PaginateFinderConfiguration $configuration)
     {
-        $qa = $this->createAggregateQueryNotDeletedSortedByTypeId();
-
-        $qa = $this->generateFilter($qa, $configuration);
-
+        $qa = $this->createAggregateQueryNotDeletedInLastVersion();
+        $filters = $this->getFilterSearch($configuration);
+        if (!empty($filters)) {
+            $qa->match($filters);
+        }
         $elementName = 'referenceType';
-        $this->generateLastVersionFilter($qa, $elementName, $configuration);
-
-        $qa = $this->generateFilterSort(
-            $qa,
-            $configuration->getOrder(),
-            $configuration->getDescriptionEntity()
+        $group = array(
+            'names' => array('$last' => '$names'),
+            'referenceTypeId' => array('$last' => '$referenceTypeId')
         );
-        $qa = $this->generateSkipFilter($qa, $configuration->getSkip());
-        $qa = $this->generateLimitFilter($qa, $configuration->getLimit());
+        $this->generateLastVersionFilter($qa, $elementName, $group);
+
+        $order = $configuration->getOrder();
+        if (!empty($order)) {
+            $qa->sort($order);
+        }
+
+        $qa->skip($configuration->getSkip());
+        $qa->limit($configuration->getLimit());
 
         return $this->hydrateAggregateQuery($qa, $elementName, 'getReferenceTypeId');
     }
 
     /**
-     * @param FinderConfiguration $configuration
+     * @param PaginateFinderConfiguration $configuration
      *
      * @return int
      */
-    public function countNotDeletedInLastVersionWithSearchFilter(FinderConfiguration $configuration)
+    public function countNotDeletedInLastVersionWithSearchFilter(PaginateFinderConfiguration $configuration)
     {
-        $qa = $this->createAggregateQueryNotDeletedSortedByTypeId();
-        $qa = $this->generateFilter($qa, $configuration);
-
+        $qa = $this->createAggregateQueryNotDeletedInLastVersion();
+        $filters = $this->getFilterSearch($configuration);
+        if (!empty($filters)) {
+            $qa->match($filters);
+        }
         $elementName = 'referenceType';
         $this->generateLastVersionFilter($qa, $elementName);
 
-        return $this->countDocumentAggregateQuery($qa, $elementName);
+        return $this->countDocumentAggregateQuery($qa);
     }
 
     /**
      * @return int
      */
-    public function countByContentTypeInLastVersion()
+    public function countByReferenceTypeInLastVersion()
     {
-        $qa = $this->createAggregateQueryNotDeletedSortedByTypeId();
+        $qa = $this->createAggregateQueryNotDeletedInLastVersion();
         $elementName = 'reference';
         $this->generateLastVersionFilter($qa, $elementName);
 
@@ -95,24 +100,72 @@ class ReferenceTypeRepository extends AbstractAggregateRepository implements Ref
     }
 
     /**
-     * @param Stage                            $qa
-     * @param string                           $elementName
-     * @param PaginateFinderConfiguration|null $configuration
+     * @param string   $referenceType
+     *
+     * @return ReferenceTypeInterface
      */
-    protected function generateLastVersionFilter(Stage $qa, $elementName, $configuration = null)
+    public function findOneByReferenceTypeIdInLastVersion($referenceType)
     {
-        $group = array();
+        $qa = $this->createAggregationQuery();
+        $qa->match(array('referenceTypeId' => $referenceType));
+        $qa->sort(array('version' => -1));
 
-        if (!is_null($configuration)) {
-            $group = $this->generateGroupForFilterSort($configuration);
+        return $this->singleHydrateAggregateQuery($qa);
+    }
+
+    /**
+     * @param array $referenceTypeIds
+     *
+     * @throws \Doctrine\ODM\MongoDB\MongoDBException
+     */
+    public function removeByReferenceTypeId(array $referenceTypeIds)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->updateMany()
+            ->field('referenceTypeId')->in($referenceTypeIds)
+            ->field('deleted')->set(true)
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @param PaginateFinderConfiguration $configuration
+     *
+     * @return array
+     */
+    protected function getFilterSearch(PaginateFinderConfiguration $configuration) {
+        $filter = array();
+        $name = $configuration->getSearchIndex('name');
+        $language = $configuration->getSearchIndex('language');
+        if (null !== $name && $name !== '' && null !== $language && $language !== '' ) {
+            $filter['names.' . $language] = new \MongoRegex('/.*'.$name.'.*/i');
         }
-        $group = array_merge(
-            $group,
-            array(
+
+        $linkedToSite = $configuration->getSearchIndex('linkedToSite');
+        if (null !== $linkedToSite && $linkedToSite !== '') {
+            $filter['linkedToSite'] = (boolean) $linkedToSite;
+        }
+
+        $referenceTypeId = $configuration->getSearchIndex('referenceTypeId');
+        if (null !== $referenceTypeId && $referenceTypeId !== '') {
+            $filter['referenceTypeId'] =new \MongoRegex('/.*'.$referenceTypeId.'.*/i');
+        }
+
+        return $filter;
+    }
+
+    /**
+     * @param Stage  $qa
+     * @param string $elementName
+     * @param string $elementName
+     * @param array  $group
+     */
+    protected function generateLastVersionFilter(Stage $qa, $elementName, $group = array())
+    {
+        $group = array_merge($group, array(
                 '_id' => array('referenceTypeId' => '$referenceTypeId'),
                 $elementName => array('$last' => '$$ROOT')
-            )
-        );
+        ));
 
         $qa->sort(array('version' => 1));
         $qa->group($group);
@@ -121,7 +174,7 @@ class ReferenceTypeRepository extends AbstractAggregateRepository implements Ref
     /**
      * @return \Solution\MongoAggregation\Pipeline\Stage
      */
-    protected function createAggregateQueryNotDeletedSortedByTypeId()
+    protected function createAggregateQueryNotDeletedInLastVersion()
     {
         $qa = $this->createAggregationQuery();
         $qa->match(array('deleted' => false));

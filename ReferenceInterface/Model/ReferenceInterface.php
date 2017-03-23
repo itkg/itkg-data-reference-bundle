@@ -2,27 +2,22 @@
 
 namespace Itkg\ReferenceInterface\Model;
 
+use OpenOrchestra\ModelInterface\Model\StatusableInterface;
 use OpenOrchestra\ModelInterface\Model\TimestampableInterface;
 use OpenOrchestra\ModelInterface\Model\BlameableInterface;
-use OpenOrchestra\ModelInterface\Model\KeywordableInterface;
-use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
+use OpenOrchestra\ModelInterface\Model\SiteLinkableInterface;
+use OpenOrchestra\ModelInterface\Model\SoftDeleteableInterface;
+use OpenOrchestra\ModelInterface\Model\UseTrackableInterface;
+use OpenOrchestra\ModelInterface\Model\HistorisableInterface;
+use OpenOrchestra\ModelInterface\Model\AutoPublishableInterface;
 
 /**
  * Interface ReferenceInterface
  */
-interface ReferenceInterface extends TimestampableInterface, BlameableInterface, KeywordableInterface
+interface ReferenceInterface extends ReadReferenceInterface, StatusableInterface, TimestampableInterface, BlameableInterface, SiteLinkableInterface, SoftDeleteableInterface, UseTrackableInterface, HistorisableInterface, AutoPublishableInterface
 {
-    /**
-     * @return ArrayCollection
-     */
-    public function getAttributes();
-
-    /**
-     * @param string $name
-     *
-     * @return ContentAttributeInterface|null
-     */
-    public function getAttributeByName($name);
+    const ENTITY_TYPE = 'reference';
+    const TRASH_ITEM_TYPE = 'reference';
 
     /**
      * @param ContentAttributeInterface $attribute
@@ -45,24 +40,9 @@ interface ReferenceInterface extends TimestampableInterface, BlameableInterface,
     public function getReferenceId();
 
     /**
-     * @param string $referenceTypeId
+     * @param string $referenceType
      */
-    public function setReferenceTypeId($referenceTypeId);
-
-    /**
-     * @return string
-     */
-    public function getReferenceTypeId();
-
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted);
-
-    /**
-     * @return boolean
-     */
-    public function getDeleted();
+    public function setReferenceType($referenceType);
 
     /**
      * @return string
@@ -75,18 +55,14 @@ interface ReferenceInterface extends TimestampableInterface, BlameableInterface,
     public function setLanguage($language);
 
     /**
-     * @return string
-     */
-    public function getLanguage();
-
-    /**
      * @param string $name
      */
     public function setName($name);
 
     /**
-     * @return string
+     * Set siteId
+     *
+     * @param String $siteId
      */
-    public function getName();
-
+    public function setSiteId($siteId);
 }

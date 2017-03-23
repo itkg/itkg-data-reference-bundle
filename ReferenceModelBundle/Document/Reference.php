@@ -3,13 +3,21 @@
 namespace Itkg\ReferenceModelBundle\Document;
 
 use Itkg\ReferenceInterface\Model\ReferenceInterface;
-use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
-use OpenOrchestra\MongoTrait\Keywordable;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use OpenOrchestra\Mapping\Annotations as ORCHESTRA;
-use Doctrine\Common\Collections\ArrayCollection;
+use OpenOrchestra\MongoTrait\SiteLinkable;
+use OpenOrchestra\MongoTrait\SoftDeleteable;
+use OpenOrchestra\MongoTrait\Statusable;
+use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
+use OpenOrchestra\ModelInterface\Model\ReadContentAttributeInterface;
+use OpenOrchestra\MongoTrait\Keywordable;
+use OpenOrchestra\MongoTrait\Versionable;
+use OpenOrchestra\MongoTrait\UseTrackable;
+use OpenOrchestra\MongoTrait\Historisable;
+use OpenOrchestra\MongoTrait\AutoPublishable;
 
 /**
  * Description of Reference
@@ -18,6 +26,14 @@ use Doctrine\Common\Collections\ArrayCollection;
  *   collection="reference",
  *   repositoryClass="Itkg\ReferenceModelBundle\Repository\ReferenceRepository"
  * )
+ * @ODM\Indexes({
+ *  @ODM\Index(keys={"contentId"="asc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "referenceType"="asc", "keywords.label"="asc", "version"="desc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "keywords.label"="asc", "version"="desc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "referenceType"="asc", "version"="desc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "version"="desc"}),
+ *  @ODM\Index(keys={"keywords"="asc"})
+ * })
  * @ORCHESTRA\Document(
  *   generatedField="referenceId",
  *   sourceField="name",
@@ -29,6 +45,13 @@ class Reference implements ReferenceInterface
     use BlameableDocument;
     use TimestampableDocument;
     use Keywordable;
+    use Statusable;
+    use Versionable;
+    use SiteLinkable;
+    use SoftDeleteable;
+    use UseTrackable;
+    use Historisable;
+    use AutoPublishable;
 
     /**
      * @var string $id
@@ -41,22 +64,20 @@ class Reference implements ReferenceInterface
      * @var int $referenceId
      *
      * @ODM\Field(type="string")
-     * @ORCHESTRA\Search(key="reference_id", field="referenceId", type="string")
      */
     protected $referenceId;
-
+    
     /**
      * @var string $referenceType
      *
      * @ODM\Field(type="string")
      */
-    protected $referenceTypeId;
+    protected $referenceType;
 
     /**
      * @var string $name
      *
      * @ODM\Field(type="string")
-     * @ORCHESTRA\Search(key="name", field="name", type="string")
      */
     protected $name;
 
@@ -68,13 +89,6 @@ class Reference implements ReferenceInterface
     protected $language;
 
     /**
-     * @var boolean
-     *
-     * @ODM\Field(type="boolean")
-     */
-    protected $deleted = false;
-
-    /**
      * @var ArrayCollection
      *
      * @ODM\EmbedMany(targetDocument="OpenOrchestra\ModelInterface\Model\ContentAttributeInterface", strategy="set")
@@ -82,28 +96,18 @@ class Reference implements ReferenceInterface
     protected $attributes;
 
     /**
+     * @var string $siteId
+     *
+     * @ODM\Field(type="string")
+     */
+    protected $siteId;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->initializeCollections();
-    }
-
-    /**
-     * Clone method
-     */
-    public function __clone()
-    {
-        $this->id = null;
-        $this->initializeCollections();
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getName();
     }
 
     /**
@@ -117,7 +121,7 @@ class Reference implements ReferenceInterface
     /**
      * @param string $name
      *
-     * @return ContentAttributeInterface|null
+     * @return ReadContentAttributeInterface|null
      */
     public function getAttributeByName($name)
     {
@@ -137,7 +141,7 @@ class Reference implements ReferenceInterface
      */
     public function removeAttribute(ContentAttributeInterface $attribute)
     {
-        $this->attributes->removeElement($attribute);
+        $this->attributes->remove($attribute->getName());
     }
 
     /**
@@ -157,35 +161,19 @@ class Reference implements ReferenceInterface
     }
 
     /**
-     * @param $referenceTypeId
+     * @param string $referenceType
      */
-    public function setReferenceTypeId($referenceTypeId)
+    public function setReferenceType($referenceType)
     {
-        $this->referenceTypeId = $referenceTypeId;
+        $this->referenceType = $referenceType;
     }
 
     /**
      * @return string
      */
-    public function getReferenceTypeId()
+    public function getReferenceType()
     {
-        return $this->referenceTypeId;
-    }
-
-    /**
-     * @param boolean $deleted
-     */
-    public function setDeleted($deleted)
-    {
-        $this->deleted = $deleted;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getDeleted()
-    {
-        return $this->deleted;
+        return $this->referenceType;
     }
 
     /**
@@ -229,11 +217,40 @@ class Reference implements ReferenceInterface
     }
 
     /**
+     * @return string
+     */
+    public function getSiteId()
+    {
+        return $this->siteId;
+    }
+
+    /**
+     * @param string $siteId
+     */
+    public function setSiteId($siteId)
+    {
+        $this->siteId = $siteId;
+    }
+
+    /**
+     * Clone method
+     */
+    public function __clone()
+    {
+        $this->id = null;
+        $this->useReferences = array();
+        $this->initializeCollections();
+        $this->setCreatedAt(new \DateTime());
+        $this->setUpdatedAt(new \DateTime());
+    }
+
+    /**
      * initialize collections
      */
     protected function initializeCollections()
     {
         $this->attributes = new ArrayCollection();
-        $this->keywords = new ArrayCollection();
+        $this->initializeKeywords();
+        $this->initializeHistories();
     }
 }
