@@ -2,8 +2,6 @@
 
 namespace Itkg\ReferenceApiBundle\Transformer;
 
-use Itkg\ReferenceApiBundle\Facade\ReferenceTypeCollectionFacade;
-use Itkg\ReferenceInterface\Model\ReferenceInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 
@@ -13,24 +11,39 @@ use OpenOrchestra\BaseApi\Transformer\AbstractTransformer;
 class ReferenceTypeCollectionTransformer extends AbstractTransformer
 {
     /**
-     * @param ReferenceInterface $mixed
+     * @param Collection $referenceTypeCollection
      *
      * @return FacadeInterface
      */
-    public function transform($mixed)
+    public function transform($referenceTypeCollection)
     {
-        $facade = new ReferenceTypeCollectionFacade();
+        $facade = $this->newFacade();
 
-        foreach ($mixed as $referenceType) {
-            $facade->addReferenceType($this->getTransformer("reference_type")->transform($referenceType));
+        foreach ($referenceTypeCollection as $referenceType) {
+            $facade->addReferenceType($this->getTransformer('reference_type')->transform($referenceType));
         }
 
-        $facade->addLink('_self_add', $this->generateRoute(
-            'itkg_reference_bundle_reference_type_new',
-            array()
-        ));
-
         return $facade;
+    }
+
+    /**
+     * @param FacadeInterface $facade
+     * @param null $source
+     *
+     * @return ReferenceTypeInterface|null
+     */
+    public function reverseTransform(FacadeInterface $facade, $source = null)
+    {
+        $referenceTypes = array();
+        $referenceTypesFacade = $facade->getReferenceTypes();
+        foreach ($referenceTypesFacade as $referenceTypeFacade) {
+            $referenceType = $this->getTransformer('reference_type')->reverseTransform($referenceTypeFacade);
+            if (null !== $referenceType) {
+                $referenceTypes[] = $referenceType;
+            }
+        }
+
+        return $referenceTypes;
     }
 
     /**

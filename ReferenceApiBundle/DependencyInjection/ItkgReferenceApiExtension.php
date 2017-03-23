@@ -22,7 +22,11 @@ class ItkgReferenceApiExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        foreach ($config['facades'] as $transformer => $facade) {
+            $container->setParameter('itkg_reference.facade.' . $transformer .'.class', $facade);
+        }
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
+        $loader->load('transformer.yml');
     }
 }

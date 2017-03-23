@@ -20,9 +20,17 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('reference');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode->children()
+            ->arrayNode('facades')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->scalarNode('reference_type')->defaultValue('Itkg\ReferenceApiBundle\Facade\ReferenceTypeFacade')->end()
+                    ->scalarNode('reference_type_collection')->defaultValue('Itkg\ReferenceApiBundle\Facade\ReferenceTypeCollectionFacade')->end()
+                    ->scalarNode('reference')->defaultValue('Itkg\ReferenceApiBundle\Facade\ReferenceFacade')->end()
+                    ->scalarNode('reference_collection')->defaultValue('Itkg\ReferenceApiBundle\Facade\ReferenceCollectionFacade')->end()
+                ->end()
+            ->end()
+        ->end();
 
         return $treeBuilder;
     }

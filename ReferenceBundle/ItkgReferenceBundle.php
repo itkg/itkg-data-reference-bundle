@@ -17,6 +17,6 @@ class ItkgReferenceBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-        $container->addCompilerPass(new RoleCompilerPass());
+//         $container->addCompilerPass(new RoleCompilerPass());
     }
 }

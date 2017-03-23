@@ -22,7 +22,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
  */
 class ReferenceController extends BaseController
 {
-    use HandleRequestDataTable;
+//     use HandleRequestDataTable;
 
     /**
      * @param Request $request

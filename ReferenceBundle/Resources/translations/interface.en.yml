@@ -1,0 +1,8 @@
+itkg_reference:
+    menu:
+        platform:
+            reference: Reference
+        developer:
+            reference_type: Reference Type
+    reference_type:
+        title_list: Reference Type

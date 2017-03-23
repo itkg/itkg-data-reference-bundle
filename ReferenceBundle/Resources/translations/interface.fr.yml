@@ -1,0 +1,8 @@
+itkg_reference:
+    menu:
+        contribution:
+            reference: Référence
+        developer:
+            reference_type: Type de Références
+    reference_type:
+        title_list: Type de Références

@@ -1,0 +1,14 @@
+{
+  "platform": {
+    "reference": {
+      "template": "Menu/Platform/reference",
+      "rank": 10
+    }
+  },
+  "developer": {
+    "referenceType": {
+      "template": "Menu/Developer/referenceType",
+      "rank": 5
+    }
+  }
+}

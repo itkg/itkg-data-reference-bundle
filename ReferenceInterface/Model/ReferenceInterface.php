@@ -10,6 +10,7 @@ use OpenOrchestra\ModelInterface\Model\SoftDeleteableInterface;
 use OpenOrchestra\ModelInterface\Model\UseTrackableInterface;
 use OpenOrchestra\ModelInterface\Model\HistorisableInterface;
 use OpenOrchestra\ModelInterface\Model\AutoPublishableInterface;
+use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 
 /**
  * Interface ReferenceInterface
