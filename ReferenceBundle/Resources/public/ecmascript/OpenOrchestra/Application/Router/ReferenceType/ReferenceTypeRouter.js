@@ -70,15 +70,14 @@ class ReferenceTypeRouter extends OrchestraRouter
      * Create referenceType
      */
     newReferenceType() {
-        alert('new reference type');
-//        this._displayLoader(Application.getRegion('content'));
-//        let url = Routing.generate('open_orchestra_backoffice_reference_type_new');
-//        FormBuilder.createFormFromUrl(url, (form) => {
-//            let referenceTypeFormView = new ReferenceTypeFormView({
-//                form: form
-//            });
-//            Application.getRegion('content').html(referenceTypeFormView.render().$el);
-//        });
+        this._displayLoader(Application.getRegion('content'));
+        let url = Routing.generate('itkg_reference_bundle_reference_type_new');
+        FormBuilder.createFormFromUrl(url, (form) => {
+            let referenceTypeFormView = new ReferenceTypeFormView({
+                form: form
+            });
+            Application.getRegion('content').html(referenceTypeFormView.render().$el);
+        });
     }
 
     /**

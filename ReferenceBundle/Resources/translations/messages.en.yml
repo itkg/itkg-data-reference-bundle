@@ -14,5 +14,5 @@ itkg_reference:
                 customization: Customization
                 visible: Items to display in the back office list
                 version: Version
-            success: The content type has been modified
-            creation: The content type has been created
+            success: The reference type has been modified
+            creation: The reference type has been created

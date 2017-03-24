@@ -59,9 +59,9 @@ class ReferenceTypeController  extends AbstractAdminController
     public function newAction(Request $request)
     {
         /** @var ReferenceTypeInterface $referenceType */
-        $referenceType = $this->get('open_orchestra_backoffice.manager.reference_type')->initializeNewReferenceType();
+        $referenceType = $this->get('itkg_reference.manager.reference_type')->initializeNewReferenceType();
 
-        $action = $this->generateUrl('open_orchestra_backoffice_reference_type_new', array());
+        $action = $this->generateUrl('itkg_reference_bundle_reference_type_new', array());
         $form = $this->createReferenceTypeForm($request, array(
             'action' => $action,
             'new_button' => true,
