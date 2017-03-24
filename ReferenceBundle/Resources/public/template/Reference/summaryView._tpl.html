@@ -1,0 +1,4 @@
+<h1> <%= Translator.trans('itkg_reference.reference_types.title') %></h1>
+<% for (var index in referenceTypes) { %>
+    <%= renderTemplate('Reference/summaryElementView', {name: referenceTypes[index].get('name'), referenceTypeId: referenceTypes[index].get('reference_type_id'), language: Application.getContext().user.language.contribution}) %>
+<% } %>

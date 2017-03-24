@@ -5,7 +5,13 @@ itkg_reference:
         developer:
             reference_type: Type de Références
     reference_type:
-        title_list: Type de Références
+        title_list: Type de Référence
         table:
             name: Nom
             id: Id
+    reference_types:
+        title: Types de référence
+    table:
+        references:
+            list: Liste
+            add: Ajout

@@ -1,11 +1,11 @@
 import OrchestraRouter     from '../OrchestraRouter'
 import Application         from '../../Application'
 //import FormBuilder         from '../../../Service/Form/Model/FormBuilder'
-//import ReferenceSummaryView  from '../../View/Reference/ReferenceSummaryView'
+import ReferenceSummaryView  from '../../View/Reference/ReferenceSummaryView'
 //import ReferencesView        from '../../View/Reference/ReferencesView'
 //import ReferenceFormView     from '../../View/Reference/ReferenceFormView'
 //import NewReferenceFormView  from '../../View/Reference/NewReferenceFormView'
-//import ReferenceTypes        from '../../Collection/ReferenceType/ReferenceTypes'
+import ReferenceTypes        from '../../Collection/ReferenceType/ReferenceTypes'
 //import References            from '../../Collection/Reference/References'
 //import ReferenceType         from '../../Model/ReferenceType/ReferenceType'
 //import Reference             from '../../Model/Reference/Reference'
@@ -97,19 +97,19 @@ class ReferenceRouter extends OrchestraRouter
      * show reference summary
      */
     showReferenceSummary() {
-//        this._displayLoader(Application.getRegion('content'));
-//        let referenceTypes = new ReferenceTypes();
-//
-//        referenceTypes.fetch({
-//            apiContext: 'list_reference_type_for_reference',
-//            success: () => {
-//                let referenceSummaryView = new ReferenceSummaryView({
-//                    referenceTypes: referenceTypes
-//                });
-//                let el = referenceSummaryView.render().$el;
-//                Application.getRegion('content').html(el);
-//            }
-//        });
+        this._displayLoader(Application.getRegion('content'));
+        let referenceTypes = new ReferenceTypes();
+
+        referenceTypes.fetch({
+            apiContext: 'list_reference_type_for_reference',
+            success: () => {
+                let referenceSummaryView = new ReferenceSummaryView({
+                    referenceTypes: referenceTypes
+                });
+                let el = referenceSummaryView.render().$el;
+                Application.getRegion('content').html(el);
+            }
+        });
     }
 
 

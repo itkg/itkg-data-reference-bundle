@@ -1,0 +1,9 @@
+<div class="col-lg-6 col-sm-12">
+    <div class="block">
+        <span><%= name %></span>
+        <ul class="action-links">
+            <li><a href="#<%= Backbone.history.generateUrl('listReference', {referenceTypeId: referenceTypeId, language: language, referenceTypeName: name}) %>"><%= Translator.trans('itkg_reference.table.references.list') %></a></li>
+            <li><a href="#<%= Backbone.history.generateUrl('newReference', {referenceTypeId: referenceTypeId, language: language}) %>"><%= Translator.trans('itkg_reference.table.references.add') %></a></li>
+        </ul>
+    </div>
+</div>

@@ -9,3 +9,9 @@ itkg_reference:
         table:
             name: Name
             id: Id
+    reference_types:
+        title: References type
+    table:
+        references:
+            list: List
+            add: Add
