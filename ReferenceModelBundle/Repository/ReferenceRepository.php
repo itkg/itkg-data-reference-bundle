@@ -15,6 +15,9 @@ use OpenOrchestra\ModelBundle\Repository\RepositoryTrait\KeywordableTrait;
 use OpenOrchestra\ModelBundle\Repository\RepositoryTrait\UseTrackableTrait;
 use OpenOrchestra\Pagination\MongoTrait\FilterTrait;
 use OpenOrchestra\ModelBundle\Repository\RepositoryTrait\AutoPublishableTrait;
+use OpenOrchestra\Pagination\MongoTrait\FilterTypeStrategy\Strategies\StringFilterStrategy;
+use OpenOrchestra\Pagination\MongoTrait\FilterTypeStrategy\Strategies\BooleanFilterStrategy;
+use OpenOrchestra\Pagination\MongoTrait\FilterTypeStrategy\Strategies\DateFilterStrategy;
 
 /**
  * Class ReferenceRepository

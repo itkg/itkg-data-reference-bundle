@@ -2,14 +2,14 @@ import OrchestraRouter     from '../OrchestraRouter'
 import Application         from '../../Application'
 //import FormBuilder         from '../../../Service/Form/Model/FormBuilder'
 import ReferenceSummaryView  from '../../View/Reference/ReferenceSummaryView'
-//import ReferencesView        from '../../View/Reference/ReferencesView'
+import ReferencesView        from '../../View/Reference/ReferencesView'
 //import ReferenceFormView     from '../../View/Reference/ReferenceFormView'
 //import NewReferenceFormView  from '../../View/Reference/NewReferenceFormView'
 import ReferenceTypes        from '../../Collection/ReferenceType/ReferenceTypes'
-//import References            from '../../Collection/Reference/References'
-//import ReferenceType         from '../../Model/ReferenceType/ReferenceType'
+import References            from '../../Collection/Reference/References'
+import ReferenceType         from '../../Model/ReferenceType/ReferenceType'
 //import Reference             from '../../Model/Reference/Reference'
-//import Statuses            from '../../Collection/Status/Statuses'
+import Statuses            from '../../Collection/Status/Statuses'
 //import ApplicationError    from '../../../Service/Error/ApplicationError'
 //import ConfirmModalView    from '../../../Service/ConfirmModal/View/ConfirmModalView'
 //import ReferenceVersionsView from '../../View/Reference/ReferenceVersionsView'
@@ -181,49 +181,49 @@ class ReferenceRouter extends OrchestraRouter
      * list reference by reference type
      */
     listReference(referenceTypeId, language, page) {
-//        if (null === page) {
-//            page = 1
-//        }
-//        this._displayLoader(Application.getRegion('content'));
-//        let pageLength = 10;
-//        page = Number(page) - 1;
-//        let urlParameter = {
-//            referenceTypeId: referenceTypeId,
-//            siteId: Application.getContext().siteId,
-//            language: language
-//        };
-//        
-//        let referenceType = new ReferenceType();
-//        let statuses = new Statuses();
-//        let references = new References();
-//        
-//        $.when(
-//            statuses.fetch({apiContext: 'references'}),
-//            referenceType.fetch({urlParameter: {referenceTypeId: referenceTypeId}}),
-//            references.fetch({
-//                apiContext: 'list',
-//                urlParameter: urlParameter,
-//                data : {
-//                    start: page * pageLength,
-//                    length: pageLength
-//                }
-//            })
-//        ).done( () => {
-//            let referencesView = new ReferencesView({
-//                collection: references,
-//                settings: {
-//                    page: page,
-//                    deferLoading: [references.recordsTotal, references.recordsFiltered],
-//                    data: references.models,
-//                    pageLength: pageLength
-//                },
-//                urlParameter: urlParameter,
-//                referenceType: referenceType,
-//                statuses: statuses
-//            });
-//            let el = referencesView.render().$el;
-//            Application.getRegion('content').html(el);
-//         });
+        if (null === page) {
+            page = 1
+        }
+        this._displayLoader(Application.getRegion('content'));
+        let pageLength = 10;
+        page = Number(page) - 1;
+        let urlParameter = {
+            referenceTypeId: referenceTypeId,
+            siteId: Application.getContext().siteId,
+            language: language
+        };
+
+        let referenceType = new ReferenceType();
+        let statuses = new Statuses();
+        let references = new References();
+
+        $.when(
+            statuses.fetch({apiContext: 'contents'}),
+            referenceType.fetch({urlParameter: {referenceTypeId: referenceTypeId}}),
+            references.fetch({
+                apiContext: 'list',
+                urlParameter: urlParameter,
+                data : {
+                    start: page * pageLength,
+                    length: pageLength
+                }
+            })
+        ).done( () => {
+            let referencesView = new ReferencesView({
+                collection: references,
+                settings: {
+                    page: page,
+                    deferLoading: [references.recordsTotal, references.recordsFiltered],
+                    data: references.models,
+                    pageLength: pageLength
+                },
+                urlParameter: urlParameter,
+                referenceType: referenceType,
+                statuses: statuses
+            });
+            let el = referencesView.render().$el;
+            Application.getRegion('content').html(el);
+         });
     }
 
     /**

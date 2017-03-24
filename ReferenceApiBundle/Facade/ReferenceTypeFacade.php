@@ -22,9 +22,34 @@ class ReferenceTypeFacade extends AbstractFacade
     public $name;
 
     /**
+     * @Serializer\Type("integer")
+     */
+    public $version;
+
+    /**
+     * @Serializer\Type("boolean")
+     */
+    public $linkedToSite;
+
+    /**
+     * @Serializer\Type("boolean")
+     */
+    public $definingVersionable;
+
+    /**
+     * @Serializer\Type("boolean")
+     */
+    public $definingStatusable;
+
+    /**
+     * @Serializer\Type("array")
+     */
+    public $defaultListable;
+
+    /**
      * @Serializer\Type("array<OpenOrchestra\ApiBundle\Facade\FieldTypeFacade>")
      */
-    protected $fields = array();
+    protected $fields;
 
     /**
      * @param FacadeInterface $facade
