@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\BackofficeBundle\Controller\AbstractAdminController;
 use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
+use Itkg\ReferenceInterface\ReferenceTypeEvents;
+use Itkg\ReferenceInterface\Event\ReferenceTypeEvent;
 
 /**
  * Class ReferenceTypeController
@@ -38,8 +40,8 @@ class ReferenceTypeController  extends AbstractAdminController
 
         $form->handleRequest($request);
         if ('PATCH' !== $request->getMethod()) {
-            if ($this->handleForm($form, $this->get('translator')->trans('open_orchestra_backoffice.form.reference_type.success'), $newReferenceType)) {
-                $this->dispatchEvent(ReferenceTypeEvents::CONTENT_TYPE_UPDATE, new ReferenceTypeEvent($newReferenceType));
+            if ($this->handleForm($form, $this->get('translator')->trans('itkg_reference.form.reference_type.success'), $newReferenceType)) {
+                $this->dispatchEvent(ReferenceTypeEvents::REFERENCE_TYPE_UPDATE, new ReferenceTypeEvent($newReferenceType));
             }
         }
 
@@ -73,8 +75,8 @@ class ReferenceTypeController  extends AbstractAdminController
                 $documentManager = $this->get('object_manager');
                 $documentManager->persist($referenceType);
                 $documentManager->flush();
-                $message = $this->get('translator')->trans('open_orchestra_backoffice.form.reference_type.creation');
-                $this->dispatchEvent(ReferenceTypeEvents::CONTENT_TYPE_CREATE, new ReferenceTypeEvent($referenceType));
+                $message = $this->get('translator')->trans('itkg_reference.form.reference_type.creation');
+                $this->dispatchEvent(ReferenceTypeEvents::REFERENCE_TYPE_CREATE, new ReferenceTypeEvent($referenceType));
                 $response = new Response(
                     $message,
                     Response::HTTP_CREATED,

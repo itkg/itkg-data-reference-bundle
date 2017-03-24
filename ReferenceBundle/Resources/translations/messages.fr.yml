@@ -1,0 +1,18 @@
+itkg_reference:
+    form:
+        reference_type:
+            names: Libellé back-office
+            reference_type_id: Id
+            template:
+                label: Template personnalisé de formulaire d'édition
+                helper: "Utilisation avancée.\nTemplate alternatif utilisé pour afficher le formulaire d'édition des contenus de ce type.\nFormat : MyBundle::myTemplate.html.twig"
+            group:
+                property: Propriétés
+                field: Champs
+            sub_group:
+                property: Propriétés
+                customization: Personnalisation
+                visible: Eléments à afficher dans la liste back-office
+                version: Version
+            success: Le type de référence a été modifié
+            creation: Le type de référence a été créé
