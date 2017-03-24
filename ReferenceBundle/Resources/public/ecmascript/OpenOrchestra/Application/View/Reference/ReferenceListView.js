@@ -111,12 +111,12 @@ class ReferenceListView extends mix(AbstractDataTableView).with(UrlPaginateViewM
             referenceId: rowData.get('reference_id'),
             version: rowData.get('version')
         });
-        if (!rowData.get('status').blocked_edition) {
+//        if (!rowData.get('status').blocked_edition) {
             cellData = $('<a>',{
                 text: cellData,
                 href: '#'+link
             });
-        }
+//        }
         $(td).html(cellData)
     }
 

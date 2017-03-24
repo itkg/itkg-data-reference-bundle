@@ -7,6 +7,12 @@ parameters:
 services:
     itkg_reference.transformer.reference:
         class: '%itkg_reference.transformer.reference.class%'
+        arguments:
+            - '%itkg_reference.facade.reference.class%'
+            - '@open_orchestra_model.repository.status'
+            - '@itkg_reference.repository.reference'
+            - '@security.authorization_checker'
+            - '@open_orchestra_backoffice.context_manager'
         tags :
             - { name: open_orchestra_api.transformer.strategy}
 
