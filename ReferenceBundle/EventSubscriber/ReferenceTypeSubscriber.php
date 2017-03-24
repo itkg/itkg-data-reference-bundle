@@ -3,7 +3,6 @@
 namespace Itkg\ReferenceBundle\EventSubscriber;
 
 use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
-use OpenOrchestra\Backoffice\Manager\TranslationChoiceManager;
 use OpenOrchestra\Backoffice\ValueTransformer\ValueTransformerManager;
 use OpenOrchestra\ModelInterface\Model\FieldTypeInterface;
 use Itkg\ReferenceApiBundle\Repository\ReferenceTypeRepository;
@@ -12,38 +11,65 @@ use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
 use Itkg\ReferenceInterface\Model\ReferenceInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use OpenOrchestra\ModelInterface\Repository\StatusRepositoryInterface;
+use OpenOrchestra\ModelInterface\Manager\MultiLanguagesChoiceManagerInterface;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormEvents;
 
 /**
  * Class ReferenceTypeSubscriber
  */
-class ReferenceTypeSubscriber extends AbstractBlockReferenceTypeSubscriber
+class ReferenceTypeSubscriber implements EventSubscriberInterface
 {
-    protected $translationChoiceManager;
+    protected $multiLanguagesChoiceManager;
     protected $referenceTypeRepository;
-    protected $contentAttributeClass;
+    protected $referenceAttributeClass;
     protected $fieldTypesConfiguration;
     protected $valueTransformerManager;
+    protected $translator;
 
     /**
-     * @param ReferenceTypeRepositoryInterface $referenceTypeRepository
-     * @param string                           $contentAttributeClass
-     * @param TranslationChoiceManager         $translationChoiceManager
-     * @param array                            $fieldTypesConfiguration
-     * @param ValueTransformerManager          $valueTransformerManager
+     * @param ReferenceTypeRepositoryInterface     $referenceTypeRepository
+     * @param StatusRepositoryInterface            $statusRepository
+     * @param string                               $referenceAttributeClass
+     * @param MultiLanguagesChoiceManagerInterface $multiLanguagesChoiceManager
+     * @param array                                $fieldTypesConfiguration
+     * @param ValueTransformerManager              $valueTransformerManager
+     * @param TranslatorInterface                  $translator
      */
     public function __construct(
         ReferenceTypeRepositoryInterface $referenceTypeRepository,
-        $contentAttributeClass,
-        TranslationChoiceManager $translationChoiceManager,
-        array $fieldTypesConfiguration,
-        ValueTransformerManager $valueTransformerManager
-    )
-    {
+        StatusRepositoryInterface $statusRepository,
+        $referenceAttributeClass,
+        MultiLanguagesChoiceManagerInterface $multiLanguagesChoiceManager,
+        $fieldTypesConfiguration,
+        ValueTransformerManager $valueTransformerManager,
+        TranslatorInterface $translator,
+        EventDispatcherInterface $eventDispatcher
+    ) {
         $this->referenceTypeRepository = $referenceTypeRepository;
-        $this->contentAttributeClass = $contentAttributeClass;
-        $this->translationChoiceManager = $translationChoiceManager;
+        $this->statusRepository = $statusRepository;
+        $this->referenceAttributeClass = $referenceAttributeClass;
+        $this->multiLanguagesChoiceManager = $multiLanguagesChoiceManager;
         $this->fieldTypesConfiguration = $fieldTypesConfiguration;
         $this->valueTransformerManager = $valueTransformerManager;
+        $this->translator = $translator;
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * @return array The event names to listen to
+     */
+    public static function getSubscribedEvents()
+    {
+        return array(
+            FormEvents::PRE_SET_DATA => 'preSetData',
+            FormEvents::POST_SET_DATA => 'postSetData',
+            FormEvents::PRE_SUBMIT => 'preSubmit',
+            FormEvents::POST_SUBMIT => 'postSubmit',
+        );
     }
 
     /**
@@ -51,74 +77,37 @@ class ReferenceTypeSubscriber extends AbstractBlockReferenceTypeSubscriber
      */
     public function preSetData(FormEvent $event)
     {
-        $data = $event->getData();
         $form = $event->getForm();
-        $referenceType = $this->referenceTypeRepository
-            ->findOneByReferenceTypeId($data->getReferenceTypeId());
+        $reference = $event->getData();
+        $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeIdInLastVersion($reference->getReferenceTypeId());
+        if ($referenceType instanceof ReferenceTypeInterface) {
+            $this->addReferenceTypeFieldsToForm($referenceType->getFields(), $form, $reference->getStatus() ? $reference->getStatus()->isBlockedEdition() : false);
+        }
+    }
 
-        if ($referenceType instanceOf ReferenceTypeInterface) {
+    /**
+     * @param FormEvent $event
+     */
+    public function postSetData(FormEvent $event)
+    {
+        $form = $event->getForm();
+        $data = $event->getData();
+
+        $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeIdInLastVersion($data->getReferenceTypeId());
+        if ($referenceType instanceof ReferenceTypeInterface) {
             foreach ($referenceType->getFields() as $referenceTypeField) {
-
-                if (isset($this->fieldTypesConfiguration[$referenceTypeField->getType()])) {
-                    $this->addFieldToForm($referenceTypeField, $form, $data);
+                $referenceTypeFieldId = $referenceTypeField->getFieldId();
+                $dataAttribute = $data->getAttributeByName($referenceTypeFieldId);
+                $fieldValue = ($dataAttribute) ? $dataAttribute->getValue() : $referenceTypeField->getDefaultValue();
+                try {
+                    $form->get($referenceTypeFieldId)->setData($fieldValue);
+                } catch (TransformationFailedException $e) {
+                    $message = $this->translator->trans("open_orchestra_backoffice.form.reference.transformation_error");
+                    $error = new FormError($message);
+                    $form->get($referenceTypeFieldId)->addError($error);
                 }
             }
         }
-    }
-
-    /**
-     * @param FieldTypeInterface $contentTypeField
-     * @param FormInterface      $form
-     * @param ReferenceInterface $reference
-     */
-    protected function addFieldToForm(FieldTypeInterface $contentTypeField, FormInterface $form, ReferenceInterface $reference)
-    {
-        $attribute = $reference->getAttributeByName($contentTypeField->getFieldId());
-        $defaultValue = $contentTypeField->getDefaultValue();
-        if ($attribute) {
-            $defaultValue = $attribute->getValue();
-        }
-
-        $fieldTypeConfiguration = $this->fieldTypesConfiguration[$contentTypeField->getType()];
-
-        $fieldParameters = array_merge(
-            array(
-                'data'  => $defaultValue,
-                'label' => $this->translationChoiceManager->choose($contentTypeField->getLabels()),
-                'mapped' => false,
-            ),
-            $this->getFieldOptions($contentTypeField)
-        );
-
-        if (isset($fieldParameters['required']) && $fieldParameters['required'] === true) {
-            $fieldParameters['constraints'] = new NotBlank();
-        }
-        $form->add(
-            $contentTypeField->getFieldId(),
-            $fieldTypeConfiguration['type'],
-            $fieldParameters
-        );
-    }
-
-    /**
-     * Get $contentTypeField options from conf and complete it with $contentTypeField setted values
-     *
-     * @param FieldTypeInterface $contentTypeField
-     *
-     * @return array
-     */
-    protected function getFieldOptions(FieldTypeInterface $contentTypeField)
-    {
-        $contentTypeOptions = $contentTypeField->getFormOptions();
-        $options = array();
-        $field = $this->fieldTypesConfiguration[$contentTypeField->getType()];
-        if (isset($field['options'])) {
-            $configuratedOptions = $field['options'];
-            foreach ($configuratedOptions as $optionName => $optionConfiguration) {
-                $options[$optionName] = (isset($contentTypeOptions[$optionName])) ? $contentTypeOptions[$optionName] : $optionConfiguration['default_value'];
-            }
-        }
-        return $options;
     }
 
     /**
@@ -126,27 +115,117 @@ class ReferenceTypeSubscriber extends AbstractBlockReferenceTypeSubscriber
      */
     public function preSubmit(FormEvent $event)
     {
-        $form = $event->getForm();
-        $reference = $form->getData();
+        $reference = $event->getForm()->getData();
         $data = $event->getData();
-        $referenceType = $this->referenceTypeRepository
-            ->findOneByReferenceTypeId($reference->getReferenceTypeId());
+        $statusId = !array_key_exists('status', $data) ? false : $data['status'];
 
-        if (is_object($referenceType)) {
-            foreach ($referenceType->getFields() as $field) {
-                $fieldId = $field->getFieldId();
-                $fieldIdData = isset($data[$fieldId]) ? $data[$fieldId] : null;
-                if ($attribute = $reference->getAttributeByName($fieldId)) {
-                    $attribute->setValue($this->transformData($fieldIdData, $form->get($fieldId)));
-                } elseif (is_null($attribute)) {
-                    $contentAttributeClass = $this->contentAttributeClass;
-                    $attribute = new $contentAttributeClass;
-                    $attribute->setName($fieldId);
-                    $attribute->setValue($this->transformData($fieldIdData, $form->get($fieldId)));
-                    $reference->addAttribute($attribute);
-                }
-                $attribute->setStringValue($this->valueTransformerManager->transform($field->getType(), $fieldIdData));
+        if ($reference instanceof ReferenceInterface && $statusId && $reference->getStatus()->getId() != $statusId) {
+            $toStatus = $this->statusRepository->find($statusId);
+            $event = new StatusableEvent($reference, $toStatus);
+            try {
+                $this->eventDispatcher->dispatch(StatusEvents::STATUS_CHANGE, $event);
+            } catch (StatusChangeNotGrantedException $e) {
+                throw new StatusChangeNotGrantedException();
             }
         }
+    }
+
+    /**
+     * @param FormEvent $event
+     */
+    public function postSubmit(FormEvent $event)
+    {
+        $form = $event->getForm();
+        $reference = $form->getData();
+        $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeIdInLastVersion($reference->getReferenceTypeId());
+
+        if ($referenceType instanceof ReferenceTypeInterface) {
+            foreach ($referenceType->getFields() as $referenceTypeField) {
+                $referenceTypeFieldId = $referenceTypeField->getFieldId();
+                $value = $form->get($referenceTypeFieldId)->getData();
+                $attribute = $reference->getAttributeByName($referenceTypeFieldId);
+                if (is_null($attribute)) {
+                    /** @var ReferenceAttributeInterface $attribute */
+                    $attribute = new $this->referenceAttributeClass();
+                    $attribute->setName($referenceTypeFieldId);
+                    $reference->addAttribute($attribute);
+                }
+
+                $attribute->setValue($value);
+                $attribute->setType($referenceTypeField->getType());
+                $attribute->setStringValue($this->valueTransformerManager->transform($attribute->getType(), $value));
+            }
+        }
+    }
+
+    /**
+     * Add $referenceTypeFields to $form with values in $data if reference type is still valid
+     *
+     * @param array<FieldTypeInterface> $referenceTypeFields
+     * @param FormInterface             $form
+     * @param boolean                   $blockedEdition
+     */
+    protected function addReferenceTypeFieldsToForm($referenceTypeFields, FormInterface $form, $blockedEdition)
+    {
+        /** @var FieldTypeInterface $referenceTypeField */
+        foreach ($referenceTypeFields as $referenceTypeField) {
+
+            if (isset($this->fieldTypesConfiguration[$referenceTypeField->getType()])) {
+                $this->addFieldToForm($referenceTypeField, $form, $blockedEdition);
+            }
+        }
+    }
+
+    /**
+     * Add $referenceTypeField to $form with value $fieldValue
+     *
+     * @param FieldTypeInterface $referenceTypeField
+     * @param FormInterface      $form
+     * @param boolean            $blockedEdition
+     */
+    protected function addFieldToForm(FieldTypeInterface $referenceTypeField, FormInterface $form, $blockedEdition)
+    {
+        $fieldTypeConfiguration = $this->fieldTypesConfiguration[$referenceTypeField->getType()];
+
+        $fieldParameters = array_merge(
+            array(
+                'label' => $this->multiLanguagesChoiceManager->choose($referenceTypeField->getLabels()),
+                'mapped' => false,
+                'disabled' => $blockedEdition,
+                'group_id' => 'data',
+                'sub_group_id' => 'data',
+            ),
+            $this->getFieldOptions($referenceTypeField)
+        );
+
+        if (isset($fieldParameters['required']) && $fieldParameters['required'] === true) {
+            $fieldParameters['constraints'] = new NotBlank();
+        }
+        $form->add(
+            $referenceTypeField->getFieldId(),
+            $fieldTypeConfiguration['type'],
+            $fieldParameters
+        );
+    }
+
+    /**
+     * Get $referenceTypeField options from conf and complete it with $referenceTypeField setted values
+     *
+     * @param FieldTypeInterface $referenceTypeField
+     *
+     * @return array
+     */
+    protected function getFieldOptions(FieldTypeInterface $referenceTypeField)
+    {
+        $referenceTypeOptions = $referenceTypeField->getFormOptions();
+        $options = array();
+        $field = $this->fieldTypesConfiguration[$referenceTypeField->getType()];
+        if (isset($field['options'])) {
+            $configuratedOptions = $field['options'];
+            foreach ($configuratedOptions as $optionName => $optionConfiguration) {
+                $options[$optionName] = (isset($referenceTypeOptions[$optionName])) ? $referenceTypeOptions[$optionName] : $optionConfiguration['default_value'];
+            }
+        }
+        return $options;
     }
 }

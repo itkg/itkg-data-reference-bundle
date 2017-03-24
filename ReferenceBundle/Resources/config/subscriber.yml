@@ -1,0 +1,21 @@
+parameters:
+    itkg_reference.subscriber.reference_type.class     : Itkg\ReferenceBundle\EventSubscriber\ReferenceTypeSubscriber
+    itkg_reference.subscriber.reference_type_type.class: Itkg\ReferenceBundle\EventSubscriber\ReferenceTypeTypeSubscriber
+
+services:
+    itkg_reference.subscriber.reference_type:
+        class: '%itkg_reference.subscriber.reference_type.class%'
+        arguments:
+            - '@itkg_reference.repository.reference_type'
+            - '@open_orchestra_model.repository.status'
+            - '%open_orchestra_model.document.content_attribute.class%'
+            - '@open_orchestra_backoffice.manager.multi_languages_choice'
+            - '%open_orchestra_backoffice.field_types%'
+            - '@open_orchestra_backoffice.value_transformer.manager'
+            - '@translator'
+            - '@event_dispatcher'
+
+    itkg_reference.subscriber.reference_type_type:
+        class: '%itkg_reference.subscriber.reference_type_type.class%'
+        tags:
+            - { name: kernel.event_subscriber }

@@ -1,29 +1,16 @@
-itkg_reference_bundle:
-    navigation_panel:
-        administration:
-            reference_type:
-                list: Reference type
-        editorial:
-            references: References
+itkg_reference:
     form:
-        reference:
-            name: Reference name
-            creation: The reference has been created
-            success: The reference has been modified
         reference_type:
-            name: Reference Type name
-            creation: The reference type has been created
-            success: The reference has been modified
-            id: Reference type id
-            names: Names in all the languages
-            fields: Fields
-            add: Add field
-            new: The reference type has been created
-            delete: Delete field
-            error_reference_id: Required reference id field
-open_orchestra_backoffice:
-    table:
-        reference_type:
-            reference_id: Id Reference
-            name: Name
-            language: Language
+            names: Back office name
+            reference_type_id: Id
+            template:
+                label: Edit form custom template
+                helper: Advanced usage only.\nAlternate template to render the current content form.\nUse the Symfony2 format:\nMyBundle::myTemplate.html.twig
+            group:
+                property: Properties
+                field: Fields
+            sub_group:
+                property: Properties
+                customization: Customization
+                visible: Items to display in the back office list
+                version: Version

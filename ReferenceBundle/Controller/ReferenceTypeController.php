@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\BackofficeBundle\Controller\AbstractAdminController;
+use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
 
 /**
  * Class ReferenceTypeController
@@ -17,21 +18,21 @@ class ReferenceTypeController  extends AbstractAdminController
      * @param Request $request
      * @param string  $referenceTypeId
      *
-     * @Config\Route("/reference-type/form/{referenceTypeId}", name="open_orchestra_backoffice_reference_type_form")
+     * @Config\Route("/reference-type/form/{referenceTypeId}", name="itkg_reference_bundle_reference_type_form")
      * @Config\Method({"GET", "POST", "PATCH"})
      *
      * @return Response
      */
     public function formAction(Request $request, $referenceTypeId)
     {
-        $referenceType = $this->get('open_orchestra_model.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($referenceTypeId);
-        $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $referenceType);
+        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($referenceTypeId);
+//         $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $referenceType);
 
-        $newReferenceType = $this->get('open_orchestra_backoffice.manager.reference_type')->duplicate($referenceType);
-        $action = $this->generateUrl('open_orchestra_backoffice_reference_type_form', array('referenceTypeId' => $referenceTypeId));
+        $newReferenceType = $this->get('itkg_reference.manager.reference_type')->duplicate($referenceType);
+        $action = $this->generateUrl('itkg_reference_bundle_reference_type_form', array('referenceTypeId' => $referenceTypeId));
         $form = $this->createReferenceTypeForm($request, array(
             'action' => $action,
-            'delete_button' => ($this->isGranted(ContributionActionInterface::DELETE, $newReferenceType) && 0 == $this->get('open_orchestra_model.repository.reference')->countByReferenceType($referenceTypeId)),
+            'delete_button' => ($this->isGranted(ContributionActionInterface::DELETE, $newReferenceType) && 0 == $this->get('itkg_reference.repository.reference')->countByReferenceType($referenceTypeId)),
             'need_link_to_site_defintion' => false,
         ), $newReferenceType);
 
@@ -48,7 +49,7 @@ class ReferenceTypeController  extends AbstractAdminController
     /**
      * @param Request $request
      *
-     * @Config\Route("/reference-type/new", name="open_orchestra_backoffice_reference_type_new")
+     * @Config\Route("/reference-type/new", name="itkg_reference_bundle_reference_type_new")
      * @Config\Method({"GET", "POST", "PATCH"})
      *
      * @return Response
@@ -103,6 +104,6 @@ class ReferenceTypeController  extends AbstractAdminController
         }
         $option["method"] = $method;
 
-        return $this->createForm('oo_reference_type', $referenceType, $option);
+        return $this->createForm('itkg_reference_type', $referenceType, $option);
     }
 }

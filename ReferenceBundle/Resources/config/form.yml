@@ -1,20 +1,20 @@
 parameters:
-    itkg_reference_bundle.type.itkg_reference_type.class : Itkg\ReferenceBundle\Form\Type\ReferenceTypeType
-    itkg_reference_bundle.document.reference_type.class : Itkg\ReferenceModelBundle\Document\ReferenceType
+    itkg_reference_bundle.type.itkg_reference_type.class       : Itkg\ReferenceBundle\Form\Type\ReferenceTypeType
+    itkg_reference_bundle.document.reference_type.class        : Itkg\ReferenceModelBundle\Document\ReferenceType
 
-    itkg_reference_bundle.type.itkg_reference.class : Itkg\ReferenceBundle\Form\Type\ReferenceType
-    itkg_reference_bundle.document.reference.class : Itkg\ReferenceModelBundle\Document\Reference
-    itkg_reference_bundle.event.reference_type_subscriber.class : Itkg\ReferenceBundle\EventSubscriber\ReferenceTypeSubscriber
+    itkg_reference_bundle.type.itkg_reference.class            : Itkg\ReferenceBundle\Form\Type\ReferenceType
+    itkg_reference_bundle.document.reference.class             : Itkg\ReferenceModelBundle\Document\Reference
+    itkg_reference_bundle.event.reference_type_subscriber.class: Itkg\ReferenceBundle\EventSubscriber\ReferenceTypeSubscriber
 services:
-    # Reference Type Form Builder
-#    itkg_reference_bundle.type.itkg_reference_type:
-#        class: %itkg_reference_bundle.type.itkg_reference_type.class%
-#        arguments:
-#            - %itkg_reference.document.reference_type.class%
-#            - @translator
-#            - @open_orchestra_backoffice.listener.translate_value_initializer
-#        tags:
-#            - { name: form.type, alias: itkg_reference_type }
+    itkg_reference_bundle.type.itkg_reference_type:
+        class    : '%itkg_reference_bundle.type.itkg_reference_type.class%'
+        arguments:
+            - '%itkg_reference_bundle.document.reference_type.class%'
+            - '@translator'
+            - '%open_orchestra_base.administration_languages%'
+            - '@itkg_reference.subscriber.reference_type_type'
+        tags     :
+            - { name: form.type, alias: itkg_reference_type }
 
     # Reference Form Builder
 #    itkg_reference_bundle.type.itkg_reference:

@@ -1,8 +1,8 @@
 import OrchestraRouter       from '../OrchestraRouter'
 import Application           from '../../Application'
 import ReferenceTypes        from '../../Collection/ReferenceType/ReferenceTypes'
-//import FormBuilder           from '../../../Service/Form/Model/FormBuilder'
-//import ReferenceTypeFormView from '../../View/ReferenceType/ReferenceTypeFormView'
+import FormBuilder           from '../../../Service/Form/Model/FormBuilder'
+import ReferenceTypeFormView from '../../View/ReferenceType/ReferenceTypeFormView'
 import ReferenceTypesView    from '../../View/ReferenceType/ReferenceTypesView'
 
 
@@ -53,18 +53,17 @@ class ReferenceTypeRouter extends OrchestraRouter
      * @param {string} referenceTypeId
      */
     editReferenceType(referenceTypeId) {
-    	alert('edit reference type');
-//        this._displayLoader(Application.getRegion('content'));
-//        let url = Routing.generate('itkg_reference_bundle_reference_type_form', {
-//            referenceTypeId: referenceTypeId
-//        });
-//        FormBuilder.createFormFromUrl(url, (form) => {
-//            let referenceTypeFormView = new ReferenceTypeFormView({
-//                form: form,
-//                referenceTypeId: referenceTypeId
-//            });
-//            Application.getRegion('content').html(referenceTypeFormView.render().$el);
-//        });
+        this._displayLoader(Application.getRegion('content'));
+        let url = Routing.generate('itkg_reference_bundle_reference_type_form', {
+            referenceTypeId: referenceTypeId
+        });
+        FormBuilder.createFormFromUrl(url, (form) => {
+            let referenceTypeFormView = new ReferenceTypeFormView({
+                form: form,
+                referenceTypeId: referenceTypeId
+            });
+            Application.getRegion('content').html(referenceTypeFormView.render().$el);
+        });
     }
 
     /**

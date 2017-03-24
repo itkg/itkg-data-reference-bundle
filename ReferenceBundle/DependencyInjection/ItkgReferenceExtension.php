@@ -25,7 +25,7 @@ class ItkgReferenceExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('form.yml');
-        $loader->load('datatable_parameter.yml');
         $loader->load('role_parameter.yml');
+        $loader->load('subscriber.yml');
     }
 }

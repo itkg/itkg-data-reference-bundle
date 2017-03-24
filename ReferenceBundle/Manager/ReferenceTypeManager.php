@@ -9,6 +9,29 @@ use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
  */
 class ReferenceTypeManager
 {
+    protected $referenceTypeClass;
+
+    /**
+     * @param string $referenceTypeClass
+     */
+    public function __construct($referenceTypeClass)
+    {
+        $this->referenceTypeClass = $referenceTypeClass;
+    }
+
+    /**
+     * @return ReferenceTypeInterface
+     */
+    public function initializeNewReferenceType()
+    {
+        $referenceTypeClass = $this->referenceTypeClass;
+        /** @var ReferenceTypeInterface $referenceType */
+        $referenceType = new $referenceTypeClass();
+        $referenceType->setDefaultListable($this->getDefaultListableColumns());
+
+        return $referenceType;
+    }
+
     /**
      * @param ReferenceTypeInterface $referenceType
      *
@@ -18,15 +41,11 @@ class ReferenceTypeManager
     {
         $newReferenceType = clone $referenceType;
 
-        foreach ($referenceType->getNames() as $name) {
-            $newName = clone $name;
-            $newReferenceType->addName($newName);
-        }
         foreach ($referenceType->getFields() as $field) {
             $newField = clone $field;
-            foreach ($field->getLabels() as $label) {
-                $newLabel = clone $label;
-                $newField->addLabel($newLabel);
+            foreach ($field->getOptions() as $option) {
+                $newOption = clone $option;
+                $newField->addOption($newOption);
             }
 
             $newReferenceType->addFieldType($newField);
@@ -41,9 +60,26 @@ class ReferenceTypeManager
     public function delete($referenceTypes)
     {
         if (!empty($referenceTypes)) {
-            foreach ($referenceTypes as $referenceType) {
+            foreach ($referenceTypes as $referenceType)
+            {
                 $referenceType->setDeleted(true);
             }
         }
+    }
+
+    /**
+     * @return array
+     */
+    protected function getDefaultListableColumns()
+    {
+        return array(
+            'name'           => true,
+            'status_label'   => false,
+            'linked_to_site' => true,
+            'created_at'     => true,
+            'created_by'     => true,
+            'updated_at'     => false,
+            'updated_by'     => false,
+        );
     }
 }

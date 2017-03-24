@@ -4,9 +4,11 @@ parameters:
 
 services:
     itkg_reference.manager.reference_type:
-         class: '%itkg_reference.manager.reference_type.class%'
+        class   : '%itkg_reference.manager.reference_type.class%'
+        arguments:
+          - '%itkg_reference.document.reference_type.class%'
 
     itkg_reference.manager.reference:
-         class    : '%itkg_reference.manager.reference.class%'
-         arguments:
-            - '@open_orchestra_backoffice.context_manager'
+        class    : '%itkg_reference.manager.reference.class%'
+        arguments:
+          - '@open_orchestra_backoffice.context_manager'
