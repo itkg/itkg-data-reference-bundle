@@ -91,8 +91,8 @@ class ReferenceTypeController  extends AbstractAdminController
     }
 
     /**
-     * @param Request              $request
-     * @param string               $option
+     * @param Request                $request
+     * @param string                 $option
      * @param ReferenceTypeInterface $referenceType
      *
      * @return \Symfony\Component\Form\Form

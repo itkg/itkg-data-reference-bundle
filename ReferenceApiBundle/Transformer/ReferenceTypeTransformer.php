@@ -82,7 +82,7 @@ class ReferenceTypeTransformer extends AbstractSecurityCheckerAwareTransformer
 
     /**
      * @param FacadeInterface $facade
-     * @param null $source
+     * @param null            $source
      *
      * @return ReferenceTypeInterface|null
      */

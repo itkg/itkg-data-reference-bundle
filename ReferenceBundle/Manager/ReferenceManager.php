@@ -18,10 +18,10 @@ class ReferenceManager
     protected $referenceClass;
     
     /**
-     * @param StatusRepositoryInterface  $statusRepository
-     * @param ContextManager             $contextManager
-     * @param string                     $referenceClass
-     * @param UniqueIdGenerator          $uniqueIdGenerator
+     * @param StatusRepositoryInterface $statusRepository
+     * @param ContextManager            $contextManager
+     * @param string                    $referenceClass
+     * @param UniqueIdGenerator         $uniqueIdGenerator
      */
     public function __construct(
         StatusRepositoryInterface $statusRepository,
@@ -61,7 +61,7 @@ class ReferenceManager
 
     /**
      * @param ReferenceInterface $referenceSource
-     * @param string           $language
+     * @param string             $language
      *
      * @return ReferenceInterface
      */

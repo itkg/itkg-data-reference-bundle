@@ -51,9 +51,9 @@ interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface,
     public function findByReferenceId($referenceId);
 
     /**
-     * @param string      $referenceId
-     * @param string      $language
-     * @param int|null    $version
+     * @param string   $referenceId
+     * @param string   $language
+     * @param int|null $version
      *
      * @return ReferenceInterface|null
      */

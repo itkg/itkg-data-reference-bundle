@@ -10,7 +10,7 @@ use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
 /**
  * Class ReferenceTypeRepository
  */
-class ReferenceTypeRepository  extends AbstractAggregateRepository implements ReferenceTypeRepositoryInterface
+class ReferenceTypeRepository extends AbstractAggregateRepository implements ReferenceTypeRepositoryInterface
 {
     /**
      * @param $language
@@ -100,7 +100,7 @@ class ReferenceTypeRepository  extends AbstractAggregateRepository implements Re
     }
 
     /**
-     * @param string   $referenceType
+     * @param string $referenceType
      *
      * @return ReferenceTypeInterface
      */

@@ -181,7 +181,7 @@ class ReferenceController extends AbstractAdminController
 
     /**
      * @param ReferenceInterface $reference
-     * @param string           $currentLanguage
+     * @param string             $currentLanguage
      */
     protected function createReferenceInNewLanguage(ReferenceInterface $reference, $currentLanguage)
     {

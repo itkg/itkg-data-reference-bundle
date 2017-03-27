@@ -41,7 +41,7 @@ interface ReferenceTypeRepositoryInterface
     public function findAll();
 
     /**
-     * @param string   $referenceType
+     * @param string $referenceType
      *
      * @return ReferenceTypeInterface
      */

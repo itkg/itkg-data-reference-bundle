@@ -28,7 +28,7 @@ class ReferenceTypeCollectionTransformer extends AbstractTransformer
 
     /**
      * @param FacadeInterface $facade
-     * @param null $source
+     * @param null            $source
      *
      * @return ReferenceTypeInterface|null
      */

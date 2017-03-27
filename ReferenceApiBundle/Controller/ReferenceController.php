@@ -31,9 +31,9 @@ class ReferenceController extends BaseController
     use ListStatus;
 
     /**
-     * @param string  $referenceId
-     * @param string  $version
-     * @param string  $language
+     * @param string $referenceId
+     * @param string $version
+     * @param string $language
      *
      * @Config\Route(
      *     "/show/{referenceId}/{language}/{version}",
@@ -296,8 +296,8 @@ class ReferenceController extends BaseController
     }
 
     /**
-     * @param string  $referenceId
-     * @param string  $language
+     * @param string $referenceId
+     * @param string $language
      *
      * @Config\Route("/new-language/{referenceId}/{language}", name="open_orchestra_api_reference_new_language")
      * @Config\Method({"POST"})
@@ -326,8 +326,8 @@ class ReferenceController extends BaseController
     }
 
     /**
-     * @param string  $referenceId
-     * @param string  $language
+     * @param string $referenceId
+     * @param string $language
      *
      * @Config\Route("/list-version/{referenceId}/{language}", name="open_orchestra_api_reference_list_version")
      * @Config\Method({"GET"})
@@ -434,31 +434,31 @@ class ReferenceController extends BaseController
     /**
      * @param ReferenceInterface $referenceSource
      * @param ReferenceInterface $reference
-     * @param boolean          $saveOldPublishedVersion
+     * @param boolean            $saveOldPublishedVersion
      */
     protected function updateStatus(
         ReferenceInterface $referenceSource,
         ReferenceInterface $reference,
         $saveOldPublishedVersion
-        ) {
-            if (true === $reference->getStatus()->isPublishedState() && false === $saveOldPublishedVersion) {
-                $oldPublishedVersion = $this->get('itkg_reference.repository.reference')->findOnePublished(
-                    $reference->getReferenceId(),
-                    $reference->getLanguage(),
-                    $reference->getSiteId()
-                    );
-                if ($oldPublishedVersion instanceof ReferenceInterface) {
-                    $this->get('object_manager')->remove($oldPublishedVersion);
-                }
+    ) {
+        if (true === $reference->getStatus()->isPublishedState() && false === $saveOldPublishedVersion) {
+            $oldPublishedVersion = $this->get('itkg_reference.repository.reference')->findOnePublished(
+                $reference->getReferenceId(),
+                $reference->getLanguage(),
+                $reference->getSiteId()
+                );
+            if ($oldPublishedVersion instanceof ReferenceInterface) {
+                $this->get('object_manager')->remove($oldPublishedVersion);
             }
+        }
 
-            $this->get('object_manager')->flush();
-            $event = new ReferenceEvent($reference, $referenceSource->getStatus());
-            $this->dispatchEvent(ReferenceEvents::CONTENT_CHANGE_STATUS, $event);
+        $this->get('object_manager')->flush();
+        $event = new ReferenceEvent($reference, $referenceSource->getStatus());
+        $this->dispatchEvent(ReferenceEvents::CONTENT_CHANGE_STATUS, $event);
     }
 
     /**
-     * @param string               $language
+     * @param string                 $language
      * @param ReferenceTypeInterface $referenceType
      *
      * @return array

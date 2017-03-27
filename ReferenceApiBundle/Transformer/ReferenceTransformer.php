@@ -26,7 +26,7 @@ class ReferenceTransformer extends AbstractSecurityCheckerAwareTransformer
     /**
      * @param string                         $facadeClass
      * @param StatusRepositoryInterface      $statusRepository
-     * @param ReferenceRepositoryInterface     $referenceRepository,
+     * @param ReferenceRepositoryInterface   $referenceRepository,
      * @param AuthorizationCheckerInterface  $authorizationChecker
      * @param CurrentSiteIdInterface         $contextManager
      */
@@ -94,8 +94,8 @@ class ReferenceTransformer extends AbstractSecurityCheckerAwareTransformer
     }
 
     /**
-     * @param FacadeInterface $facade
-     * @param ReferenceInterface|null         $source
+     * @param FacadeInterface         $facade
+     * @param ReferenceInterface|null $source
      *
      * @return mixed
      * @throws StatusChangeNotGrantedHttpException

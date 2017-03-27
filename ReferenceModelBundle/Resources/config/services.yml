@@ -14,7 +14,6 @@ services:
             - '%itkg_reference.document.reference_type.class%'
         calls          :
             - [setAggregationQueryBuilder, ['@doctrine_mongodb.odm.default_aggregation_query']]
-#            - [setFilterTypeManager, ['@open_orchestra_pagination.filter_type.manager']]
 
     itkg_reference.repository.reference:
         class          : '%itkg_reference.repository.reference.class%'
