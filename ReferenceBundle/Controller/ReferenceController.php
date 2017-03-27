@@ -130,7 +130,7 @@ class ReferenceController extends AbstractAdminController
                 $this->dispatchEvent(ReferenceEvents::REFERENCE_CHANGE_STATUS, new ReferenceEvent($reference, $status));
             }
 
-            $message = $this->get('translator')->trans('open_orchestra_backoffice.form.reference.creation');
+            $message = $this->get('translator')->trans('itkg_reference.form.reference.creation');
             $response = new Response(
                 $message,
                 Response::HTTP_CREATED,

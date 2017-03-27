@@ -33,7 +33,7 @@ class ReferenceTypeFormView extends mix(AbstractFormView).with(FormViewButtonsMi
     render() {
         let title = $("input[id*='itkg_reference_type_names_']", this._form.$form).first().val();
         if (null === this._referenceTypeId) {
-            title = Translator.trans('open_orchestra_backoffice.table.reference_types.new');
+            title = Translator.trans('itkg_reference.table.reference_types.new');
         }
         let template = this._renderTemplate('ReferenceType/referenceTypeEditView', {
             title: title

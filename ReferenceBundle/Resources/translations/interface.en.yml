@@ -12,6 +12,8 @@ itkg_reference:
     reference_types:
         title: References type
     table:
+        reference_types:
+            new: New reference type
         references:
             list: List
             add: Add
