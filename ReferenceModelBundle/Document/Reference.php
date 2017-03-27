@@ -8,7 +8,6 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
 use OpenOrchestra\Mapping\Annotations as ORCHESTRA;
-use OpenOrchestra\MongoTrait\SiteLinkable;
 use OpenOrchestra\MongoTrait\SoftDeleteable;
 use OpenOrchestra\MongoTrait\Statusable;
 use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
@@ -47,7 +46,6 @@ class Reference implements ReferenceInterface
     use Keywordable;
     use Statusable;
     use Versionable;
-    use SiteLinkable;
     use SoftDeleteable;
     use UseTrackable;
     use Historisable;

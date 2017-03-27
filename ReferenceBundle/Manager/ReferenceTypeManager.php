@@ -75,7 +75,6 @@ class ReferenceTypeManager
         return array(
             'name'           => true,
             'status_label'   => false,
-            'linked_to_site' => true,
             'created_at'     => true,
             'created_by'     => true,
             'updated_at'     => false,

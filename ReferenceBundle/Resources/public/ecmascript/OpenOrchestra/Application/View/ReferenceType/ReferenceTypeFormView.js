@@ -10,14 +10,6 @@ import ApplicationError     from '../../../Service/Error/ApplicationError'
 class ReferenceTypeFormView extends mix(AbstractFormView).with(FormViewButtonsMixin) 
 {
     /**
-     * @inheritdoc
-     */
-    preinitialize() {
-        super.preinitialize();
-        this.events['click #itkg_reference_type_linkedToSite'] = '_toggleAlwaysShared';
-    }
-
-    /**
      * Initialize
      * @param {Form}   form
      * @param {string} referenceTypeId
@@ -41,20 +33,8 @@ class ReferenceTypeFormView extends mix(AbstractFormView).with(FormViewButtonsMi
         this.$el.html(template);
         this._$formRegion = $('.form-edit', this.$el);
         super.render();
-        this._toggleAlwaysShared();
 
         return this;
-    }
-
-    /**
-     * toggle input always shared
-     */
-    _toggleAlwaysShared() {
-        if ($('#itkg_reference_type_linkedToSite:checked', this._$formRegion).length == 0) {
-            $('#itkg_reference_type_alwaysShared', this._$formRegion).closest('div.form-group').hide();
-        } else {
-            $('#itkg_reference_type_alwaysShared', this._$formRegion).closest('div.form-group').show();
-        }
     }
 
    /**

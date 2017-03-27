@@ -56,7 +56,6 @@ class ReferenceController extends AbstractAdminController
                 'version' => $reference->getVersion(),
             )),
             'delete_button' => $this->canDeleteReference($reference),
-            'need_link_to_site_defintion' => false,
             'is_blocked_edition' => $reference->getStatus() ? $reference->getStatus()->isBlockedEdition() : false,
         );
         $form = $this->createForm('itkg_reference', $reference, $options);
@@ -67,7 +66,7 @@ class ReferenceController extends AbstractAdminController
             $this->get('object_manager')->flush();
             $this->dispatchEvent(ReferenceEvents::REFERENCE_UPDATE, new ReferenceEvent($reference));
 
-            $message =  $this->get('translator')->trans('open_orchestra_backoffice.form.reference.success');
+            $message =  $this->get('translator')->trans('itkg_reference.form.reference.success');
             $this->get('session')->getFlashBag()->add('success', $message);
 
         }
@@ -97,7 +96,7 @@ class ReferenceController extends AbstractAdminController
         if (!$referenceType instanceof ReferenceTypeInterface) {
             throw new \UnexpectedValueException();
         }
-        $reference = $referenceManager->initializeNewReference($referenceTypeId, $language, $referenceType->isLinkedToSite() && $referenceType->isAlwaysShared());
+        $reference = $referenceManager->initializeNewReference($referenceTypeId, $language);
         if (!$reference instanceof ReferenceInterface) {
             throw new \UnexpectedValueException();
         }
@@ -110,7 +109,6 @@ class ReferenceController extends AbstractAdminController
             )),
             'method' => 'POST',
             'new_button' => true,
-            'need_link_to_site_defintion' => $referenceType->isLinkedToSite() && !$referenceType->isAlwaysShared(),
             'is_blocked_edition' => $reference->getStatus() ? $reference->getStatus()->isBlockedEdition() : false,
         ));
 

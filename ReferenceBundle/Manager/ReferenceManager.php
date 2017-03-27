@@ -38,11 +38,10 @@ class ReferenceManager
     /**
      * @param string  $referenceType
      * @param string  $language
-     * @param boolean $isLinkedToSite
      *
      * @return ReferenceInterface
      */
-    public function initializeNewReference($referenceType, $language, $isLinkedToSite)
+    public function initializeNewReference($referenceType, $language)
     {
         $initialStatus = $this->statusRepository->findOneByInitial();
 
@@ -52,7 +51,6 @@ class ReferenceManager
         $reference->setLanguage($language);
         $reference->setSiteId($this->contextManager->getCurrentSiteId());
         $reference->setReferenceType($referenceType);
-        $reference->setLinkedToSite($isLinkedToSite);
         $reference->setStatus($initialStatus);
         $reference->setVersion($this->uniqueIdGenerator->generateUniqueId());
 

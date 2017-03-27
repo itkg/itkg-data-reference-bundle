@@ -71,7 +71,6 @@ class ReferenceTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->createdBy = $reference->getCreatedBy();
         $facade->updatedBy = $reference->getUpdatedBy();
         $facade->deleted = $reference->isDeleted();
-        $facade->linkedToSite = $reference->isLinkedToSite();
         $facade->used = $reference->isUsed();
 
         foreach ($reference->getAttributes() as $attribute) {

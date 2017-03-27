@@ -29,11 +29,6 @@ class ReferenceTypeFacade extends AbstractFacade
     /**
      * @Serializer\Type("boolean")
      */
-    public $linkedToSite;
-
-    /**
-     * @Serializer\Type("boolean")
-     */
     public $definingVersionable;
 
     /**

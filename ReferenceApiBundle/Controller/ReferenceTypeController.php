@@ -55,8 +55,7 @@ class ReferenceTypeController extends BaseController
 //         $this->denyAccessUnlessGranted(ContributionActionInterface::READ, ReferenceTypeInterface::ENTITY_TYPE);
         $mapping = array(
             'name' => 'names',
-            'reference_type_id' => 'referenceTypeId',
-            'linked_to_site' => 'linkedToSite'
+            'reference_type_id' => 'referenceTypeId'
         );
         $configuration = PaginateFinderConfiguration::generateFromRequest($request, $mapping);
         $repository = $this->get('itkg_reference.repository.reference_type');

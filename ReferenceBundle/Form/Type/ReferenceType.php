@@ -59,14 +59,6 @@ class ReferenceType extends AbstractType
                 'group_id' => 'property',
                 'sub_group_id' => 'information',
             ));
-        if ($options['need_link_to_site_defintion']) {
-            $builder->add('linkedToSite', 'checkbox', array(
-                'label' => 'open_orchestra_backoffice.form.reference.linked_to_site',
-                'required' => false,
-                'group_id' => 'property',
-                'sub_group_id' => 'information',
-            ));
-        }
         $builder
             ->add('publishDate', 'oo_date_picker', array(
                 'widget' => 'single_text',
@@ -117,7 +109,6 @@ class ReferenceType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => $this->referenceClass,
             'is_blocked_edition' => false,
-            'need_link_to_site_defintion' => false,
             'delete_button' => false,
             'new_button' => false,
                 'group_enabled' => true,

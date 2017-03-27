@@ -42,18 +42,6 @@
             </div>
         </div>
     <% }; %>
-    <% if (referenceType.default_listable.linked_to_site) { %>
-        <div class="form-group col-lg-6">
-            <label for="linked_to_site" class="control-label col-md-4"><%= Translator.trans('open_orchestra_backoffice.table.references.linked_to_site') %></label>
-            <div class="col-md-8 styled-select">
-                <select name="linked_to_site" class="form-control" id="linked_to_site">
-                    <option value=''></option>
-                    <option value='true'><%= Translator.trans('open_orchestra_backoffice.table.true') %></option>
-                    <option value='false'><%= Translator.trans('open_orchestra_backoffice.table.false') %></option>
-                </select>
-            </div>
-        </div>
-    <% }; %>
     <% if (referenceType.default_listable.created_at) { %>
         <div class="form-group col-lg-6">
             <label for="created_at" class="control-label col-md-4"><%= Translator.trans('itkg_reference.table.references.created_at') %></label>

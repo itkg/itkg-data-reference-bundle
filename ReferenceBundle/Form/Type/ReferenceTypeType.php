@@ -110,22 +110,6 @@ class ReferenceTypeType extends AbstractType
                 'required' => false
             ));
 
-        if ($options['need_link_to_site_defintion']) {
-            $builder
-                ->add('linkedToSite', 'checkbox', array(
-                    'label' => 'itkg_reference.form.reference_type.linked_to_site',
-                    'required' => false,
-                    'group_id' => 'property',
-                    'sub_group_id' => 'share',
-                ))
-                ->add('alwaysShared', 'checkbox', array(
-                    'label' => 'itkg_reference.form.reference_type.always_shared',
-                    'required' => false,
-                    'group_id' => 'property',
-                    'sub_group_id' => 'share',
-                ));
-        }
-
         $builder->addEventSubscriber($this->referenceTypeTypeSubscriber);
         if (array_key_exists('disabled', $options)) {
             $builder->setAttribute('disabled', $options['disabled']);
@@ -140,7 +124,6 @@ class ReferenceTypeType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => $this->referenceTypeClass,
-                'need_link_to_site_defintion' => false,
                 'delete_button' => false,
                 'new_button' => false,
                 'group_enabled' => true,

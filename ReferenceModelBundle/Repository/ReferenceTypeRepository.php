@@ -141,11 +141,6 @@ class ReferenceTypeRepository extends AbstractAggregateRepository implements Ref
             $filter['names.' . $language] = new \MongoRegex('/.*'.$name.'.*/i');
         }
 
-        $linkedToSite = $configuration->getSearchIndex('linkedToSite');
-        if (null !== $linkedToSite && $linkedToSite !== '') {
-            $filter['linkedToSite'] = (boolean) $linkedToSite;
-        }
-
         $referenceTypeId = $configuration->getSearchIndex('referenceTypeId');
         if (null !== $referenceTypeId && $referenceTypeId !== '') {
             $filter['referenceTypeId'] =new \MongoRegex('/.*'.$referenceTypeId.'.*/i');

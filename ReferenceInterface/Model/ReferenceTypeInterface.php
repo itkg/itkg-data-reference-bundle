@@ -7,13 +7,12 @@ use OpenOrchestra\ModelInterface\Model\FieldTypeContainerInterface;
 use OpenOrchestra\ModelInterface\Model\BlameableInterface;
 use OpenOrchestra\ModelInterface\Model\TimestampableInterface;
 use OpenOrchestra\ModelInterface\Model\VersionableInterface;
-use OpenOrchestra\ModelInterface\Model\SiteLinkableInterface;
 use OpenOrchestra\ModelInterface\Model\SoftDeleteableInterface;
 
 /**
  * Interface ReferenceTypeInterface
  */
-interface ReferenceTypeInterface extends FieldTypeContainerInterface, BlameableInterface, TimestampableInterface, VersionableInterface, SiteLinkableInterface, SoftDeleteableInterface
+interface ReferenceTypeInterface extends FieldTypeContainerInterface, BlameableInterface, TimestampableInterface, VersionableInterface, SoftDeleteableInterface
 {
     const ENTITY_TYPE = 'reference_type';
 

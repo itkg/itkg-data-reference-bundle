@@ -33,13 +33,6 @@ class ReferenceTypesListView extends mix(AbstractDataTableView).with(UrlPaginate
                 title: Translator.trans('itkg_reference.reference_type.table.id'),
                 orderable: true,
                 visibile: true
-            },
-            {
-                name: "linked_to_site",
-                title: Translator.trans('itkg_reference.reference_types.table.linked_to_site'),
-                orderable: true,
-                visibile: true,
-                render: this._translateLinkedToSite
             }
         ];
 
@@ -78,14 +71,6 @@ class ReferenceTypesListView extends mix(AbstractDataTableView).with(UrlPaginate
         });
 
         $(td).html(cellData)
-    }
-
-    /**
-     * @param {Object|string} data
-     * @private
-     */
-    _translateLinkedToSite(data) {
-        return Translator.trans('open_orchestra_backoffice.table.' + data);
     }
 }
 

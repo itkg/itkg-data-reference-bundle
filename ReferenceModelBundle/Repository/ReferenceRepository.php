@@ -80,7 +80,7 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
         $qa = $this->createAggregationQuery();
         $qa->match($this->generateFilterPublishedNotDeletedOnLanguage($language));
         if (!is_null($siteId)) {
-            $qa->match($this->generateSiteIdAndNotLinkedFilter($siteId));
+            $qa->match($this->generateSiteIdFilter($siteId));
         }
         $filter = $this->generateReferenceTypeFilter($referenceType);
 
@@ -226,7 +226,7 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     {
         $qa = $this->createAggregateQueryWithDeletedFilter(false);
         $qa->match($this->generateReferenceTypeFilter($referenceType));
-        $qa->match($this->generateSiteIdAndNotLinkedFilter($siteId));
+        $qa->match($this->generateSiteIdFilter($siteId));
         $qa->match($this->generateLanguageFilter($language));
 
         $this->filterSearch($configuration, $qa, $searchTypes);
@@ -305,7 +305,7 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
             'histories.user.$id' => new \MongoId($id),
             'deleted' => false
         );
-        $qa->match($this->generateSiteIdAndNotLinkedFilter($siteId));
+        $qa->match($this->generateSiteIdFilter($siteId));
         if (null !== $eventTypes) {
             $filter['histories.eventType'] = array('$in' => $eventTypes);
         }
@@ -341,14 +341,9 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
      *
      * @return array
      */
-    protected function generateSiteIdAndNotLinkedFilter($siteId)
+    protected function generateSiteIdFilter($siteId)
     {
-        return array(
-            '$or' => array(
-                array('siteId' => $siteId),
-                array('linkedToSite' => false)
-            )
-        );
+        return array('siteId' => $siteId);
     }
 
     /**
@@ -629,7 +624,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
         if (null !== $status && $status !== '') {
             $qa->match(array('status._id' => new \MongoId($status)));
         }
-        $qa = $this->generateFilter($configuration, $qa, BooleanFilterStrategy::FILTER_TYPE, 'linked_to_site', 'linkedToSite');
         $qa = $this->generateFilter($configuration, $qa, DateFilterStrategy::FILTER_TYPE, 'created_at', 'createdAt', $configuration->getSearchIndex('date_format'));
         $qa = $this->generateFilter($configuration, $qa, StringFilterStrategy::FILTER_TYPE, 'created_by', 'createdBy');
         $qa = $this->generateFilter($configuration, $qa, DateFilterStrategy::FILTER_TYPE, 'updated_at', 'updatedAt', $configuration->getSearchIndex('date_format'));
@@ -665,7 +659,7 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     {
         $qa = $this->createAggregateQueryWithDeletedFilter(false);
         $qa->match($this->generateReferenceTypeFilter($referenceType));
-        $qa->match($this->generateSiteIdAndNotLinkedFilter($siteId));
+        $qa->match($this->generateSiteIdFilter($siteId));
         $qa->match($this->generateLanguageFilter($language));
 
         if (!is_null($configuration)) {

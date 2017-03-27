@@ -34,8 +34,7 @@ class ReferenceTypeController  extends AbstractAdminController
         $action = $this->generateUrl('itkg_reference_bundle_reference_type_form', array('referenceTypeId' => $referenceTypeId));
         $form = $this->createReferenceTypeForm($request, array(
             'action' => $action,
-            'delete_button' => ($this->isGranted(ContributionActionInterface::DELETE, $newReferenceType) && 0 == $this->get('itkg_reference.repository.reference')->countByReferenceType($referenceTypeId)),
-            'need_link_to_site_defintion' => false,
+            'delete_button' => ($this->isGranted(ContributionActionInterface::DELETE, $newReferenceType) && 0 == $this->get('itkg_reference.repository.reference')->countByReferenceType($referenceTypeId))
         ), $newReferenceType);
 
         $form->handleRequest($request);
@@ -64,8 +63,7 @@ class ReferenceTypeController  extends AbstractAdminController
         $action = $this->generateUrl('itkg_reference_bundle_reference_type_new', array());
         $form = $this->createReferenceTypeForm($request, array(
             'action' => $action,
-            'new_button' => true,
-            'need_link_to_site_defintion' => true,
+            'new_button' => true
         ), $referenceType);
 
         $form->handleRequest($request);

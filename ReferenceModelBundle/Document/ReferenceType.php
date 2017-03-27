@@ -10,7 +10,6 @@ use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
 use OpenOrchestra\ModelInterface\Model\FieldTypeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use OpenOrchestra\MongoTrait\SiteLinkable;
 use OpenOrchestra\MongoTrait\Versionable;
 
 /**
@@ -26,7 +25,6 @@ class ReferenceType implements ReferenceTypeInterface
     use BlameableDocument;
     use TimestampableDocument;
     use Versionable;
-    use SiteLinkable;
     use SoftDeleteable;
 
     /**

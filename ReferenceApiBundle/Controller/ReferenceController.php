@@ -468,7 +468,6 @@ class ReferenceController extends BaseController
         $mapping = array(
             'name' => 'name',
             'status_label' => 'status.labels.'.$language,
-            'linked_to_site' => 'linkedToSite',
             'created_at' => 'createdAt',
             'created_by' => 'createdBy',
             'updated_at' => 'updatedAt',

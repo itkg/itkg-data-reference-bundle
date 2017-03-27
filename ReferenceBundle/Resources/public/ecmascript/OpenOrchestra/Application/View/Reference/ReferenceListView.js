@@ -49,7 +49,6 @@ class ReferenceListView extends mix(AbstractDataTableView).with(UrlPaginateViewM
         let columnsDefinition = [];
         let defaultListable = this._referenceType.get('default_listable');
         let createdCell = {
-            'linked_to_site': BooleanFormatter.getType(),
             'created_at': DateFormatter.getType(),
             'updated_at': DateFormatter.getType()
         };
