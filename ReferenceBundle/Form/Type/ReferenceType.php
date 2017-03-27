@@ -48,13 +48,13 @@ class ReferenceType extends AbstractType
     {
         $builder
             ->add('name', 'text', array(
-                'label' => 'open_orchestra_backoffice.form.reference.name',
+                'label' => 'itkg_reference.form.reference.name',
                 'disabled' => $options['is_blocked_edition'],
                 'group_id' => 'property',
                 'sub_group_id' => 'information',
             ))
             ->add('keywords', 'oo_keywords_choice', array(
-                'label' => 'open_orchestra_backoffice.form.reference.keywords',
+                'label' => 'itkg_reference.form.reference.keywords',
                 'required' => false,
                 'group_id' => 'property',
                 'sub_group_id' => 'information',
@@ -124,25 +124,25 @@ class ReferenceType extends AbstractType
                 'group_render' => array(
                     'property' => array(
                         'rank' => 0,
-                        'label' => 'open_orchestra_backoffice.form.reference.group.property',
+                        'label' => 'itkg_reference.form.reference.group.property',
                     ),
                     'data' => array(
                         'rank' => 1,
-                        'label' => 'open_orchestra_backoffice.form.reference.group.data',
+                        'label' => 'itkg_reference.form.reference.group.data',
                     ),
                 ),
                 'sub_group_render' => array(
                     'information' => array(
                         'rank' => 0,
-                        'label' => 'open_orchestra_backoffice.form.reference.sub_group.information',
+                        'label' => 'itkg_reference.form.reference.sub_group.information',
                     ),
                     'publication' => array(
                         'rank' => 1,
-                        'label' => 'open_orchestra_backoffice.form.reference.sub_group.publication',
+                        'label' => 'itkg_reference.form.reference.sub_group.publication',
                     ),
                     'data' => array(
                         'rank' => 0,
-                        'label' => 'open_orchestra_backoffice.form.reference.sub_group.data',
+                        'label' => 'itkg_reference.form.reference.sub_group.data',
                     ),
                 ),
         ));

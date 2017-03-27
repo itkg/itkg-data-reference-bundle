@@ -128,7 +128,7 @@ class ReferenceController extends BaseController
         foreach (array_keys($frontLanguages) as $language) {
             $reference = $this->findOneReference($referenceId, $language);
             if ($reference instanceof ReferenceInterface) {
-                $duplicateReference = $this->get('open_orchestra_backoffice.manager.reference')->duplicateReference($reference, $newReferenceId);
+                $duplicateReference = $this->get('itkg_reference.manager.reference')->duplicateReference($reference, $newReferenceId);
                 $objectManager->persist($duplicateReference);
 
                 $newReferenceId = $duplicateReference->getReferenceId();
@@ -285,7 +285,7 @@ class ReferenceController extends BaseController
             'OpenOrchestra\ApiBundle\Facade\ReferenceFacade',
             $request->get('_format', 'json')
             );
-        $newReference = $this->get('open_orchestra_backoffice.manager.reference')->newVersionReference($reference, $facade->versionName);
+        $newReference = $this->get('itkg_reference.manager.reference')->newVersionReference($reference, $facade->versionName);
 
         $objectManager = $this->get('object_manager');
         $objectManager->persist($newReference);
@@ -313,7 +313,7 @@ class ReferenceController extends BaseController
         }
         $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $reference);
 
-        $newReference = $this->get('open_orchestra_backoffice.manager.reference')->newVersionReference($reference);
+        $newReference = $this->get('itkg_reference.manager.reference')->newVersionReference($reference);
         $status = $this->get('open_orchestra_model.repository.status')->findOneByTranslationState();
         $newReference->setStatus($status);
         $newReference->setLanguage($language);

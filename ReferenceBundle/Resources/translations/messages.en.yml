@@ -16,3 +16,14 @@ itkg_reference:
                 version: Version
             success: The reference type has been modified
             creation: The reference type has been created
+        reference:
+            name: Reference name
+            keywords: Keywords
+            group:
+                property: Properties
+                data: Data
+            sub_group:
+                information: Informations
+                data: Data
+            creation: The reference has been created
+            success: The reference has been modified

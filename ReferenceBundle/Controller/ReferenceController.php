@@ -92,7 +92,7 @@ class ReferenceController extends AbstractAdminController
      */
     public function newAction(Request $request, $referenceTypeId, $language)
     {
-        $referenceManager = $this->get('open_orchestra_backoffice.manager.reference');
+        $referenceManager = $this->get('itkg_reference.manager.reference');
         $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($referenceTypeId);
         if (!$referenceType instanceof ReferenceTypeInterface) {
             throw new \UnexpectedValueException();
@@ -101,10 +101,10 @@ class ReferenceController extends AbstractAdminController
         if (!$reference instanceof ReferenceInterface) {
             throw new \UnexpectedValueException();
         }
-        $this->denyAccessUnlessGranted(ContributionActionInterface::CREATE, $reference);
+//         $this->denyAccessUnlessGranted(ContributionActionInterface::CREATE, $reference);
 
         $form = $this->createForm('itkg_reference', $reference, array(
-            'action' => $this->generateUrl('open_orchestra_backoffice_reference_new', array(
+            'action' => $this->generateUrl('itkg_reference_bundle_reference_new', array(
                 'referenceTypeId' => $referenceTypeId,
                 'language' => $language,
             )),
@@ -188,7 +188,7 @@ class ReferenceController extends AbstractAdminController
         $languages = $this->get('open_orchestra_backoffice.context_manager')->getCurrentSiteLanguages();
         foreach ($languages as $siteLanguage) {
             if ($currentLanguage !== $siteLanguage) {
-                $translatedReference = $this->get('open_orchestra_backoffice.manager.reference')->createNewLanguageReference($reference, $siteLanguage);
+                $translatedReference = $this->get('itkg_reference.manager.reference')->createNewLanguageReference($reference, $siteLanguage);
                 $this->get('object_manager')->persist($translatedReference);
                 $this->dispatchEvent(ReferenceEvents::REFERENCE_CREATION, new ReferenceEvent($translatedReference));
             }

@@ -16,3 +16,14 @@ itkg_reference:
                 version: Version
             success: Le type de référence a été modifié
             creation: Le type de référence a été créé
+        reference:
+            name: Nom de la référence
+            keywords: Mots-clé
+            group:
+                property: Propriétés
+                data: Données
+            sub_group:
+                information: Informations
+                data: Données
+            creation: La référence a été créée
+            success: La référence a été modifiée

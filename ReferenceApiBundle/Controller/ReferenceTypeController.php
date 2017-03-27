@@ -137,7 +137,7 @@ class ReferenceTypeController extends BaseController
                 foreach ($referenceTypes as $referenceType) {
                     $this->denyAccessUnlessGranted(ContributionActionInterface::DELETE, $referenceType);
                 }
-                $this->get('open_orchestra_backoffice.manager.reference_type')->delete($referenceTypes);
+                $this->get('itkg_reference_bundle.manager.reference_type')->delete($referenceTypes);
                 $this->dispatchEvent(ReferenceTypeEvents::CONTENT_TYPE_DELETE, new ReferenceTypeEvent($referenceTypes[0]));
                 $this->get('object_manager')->flush();
             }

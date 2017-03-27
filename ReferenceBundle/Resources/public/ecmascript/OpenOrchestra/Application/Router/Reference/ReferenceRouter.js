@@ -4,7 +4,7 @@ import FormBuilder         from '../../../Service/Form/Model/FormBuilder'
 import ReferenceSummaryView  from '../../View/Reference/ReferenceSummaryView'
 import ReferencesView        from '../../View/Reference/ReferencesView'
 import ReferenceFormView     from '../../View/Reference/ReferenceFormView'
-//import NewReferenceFormView  from '../../View/Reference/NewReferenceFormView'
+import NewReferenceFormView  from '../../View/Reference/NewReferenceFormView'
 import ReferenceTypes        from '../../Collection/ReferenceType/ReferenceTypes'
 import References            from '../../Collection/Reference/References'
 import ReferenceType         from '../../Model/ReferenceType/ReferenceType'
@@ -160,21 +160,21 @@ class ReferenceRouter extends OrchestraRouter
      * @param {string} language
      */
     newReference(referenceTypeId, language) {
-//        this._displayLoader(Application.getRegion('content'));
-//        let url = Routing.generate('open_orchestra_backoffice_reference_new', {
-//            referenceTypeId: referenceTypeId,
-//            language: language
-//        });
-//
-//        FormBuilder.createFormFromUrl(url, (form) => {
-//            let newReferenceFormView = new NewReferenceFormView({
-//                form: form,
-//                referenceTypeId: referenceTypeId,
-//                language: language,
-//                siteLanguages: Application.getContext().siteLanguages
-//            });
-//            Application.getRegion('content').html(newReferenceFormView.render().$el);
-//        });
+        this._displayLoader(Application.getRegion('content'));
+        let url = Routing.generate('itkg_reference_bundle_reference_new', {
+            referenceTypeId: referenceTypeId,
+            language: language
+        });
+
+        FormBuilder.createFormFromUrl(url, (form) => {
+            let newReferenceFormView = new NewReferenceFormView({
+                form: form,
+                referenceTypeId: referenceTypeId,
+                language: language,
+                siteLanguages: Application.getContext().siteLanguages
+            });
+            Application.getRegion('content').html(newReferenceFormView.render().$el);
+        });
     }
 
     /**
