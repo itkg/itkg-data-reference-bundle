@@ -159,7 +159,7 @@ class ReferenceController extends BaseController
             $format
             );
         $references = $this->get('open_orchestra_api.transformer_manager')->get('reference_collection')->reverseTransform($facade);
-        $versionsCount = $this->get('open_orchestra_model.repository.reference')->countNotDeletedByLanguage($referenceId, $language);
+        $versionsCount = $this->get('itkg_reference.repository.reference')->countNotDeletedByLanguage($referenceId, $language);
         if ($versionsCount > count($references)) {
             $storageIds = array();
             foreach ($references as $reference) {
@@ -168,7 +168,7 @@ class ReferenceController extends BaseController
                     $this->dispatchEvent(ReferenceEvents::CONTENT_DELETE_VERSION, new ReferenceEvent($reference));
                 }
             }
-            $this->get('open_orchestra_model.repository.reference')->removeReferenceVersion($storageIds);
+            $this->get('itkg_reference.repository.reference')->removeReferenceVersion($storageIds);
         }
 
         return array();
@@ -191,7 +191,7 @@ class ReferenceController extends BaseController
             $format
             );
         $references = $this->get('open_orchestra_api.transformer_manager')->get('reference_collection')->reverseTransform($facade);
-        $repository = $this->get('open_orchestra_model.repository.reference');
+        $repository = $this->get('itkg_reference.repository.reference');
 
         foreach ($references as $reference) {
             $this->denyAccessUnlessGranted(ContributionActionInterface::DELETE, $reference);
@@ -219,7 +219,7 @@ class ReferenceController extends BaseController
      */
     public function deleteAction($referenceId)
     {
-        $repository = $this->get('open_orchestra_model.repository.reference');
+        $repository = $this->get('itkg_reference.repository.reference');
         $reference = $repository->findOneByReferenceId($referenceId);
         $this->denyAccessUnlessGranted(ContributionActionInterface::DELETE, $reference);
 
@@ -247,7 +247,7 @@ class ReferenceController extends BaseController
         $siteId = $this->get('open_orchestra_backoffice.context_manager')->getCurrentSiteId();
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        $reference = $this->get('open_orchestra_model.repository.reference')->findByHistoryAndSiteId(
+        $reference = $this->get('itkg_reference.repository.reference')->findByHistoryAndSiteId(
             $user->getId(),
             $siteId,
             array(ReferenceEvents::CONTENT_CREATION, ReferenceEvents::CONTENT_UPDATE),
@@ -307,7 +307,7 @@ class ReferenceController extends BaseController
      */
     public function newLanguageAction($referenceId, $language)
     {
-        $reference = $this->get('open_orchestra_model.repository.reference')->findLastVersion($referenceId);
+        $reference = $this->get('itkg_reference.repository.reference')->findLastVersion($referenceId);
         if (!$reference instanceof ReferenceInterface) {
             throw new ReferenceNotFoundHttpException();
         }
@@ -339,7 +339,7 @@ class ReferenceController extends BaseController
     public function listVersionAction($referenceId, $language)
     {
         $this->denyAccessUnlessGranted(ContributionActionInterface::READ, SiteInterface::ENTITY_TYPE);
-        $references = $this->get('open_orchestra_model.repository.reference')->findNotDeletedSortByUpdatedAt($referenceId, $language);
+        $references = $this->get('itkg_reference.repository.reference')->findNotDeletedSortByUpdatedAt($referenceId, $language);
 
         return $this->get('open_orchestra_api.transformer_manager')->get('reference_collection')->transform($references);
     }
@@ -396,7 +396,7 @@ class ReferenceController extends BaseController
             $request->get('_format', 'json')
             );
 
-        $reference = $this->get('open_orchestra_model.repository.reference')->find($facade->id);
+        $reference = $this->get('itkg_reference.repository.reference')->find($facade->id);
         if (!$reference instanceof ReferenceInterface) {
             throw new ReferenceNotFoundHttpException();
         }
@@ -425,7 +425,7 @@ class ReferenceController extends BaseController
      */
     protected function findOneReference($referenceId, $language, $version = null)
     {
-        $referenceRepository = $this->get('open_orchestra_model.repository.reference');
+        $referenceRepository = $this->get('itkg_reference.repository.reference');
         $reference = $referenceRepository->findOneByLanguageAndVersion($referenceId, $language, $version);
 
         return $reference;
@@ -442,7 +442,7 @@ class ReferenceController extends BaseController
         $saveOldPublishedVersion
         ) {
             if (true === $reference->getStatus()->isPublishedState() && false === $saveOldPublishedVersion) {
-                $oldPublishedVersion = $this->get('open_orchestra_model.repository.reference')->findOnePublished(
+                $oldPublishedVersion = $this->get('itkg_reference.repository.reference')->findOnePublished(
                     $reference->getReferenceId(),
                     $reference->getLanguage(),
                     $reference->getSiteId()

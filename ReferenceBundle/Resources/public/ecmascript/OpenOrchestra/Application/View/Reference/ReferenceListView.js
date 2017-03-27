@@ -109,7 +109,7 @@ class ReferenceListView extends mix(AbstractDataTableView).with(UrlPaginateViewM
             referenceTypeId: context._referenceType.get('reference_type_id'),
             language: rowData.get('language'),
             referenceId: rowData.get('reference_id'),
-            version: rowData.get('version')
+//            version: rowData.get('version')
         });
 //        if (!rowData.get('status').blocked_edition) {
             cellData = $('<a>',{

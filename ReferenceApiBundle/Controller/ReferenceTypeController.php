@@ -94,7 +94,7 @@ class ReferenceTypeController extends BaseController
         $referenceTypeIds = array();
         foreach ($referenceTypes as $referenceType) {
             if ($this->isGranted(ContributionActionInterface::DELETE, $referenceType) &&
-                0 == $this->get('open_orchestra_model.repository.reference')->countByReferenceType($referenceType->getReferenceTypeId())
+                0 == $this->get('itkg_reference.repository.reference')->countByReferenceType($referenceType->getReferenceTypeId())
             ) {
                 $referenceTypeIds[] = $referenceType->getReferenceTypeId();
                 $this->dispatchEvent(ReferenceTypeEvents::CONTENT_TYPE_DELETE, new ReferenceTypeEvent($referenceType));
@@ -131,7 +131,7 @@ class ReferenceTypeController extends BaseController
      */
     public function deleteAction($referenceTypeId)
     {
-        if (0 == $this->get('open_orchestra_model.repository.reference')->countByReferenceType($referenceTypeId)) {
+        if (0 == $this->get('itkg_reference.repository.reference')->countByReferenceType($referenceTypeId)) {
             $referenceTypes = $this->get('itkg_reference.repository.reference_type')->findBy(array('referenceTypeId' => $referenceTypeId));
             if (count($referenceTypes) > 0) {
                 foreach ($referenceTypes as $referenceType) {

@@ -1,14 +1,14 @@
 import OrchestraRouter     from '../OrchestraRouter'
 import Application         from '../../Application'
-//import FormBuilder         from '../../../Service/Form/Model/FormBuilder'
+import FormBuilder         from '../../../Service/Form/Model/FormBuilder'
 import ReferenceSummaryView  from '../../View/Reference/ReferenceSummaryView'
 import ReferencesView        from '../../View/Reference/ReferencesView'
-//import ReferenceFormView     from '../../View/Reference/ReferenceFormView'
+import ReferenceFormView     from '../../View/Reference/ReferenceFormView'
 //import NewReferenceFormView  from '../../View/Reference/NewReferenceFormView'
 import ReferenceTypes        from '../../Collection/ReferenceType/ReferenceTypes'
 import References            from '../../Collection/Reference/References'
 import ReferenceType         from '../../Model/ReferenceType/ReferenceType'
-//import Reference             from '../../Model/Reference/Reference'
+import Reference             from '../../Model/Reference/Reference'
 import Statuses            from '../../Collection/Status/Statuses'
 //import ApplicationError    from '../../../Service/Error/ApplicationError'
 //import ConfirmModalView    from '../../../Service/ConfirmModal/View/ConfirmModalView'
@@ -122,35 +122,35 @@ class ReferenceRouter extends OrchestraRouter
      * @param {int|null} version
      */
     editReference(referenceTypeId, language, referenceId, version = null) {
-//        this._displayLoader(Application.getRegion('content'));
-//        let url = Routing.generate('open_orchestra_backoffice_reference_form', {
-//            referenceId: referenceId,
-//            language: language,
-//            version: version
-//        });
-//        let referenceType = new ReferenceType();
-//        let reference = new Reference({id: referenceId});
-//
-//        $.when(
-//            referenceType.fetch({urlParameter: {referenceTypeId: referenceTypeId}}),
-//            reference.fetch({
-//                urlParameter: {version: version, language: language},
-//                enabledCallbackError: false
-//            })
-//        ).done(() => {
-//            FormBuilder.createFormFromUrl(url, (form) => {
-//                    let referenceFormView = new ReferenceFormView({
-//                        form: form,
-//                        referenceType: referenceType,
-//                        reference: reference,
-//                        siteLanguages: Application.getContext().siteLanguages
-//                    });
-//                    Application.getRegion('content').html(referenceFormView.render().$el);
-//                })
-//        })
-//        .fail(() => {
-//            this._errorCallbackEdit(referenceTypeId, referenceId, language);
-//        })
+        this._displayLoader(Application.getRegion('content'));
+        let url = Routing.generate('itkg_reference_bundle_reference_form', {
+            referenceId: referenceId,
+            language: language,
+            version: version
+        });
+        let referenceType = new ReferenceType();
+        let reference = new Reference({id: referenceId});
+
+        $.when(
+            referenceType.fetch({urlParameter: {referenceTypeId: referenceTypeId}}),
+            reference.fetch({
+                urlParameter: {version: version, language: language},
+                enabledCallbackError: false
+            })
+        ).done(() => {
+            FormBuilder.createFormFromUrl(url, (form) => {
+                    let referenceFormView = new ReferenceFormView({
+                        form: form,
+                        referenceType: referenceType,
+                        reference: reference,
+                        siteLanguages: Application.getContext().siteLanguages
+                    });
+                    Application.getRegion('content').html(referenceFormView.render().$el);
+                })
+        })
+        .fail(() => {
+            this._errorCallbackEdit(referenceTypeId, referenceId, language);
+        })
     }
 
     /**
