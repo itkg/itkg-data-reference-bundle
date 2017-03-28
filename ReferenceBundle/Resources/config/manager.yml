@@ -11,7 +11,6 @@ services:
     itkg_reference.manager.reference:
         class    : '%itkg_reference.manager.reference.class%'
         arguments:
-            - '@open_orchestra_model.repository.status'
             - '@open_orchestra_backoffice.context_manager'
             - '%itkg_reference.document.reference.class%'
             - '@open_orchestra_backoffice.util.unique_id_generator'

@@ -22,11 +22,6 @@ class ReferenceTypeFacade extends AbstractFacade
     public $name;
 
     /**
-     * @Serializer\Type("boolean")
-     */
-    public $definingStatusable;
-
-    /**
      * @Serializer\Type("array")
      */
     public $defaultListable;

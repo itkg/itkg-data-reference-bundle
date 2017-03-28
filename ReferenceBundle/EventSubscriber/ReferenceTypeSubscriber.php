@@ -8,11 +8,9 @@ use OpenOrchestra\ModelInterface\Model\FieldTypeInterface;
 use Itkg\ReferenceApiBundle\Repository\ReferenceTypeRepository;
 use Symfony\Component\Form\FormEvent;
 use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
-use Itkg\ReferenceInterface\Model\ReferenceInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use OpenOrchestra\ModelInterface\Repository\StatusRepositoryInterface;
 use OpenOrchestra\ModelInterface\Manager\MultiLanguagesChoiceManagerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -32,7 +30,6 @@ class ReferenceTypeSubscriber implements EventSubscriberInterface
 
     /**
      * @param ReferenceTypeRepositoryInterface     $referenceTypeRepository
-     * @param StatusRepositoryInterface            $statusRepository
      * @param string                               $referenceAttributeClass
      * @param MultiLanguagesChoiceManagerInterface $multiLanguagesChoiceManager
      * @param array                                $fieldTypesConfiguration
@@ -41,7 +38,6 @@ class ReferenceTypeSubscriber implements EventSubscriberInterface
      */
     public function __construct(
         ReferenceTypeRepositoryInterface $referenceTypeRepository,
-        StatusRepositoryInterface $statusRepository,
         $referenceAttributeClass,
         MultiLanguagesChoiceManagerInterface $multiLanguagesChoiceManager,
         $fieldTypesConfiguration,
@@ -50,7 +46,6 @@ class ReferenceTypeSubscriber implements EventSubscriberInterface
         EventDispatcherInterface $eventDispatcher
     ) {
         $this->referenceTypeRepository = $referenceTypeRepository;
-        $this->statusRepository = $statusRepository;
         $this->referenceAttributeClass = $referenceAttributeClass;
         $this->multiLanguagesChoiceManager = $multiLanguagesChoiceManager;
         $this->fieldTypesConfiguration = $fieldTypesConfiguration;
@@ -67,7 +62,6 @@ class ReferenceTypeSubscriber implements EventSubscriberInterface
         return array(
             FormEvents::PRE_SET_DATA => 'preSetData',
             FormEvents::POST_SET_DATA => 'postSetData',
-            FormEvents::PRE_SUBMIT => 'preSubmit',
             FormEvents::POST_SUBMIT => 'postSubmit',
         );
     }
@@ -81,7 +75,7 @@ class ReferenceTypeSubscriber implements EventSubscriberInterface
         $reference = $event->getData();
         $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeId($reference->getReferenceType());
         if ($referenceType instanceof ReferenceTypeInterface) {
-            $this->addReferenceTypeFieldsToForm($referenceType->getFields(), $form, $reference->getStatus() ? $reference->getStatus()->isBlockedEdition() : false);
+            $this->addReferenceTypeFieldsToForm($referenceType->getFields(), $form, false);
         }
     }
 
@@ -106,26 +100,6 @@ class ReferenceTypeSubscriber implements EventSubscriberInterface
                     $error = new FormError($message);
                     $form->get($referenceTypeFieldId)->addError($error);
                 }
-            }
-        }
-    }
-
-    /**
-     * @param FormEvent $event
-     */
-    public function preSubmit(FormEvent $event)
-    {
-        $reference = $event->getForm()->getData();
-        $data = $event->getData();
-        $statusId = !array_key_exists('status', $data) ? false : $data['status'];
-
-        if ($reference instanceof ReferenceInterface && $statusId && $reference->getStatus()->getId() != $statusId) {
-            $toStatus = $this->statusRepository->find($statusId);
-            $event = new StatusableEvent($reference, $toStatus);
-            try {
-                $this->eventDispatcher->dispatch(StatusEvents::STATUS_CHANGE, $event);
-            } catch (StatusChangeNotGrantedException $e) {
-                throw new StatusChangeNotGrantedException();
             }
         }
     }
@@ -163,15 +137,14 @@ class ReferenceTypeSubscriber implements EventSubscriberInterface
      *
      * @param array<FieldTypeInterface> $referenceTypeFields
      * @param FormInterface             $form
-     * @param boolean                   $blockedEdition
      */
-    protected function addReferenceTypeFieldsToForm($referenceTypeFields, FormInterface $form, $blockedEdition)
+    protected function addReferenceTypeFieldsToForm($referenceTypeFields, FormInterface $form)
     {
         /** @var FieldTypeInterface $referenceTypeField */
         foreach ($referenceTypeFields as $referenceTypeField) {
 
             if (isset($this->fieldTypesConfiguration[$referenceTypeField->getType()])) {
-                $this->addFieldToForm($referenceTypeField, $form, $blockedEdition);
+                $this->addFieldToForm($referenceTypeField, $form);
             }
         }
     }
@@ -181,9 +154,8 @@ class ReferenceTypeSubscriber implements EventSubscriberInterface
      *
      * @param FieldTypeInterface $referenceTypeField
      * @param FormInterface      $form
-     * @param boolean            $blockedEdition
      */
-    protected function addFieldToForm(FieldTypeInterface $referenceTypeField, FormInterface $form, $blockedEdition)
+    protected function addFieldToForm(FieldTypeInterface $referenceTypeField, FormInterface $form)
     {
         $fieldTypeConfiguration = $this->fieldTypesConfiguration[$referenceTypeField->getType()];
 
@@ -191,7 +163,6 @@ class ReferenceTypeSubscriber implements EventSubscriberInterface
             array(
                 'label' => $this->multiLanguagesChoiceManager->choose($referenceTypeField->getLabels()),
                 'mapped' => false,
-                'disabled' => $blockedEdition,
                 'group_id' => 'data',
                 'sub_group_id' => 'data',
             ),

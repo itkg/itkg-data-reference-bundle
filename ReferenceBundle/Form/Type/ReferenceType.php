@@ -18,24 +18,20 @@ use Itkg\ReferenceBundle\Event\ReferenceFormEvent;
 class ReferenceType extends AbstractType
 {
     protected $referenceTypeSubscriber;
-    protected $statusableChoiceStatusSubscriber;
     protected $eventDispatcher;
     protected $referenceClass;
 
     /**
      * @param EventSubscriberInterface $referenceTypeSubscriber
-     * @param EventSubscriberInterface $statusableChoiceStatusSubscriber
      * @param EventDispatcherInterface $eventDispatcher
      * @param string                   $referenceClass
      */
     public function __construct(
         EventSubscriberInterface $referenceTypeSubscriber,
-        EventSubscriberInterface $statusableChoiceStatusSubscriber,
         EventDispatcherInterface $eventDispatcher,
         $referenceClass
     ) {
         $this->referenceTypeSubscriber = $referenceTypeSubscriber;
-        $this->statusableChoiceStatusSubscriber = $statusableChoiceStatusSubscriber;
         $this->eventDispatcher = $eventDispatcher;
         $this->referenceClass = $referenceClass;
     }
@@ -49,7 +45,6 @@ class ReferenceType extends AbstractType
         $builder
             ->add('name', 'text', array(
                 'label' => 'itkg_reference.form.reference.name',
-                'disabled' => $options['is_blocked_edition'],
                 'group_id' => 'property',
                 'sub_group_id' => 'information',
             ))
@@ -58,19 +53,6 @@ class ReferenceType extends AbstractType
                 'required' => false,
                 'group_id' => 'property',
                 'sub_group_id' => 'information',
-            ));
-        $builder
-            ->add('publishDate', 'oo_date_picker', array(
-                'widget' => 'single_text',
-                'label' => 'open_orchestra_backoffice.form.reference.publish_date',
-                'group_id' => 'property',
-                'required' => false
-            ))
-            ->add('unpublishDate', 'oo_date_picker', array(
-                'widget' => 'single_text',
-                'label' => 'open_orchestra_backoffice.form.reference.unpublish_date',
-                'group_id' => 'property',
-                'required' => false
             ));
 
         $builder->addEventSubscriber($this->referenceTypeSubscriber);
@@ -107,7 +89,6 @@ class ReferenceType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => $this->referenceClass,
-            'is_blocked_edition' => false,
             'delete_button' => false,
             'new_button' => false,
                 'group_enabled' => true,

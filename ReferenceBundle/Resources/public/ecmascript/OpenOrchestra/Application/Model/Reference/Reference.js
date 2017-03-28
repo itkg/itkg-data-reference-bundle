@@ -1,6 +1,5 @@
 import OrchestraModel from '../OrchestraModel'
 import Fields         from '../Content/Fields'
-import Status         from '../Status/Status'
 
 /**
  * @class Reference
@@ -16,9 +15,6 @@ class Reference extends OrchestraModel
     parse(response) {
         if (response.hasOwnProperty('attributes')) {
             response.fields = new Fields(response.attributes);
-        }
-        if (response.hasOwnProperty('status')) {
-            response.status = new Status(response.status);
         }
 
         return response;
@@ -40,22 +36,6 @@ class Reference extends OrchestraModel
             case "delete":
                 urlParameter.referenceId = this.get('id');
                 return Routing.generate('open_orchestra_api_reference_delete', urlParameter);
-        }
-    }
-
-    /**
-     * @param {Object} options
-     *
-     * @returns {string}
-     * @private
-     */
-    _getSyncUpdateUrl(options) {
-        let apiContext = options.apiContext || null;
-        switch (apiContext) {
-            case "update_status_with_save_published":
-                return Routing.generate('open_orchestra_api_reference_update_status_with_save_published');
-            case "update_status":
-                return Routing.generate('open_orchestra_api_reference_update_status');
         }
     }
 

@@ -74,7 +74,6 @@ class ReferenceTypeManager
     {
         return array(
             'name'           => true,
-            'status_label'   => false,
             'created_at'     => true,
             'created_by'     => true,
             'updated_at'     => false,

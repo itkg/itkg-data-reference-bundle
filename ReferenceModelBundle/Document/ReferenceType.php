@@ -75,13 +75,6 @@ class ReferenceType implements ReferenceTypeInterface
     protected $definingVersionable = true;
 
     /**
-     * @var boolean definingStatusable
-     *
-     * @ODM\Field(type="boolean")
-     */
-    protected $definingStatusable = true;
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -263,22 +256,6 @@ class ReferenceType implements ReferenceTypeInterface
     public function isDefiningVersionable()
     {
         return $this->definingVersionable;
-    }
-
-    /**
-     * @param boolean $definingStatusable
-     */
-    public function setDefiningStatusable($definingStatusable)
-    {
-        $this->definingStatusable = $definingStatusable;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isDefiningStatusable()
-    {
-        return $this->definingStatusable;
     }
 
     /**

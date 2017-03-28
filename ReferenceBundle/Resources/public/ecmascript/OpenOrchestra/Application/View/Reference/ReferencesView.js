@@ -11,10 +11,9 @@ class ReferencesView extends AbstractCollectionView
     /**
      * @inheritdoc
      */
-    initialize({collection, settings, urlParameter, referenceType, statuses}) {
+    initialize({collection, settings, urlParameter, referenceType}) {
         this._urlParameter = urlParameter;
         this._referenceType = referenceType;
-        this._statuses = statuses;
         super.initialize({collection, settings});
     }
 
@@ -23,13 +22,10 @@ class ReferencesView extends AbstractCollectionView
      */
     render() {
         $.datepicker.setDefaults($.datepicker.regional[Application.getContext().language]);
-        let statuses = this._statuses.toJSON();
-        statuses = statuses.hasOwnProperty('statuses') ? statuses.statuses : [];
         let template = this._renderTemplate('Reference/referencesView', {
             referenceType: this._referenceType.toJSON(),
             language: this._urlParameter.language,
             siteLanguages: Application.getContext().siteLanguages,
-            statuses: statuses,
             SearchFormGroupManager: SearchFormGroupManager,
             dateFormat: $.datepicker._defaults.dateFormat
         });

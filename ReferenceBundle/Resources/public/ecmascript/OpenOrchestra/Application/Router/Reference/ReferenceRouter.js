@@ -1,17 +1,15 @@
-import OrchestraRouter     from '../OrchestraRouter'
-import Application         from '../../Application'
-import FormBuilder         from '../../../Service/Form/Model/FormBuilder'
-import ReferenceSummaryView  from '../../View/Reference/ReferenceSummaryView'
-import ReferencesView        from '../../View/Reference/ReferencesView'
-import ReferenceFormView     from '../../View/Reference/ReferenceFormView'
-import NewReferenceFormView  from '../../View/Reference/NewReferenceFormView'
-import ReferenceTypes        from '../../Collection/ReferenceType/ReferenceTypes'
-import References            from '../../Collection/Reference/References'
-import ReferenceType         from '../../Model/ReferenceType/ReferenceType'
-import Reference             from '../../Model/Reference/Reference'
-import Statuses            from '../../Collection/Status/Statuses'
-//import ApplicationError    from '../../../Service/Error/ApplicationError'
-//import ConfirmModalView    from '../../../Service/ConfirmModal/View/ConfirmModalView'
+import OrchestraRouter      from '../OrchestraRouter'
+import Application          from '../../Application'
+import FormBuilder          from '../../../Service/Form/Model/FormBuilder'
+import ReferenceSummaryView from '../../View/Reference/ReferenceSummaryView'
+import ReferencesView       from '../../View/Reference/ReferencesView'
+import ReferenceFormView    from '../../View/Reference/ReferenceFormView'
+import NewReferenceFormView from '../../View/Reference/NewReferenceFormView'
+import ReferenceTypes       from '../../Collection/ReferenceType/ReferenceTypes'
+import References           from '../../Collection/Reference/References'
+import ReferenceType        from '../../Model/ReferenceType/ReferenceType'
+import Reference            from '../../Model/Reference/Reference'
+//import ConfirmModalView   from '../../../Service/ConfirmModal/View/ConfirmModalView'
 
 /**
  * @class ReferenceRouter
@@ -23,10 +21,10 @@ class ReferenceRouter extends OrchestraRouter
      */
     preinitialize() {
         this.routes = {
-            'reference/summary'                                                        : 'showReferenceSummary',
-            'reference/list/:referenceTypeId/:language(/:page)'                        : 'listReference',
-            'reference/edit/:referenceTypeId/:language/:referenceId'                   : 'editReference',
-            'reference/new/:referenceTypeId/:language'                                 : 'newReference'
+            'reference/summary'                                      : 'showReferenceSummary',
+            'reference/list/:referenceTypeId/:language(/:page)'      : 'listReference',
+            'reference/edit/:referenceTypeId/:language/:referenceId' : 'editReference',
+            'reference/new/:referenceTypeId/:language'               : 'newReference'
         };
     }
 
@@ -153,11 +151,9 @@ class ReferenceRouter extends OrchestraRouter
         };
 
         let referenceType = new ReferenceType();
-        let statuses = new Statuses();
         let references = new References();
 
         $.when(
-            statuses.fetch({apiContext: 'contents'}),
             referenceType.fetch({urlParameter: {referenceTypeId: referenceTypeId}}),
             references.fetch({
                 apiContext: 'list',
@@ -177,12 +173,11 @@ class ReferenceRouter extends OrchestraRouter
                     pageLength: pageLength
                 },
                 urlParameter: urlParameter,
-                referenceType: referenceType,
-                statuses: statuses
+                referenceType: referenceType
             });
             let el = referencesView.render().$el;
             Application.getRegion('content').html(el);
-         });
+        });
     }
 
     /**

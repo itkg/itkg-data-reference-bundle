@@ -7,7 +7,6 @@ services:
         class: '%itkg_reference.subscriber.reference_type.class%'
         arguments:
             - '@itkg_reference.repository.reference_type'
-            - '@open_orchestra_model.repository.status'
             - '%open_orchestra_model.document.content_attribute.class%'
             - '@open_orchestra_backoffice.manager.multi_languages_choice'
             - '%open_orchestra_backoffice.field_types%'

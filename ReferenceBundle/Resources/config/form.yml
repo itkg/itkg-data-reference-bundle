@@ -20,7 +20,6 @@ services:
         class    : '%itkg_reference_bundle.type.itkg_reference.class%'
         arguments:
             - '@itkg_reference.subscriber.reference_type'
-            - '@open_orchestra_workflow_admin.subscriber.content_choice_status'
             - '@event_dispatcher'
             - '%itkg_reference.document.reference.class%'
         tags:

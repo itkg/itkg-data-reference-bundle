@@ -42,18 +42,17 @@ class ReferenceController extends AbstractAdminController
         }
 //         $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $reference);
 
-        $publishedReferences = $this->get('itkg_reference.repository.reference')->findAllPublishedByReferenceId($referenceId);
+        $references = $this->get('itkg_reference.repository.reference')->findAllByReferenceId($referenceId);
         $isUsed = false;
-        foreach ($publishedReferences as $publishedReference) {
-            $isUsed = $isUsed || $publishedReference->isUsed();
+        foreach ($references as $pReference) {
+            $isUsed = $isUsed || $pReference->isUsed();
         }
         $options = array(
             'action' => $this->generateUrl('itkg_reference_bundle_reference_form', array(
                 'referenceId' => $reference->getReferenceId(),
                 'language' => $reference->getLanguage()
             )),
-            'delete_button' => $this->canDeleteReference($reference),
-            'is_blocked_edition' => $reference->getStatus() ? $reference->getStatus()->isBlockedEdition() : false,
+            'delete_button' => $this->canDeleteReference($reference)
         );
         $form = $this->createForm('itkg_reference', $reference, $options);
 
@@ -105,11 +104,9 @@ class ReferenceController extends AbstractAdminController
                 'language' => $language,
             )),
             'method' => 'POST',
-            'new_button' => true,
-            'is_blocked_edition' => $reference->getStatus() ? $reference->getStatus()->isBlockedEdition() : false,
+            'new_button' => true
         ));
 
-        $status = $reference->getStatus();
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -120,9 +117,6 @@ class ReferenceController extends AbstractAdminController
             $this->createReferenceInNewLanguage($reference, $language);
 
             $documentManager->flush();
-            if ($status->getId() !== $reference->getStatus()->getId()) {
-                $this->dispatchEvent(ReferenceEvents::REFERENCE_CHANGE_STATUS, new ReferenceEvent($reference, $status));
-            }
 
             $message = $this->get('translator')->trans('itkg_reference.form.reference.creation');
             $response = new Response(
@@ -145,8 +139,8 @@ class ReferenceController extends AbstractAdminController
     protected function canDeleteReference(ReferenceInterface $reference) {
         $referenceRepository = $this->get('itkg_reference.repository.reference');
 
-        return false === $referenceRepository->hasReferenceIdWithoutAutoUnpublishToState($reference->getReferenceId()) &&
-               $this->isGranted(ContributionActionInterface::DELETE, $reference);
+        return false === $referenceRepository->hasReferenceId($reference->getReferenceId()) &&
+           $this->isGranted(ContributionActionInterface::DELETE, $reference);
     }
 
     /**

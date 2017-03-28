@@ -3,7 +3,6 @@ import Application           from '../../Application'
 import ApplicationError      from '../../../Service/Error/ApplicationError'
 import Reference             from '../../Model/Reference/Reference'
 import References            from '../../Collection/Reference/References'
-import Statuses              from '../../Collection/Status/Statuses'
 import FormViewButtonsMixin  from '../../../Service/Form/Mixin/FormViewButtonsMixin'
 import ReferenceToolbarView  from './ReferenceToolbarView'
 import FlashMessageBag       from '../../../Service/FlashMessage/FlashMessageBag'
@@ -63,23 +62,11 @@ class ReferenceFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
     _renderReferenceActionToolbar($selector) {
         this._displayLoader($selector);
 
-        let statuses = new Statuses();
-        $.when(
-//            statuses.fetch({
-//                apiContext: 'reference',
-//                urlParameter: {
-//                    language: this._reference.get('language'),
-//                    referenceId: this._reference.get('reference_id')
-//                }
-//            }),
-        ).done( () => {
-            let referenceToolbarView = new ReferenceToolbarView({
-//                statuses: statuses,
-                reference: this._reference,
-                referenceType: this._referenceType
-            });
-            $selector.html(referenceToolbarView.render().$el);
+        let referenceToolbarView = new ReferenceToolbarView({
+            reference: this._reference,
+            referenceType: this._referenceType
         });
+        $selector.html(referenceToolbarView.render().$el);
     }
 
     /**

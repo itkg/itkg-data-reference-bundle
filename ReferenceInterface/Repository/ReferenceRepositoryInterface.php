@@ -5,13 +5,11 @@ namespace Itkg\ReferenceInterface\Repository;
 use Itkg\ReferenceInterface\Model\ReferenceInterface;
 use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
 use OpenOrchestra\ModelInterface\Repository\RepositoryTrait\UseTrackableTraitInterface;
-use OpenOrchestra\ModelInterface\Model\StatusInterface;
-use OpenOrchestra\ModelInterface\Repository\RepositoryTrait\AutoPublishableTraitInterface;
 
 /**
  * Interface ReferenceRepositoryInterface
  */
-interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface, UseTrackableTraitInterface, AutoPublishableTraitInterface
+interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface, UseTrackableTraitInterface
 {
     /**
      * @return array list of news
@@ -97,13 +95,12 @@ interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface,
      *
      * @return array
      */
-    public function findAllPublishedByReferenceId($referenceId);
+    public function findAllByReferenceId($referenceId);
 
     /**
      * @param string       $id
      * @param string       $siteId
      * @param array|null   $eventTypes
-     * @param boolean|null $published
      * @param int|null     $limit
      * @param array|null   $sort
      * @param array        $referenceTypes
@@ -114,7 +111,6 @@ interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface,
         $id,
         $siteId,
         array $eventTypes = null,
-        $published = null,
         $limit = null,
         array $sort = null,
         array $referenceTypes = array()
@@ -126,12 +122,6 @@ interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface,
      * @return ReferenceInterface
      */
     public function findById($entityId);
-
-    /**
-     * @param StatusInterface $status
-     * @param string          $referenceType
-     */
-    public function updateStatusByReferenceType(StatusInterface $status, $referenceType);
 
     /**
      * @param array $ids
@@ -157,5 +147,5 @@ interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface,
      *
      * @return int
      */
-    public function hasReferenceIdWithoutAutoUnpublishToState($referenceId);
+    public function hasReferenceId($referenceId);
 }

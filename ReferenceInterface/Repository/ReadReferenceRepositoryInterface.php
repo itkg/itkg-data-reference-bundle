@@ -27,12 +27,4 @@ interface ReadReferenceRepositoryInterface
      * @return array
      */
     public function findByReferenceTypeAndCondition($language, $referenceType = '', $choiceType = self::CHOICE_AND, $condition = null,  $siteId = null);
-
-    /**
-     * @param string $referenceId
-     * @param string $language
-     *
-     * @return ReferenceInterface
-     */
-    public function findPublishedVersion($referenceId, $language);
 }

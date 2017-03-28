@@ -9,13 +9,11 @@ use Gedmo\Blameable\Traits\BlameableDocument;
 use Gedmo\Timestampable\Traits\TimestampableDocument;
 use OpenOrchestra\Mapping\Annotations as ORCHESTRA;
 use OpenOrchestra\MongoTrait\SoftDeleteable;
-use OpenOrchestra\MongoTrait\Statusable;
 use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 use OpenOrchestra\ModelInterface\Model\ReadContentAttributeInterface;
 use OpenOrchestra\MongoTrait\Keywordable;
 use OpenOrchestra\MongoTrait\UseTrackable;
 use OpenOrchestra\MongoTrait\Historisable;
-use OpenOrchestra\MongoTrait\AutoPublishable;
 
 /**
  * Description of Reference
@@ -26,10 +24,10 @@ use OpenOrchestra\MongoTrait\AutoPublishable;
  * )
  * @ODM\Indexes({
  *  @ODM\Index(keys={"referenceId"="asc"}),
- *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "referenceType"="asc", "keywords.label"="asc"}),
- *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "keywords.label"="asc"}),
- *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "referenceType"="asc"}),
- *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "referenceType"="asc", "keywords.label"="asc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "keywords.label"="asc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "referenceType"="asc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc"}),
  *  @ODM\Index(keys={"keywords"="asc"})
  * })
  * @ORCHESTRA\Document(
@@ -43,11 +41,9 @@ class Reference implements ReferenceInterface
     use BlameableDocument;
     use TimestampableDocument;
     use Keywordable;
-    use Statusable;
     use SoftDeleteable;
     use UseTrackable;
     use Historisable;
-    use AutoPublishable;
 
     /**
      * @var string $id

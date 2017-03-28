@@ -59,13 +59,6 @@ class ReferenceTypeType extends AbstractType
                     'class' => 'generate-id-dest'
                 )
             ))
-            ->add('definingStatusable', 'checkbox', array(
-                'label' => 'itkg_reference.form.reference_type.defining_statusable.label',
-                'required' => false,
-                'attr' => array('help_text' => 'itkg_reference.form.reference_type.defining_statusable.helper'),
-                'group_id' => 'property',
-                'sub_group_id' => 'property',
-            ))
             ->add('template', 'text', array(
                 'label' => 'itkg_reference.form.reference_type.template.label',
                 'required' => false,

@@ -3,7 +3,6 @@
 namespace Itkg\ReferenceBundle\Manager;
 
 use OpenOrchestra\Backoffice\Context\ContextManager;
-use OpenOrchestra\ModelInterface\Repository\StatusRepositoryInterface;
 use OpenOrchestra\Backoffice\Util\UniqueIdGenerator;
 use Itkg\ReferenceInterface\Model\ReferenceInterface;
 
@@ -13,23 +12,19 @@ use Itkg\ReferenceInterface\Model\ReferenceInterface;
 
 class ReferenceManager
 {
-    protected $statusRepository;
     protected $contextManager;
     protected $referenceClass;
-    
+
     /**
-     * @param StatusRepositoryInterface $statusRepository
      * @param ContextManager            $contextManager
      * @param string                    $referenceClass
      * @param UniqueIdGenerator         $uniqueIdGenerator
      */
     public function __construct(
-        StatusRepositoryInterface $statusRepository,
         ContextManager $contextManager,
         $referenceClass,
         UniqueIdGenerator $uniqueIdGenerator
     ) {
-        $this->statusRepository = $statusRepository;
         $this->contextManager = $contextManager;
         $this->referenceClass = $referenceClass;
         $this->uniqueIdGenerator = $uniqueIdGenerator;
@@ -43,15 +38,12 @@ class ReferenceManager
      */
     public function initializeNewReference($referenceType, $language)
     {
-        $initialStatus = $this->statusRepository->findOneByInitial();
-
         $referenceClass = $this->referenceClass;
         /** @var ReferenceInterface $reference */
         $reference = new $referenceClass();
         $reference->setLanguage($language);
         $reference->setSiteId($this->contextManager->getCurrentSiteId());
         $reference->setReferenceType($referenceType);
-        $reference->setStatus($initialStatus);
 
         return $reference;
     }
@@ -64,11 +56,9 @@ class ReferenceManager
      */
     public function createNewLanguageReference($referenceSource, $language)
     {
-        $translationStatus = $this->statusRepository->findOneByTranslationState();
         $reference = $this->cloneReference($referenceSource);
         $reference->setLanguage($language);
-        $reference->setStatus($translationStatus);
-    
+
         return $reference;
     }
 
@@ -96,10 +86,7 @@ class ReferenceManager
      */
     protected function cloneReference(ReferenceInterface $reference)
     {
-        $status = $this->statusRepository->findOneByInitial();
-
         $newReference = clone $reference;
-        $newReference->setStatus($status);
         foreach ($reference->getKeywords() as $keyword) {
             $newReference->addKeyword($keyword);
         }

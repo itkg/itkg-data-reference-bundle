@@ -7,13 +7,12 @@ use OpenOrchestra\ModelInterface\Model\BlameableInterface;
 use OpenOrchestra\ModelInterface\Model\SoftDeleteableInterface;
 use OpenOrchestra\ModelInterface\Model\UseTrackableInterface;
 use OpenOrchestra\ModelInterface\Model\HistorisableInterface;
-use OpenOrchestra\ModelInterface\Model\AutoPublishableInterface;
 use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 
 /**
  * Interface ReferenceInterface
  */
-interface ReferenceInterface extends ReadReferenceInterface, TimestampableInterface, BlameableInterface, SoftDeleteableInterface, UseTrackableInterface, HistorisableInterface, AutoPublishableInterface
+interface ReferenceInterface extends ReadReferenceInterface, TimestampableInterface, BlameableInterface, SoftDeleteableInterface, UseTrackableInterface, HistorisableInterface
 {
     const ENTITY_TYPE = 'reference';
     const TRASH_ITEM_TYPE = 'reference';

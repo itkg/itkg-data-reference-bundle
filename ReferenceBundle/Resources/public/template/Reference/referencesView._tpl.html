@@ -29,19 +29,6 @@
             </div>
         </div>
     <% }; %>
-    <% if (referenceType.default_listable.status_label) { %>
-        <div class="form-group col-lg-6">
-            <label for="status" class="control-label col-md-4"><%= Translator.trans('open_orchestra_backoffice.table.references.status_label') %></label>
-            <div class="col-md-8 styled-select">
-                <select name="status" class="form-control" id="status">
-                    <option value=''></option>
-                    <% _.each(statuses, function(status) { %>
-                    <option value='<%= status.id %>'><%= status.label %></option>
-                    <% }); %>
-                </select>
-            </div>
-        </div>
-    <% }; %>
     <% if (referenceType.default_listable.created_at) { %>
         <div class="form-group col-lg-6">
             <label for="created_at" class="control-label col-md-4"><%= Translator.trans('itkg_reference.table.references.created_at') %></label>

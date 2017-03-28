@@ -9,12 +9,9 @@ use OpenOrchestra\ModelInterface\Repository\FieldAutoGenerableRepositoryInterfac
 use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
 use OpenOrchestra\ModelInterface\Repository\RepositoryTrait\KeywordableTraitInterface;
 use Solution\MongoAggregation\Pipeline\Stage;
-use OpenOrchestra\ModelInterface\Model\StatusInterface;
-use OpenOrchestra\ModelInterface\Model\StatusableInterface;
 use OpenOrchestra\ModelBundle\Repository\RepositoryTrait\KeywordableTrait;
 use OpenOrchestra\ModelBundle\Repository\RepositoryTrait\UseTrackableTrait;
 use OpenOrchestra\Pagination\MongoTrait\FilterTrait;
-use OpenOrchestra\ModelBundle\Repository\RepositoryTrait\AutoPublishableTrait;
 use OpenOrchestra\Pagination\MongoTrait\FilterTypeStrategy\Strategies\StringFilterStrategy;
 use OpenOrchestra\Pagination\MongoTrait\FilterTypeStrategy\Strategies\DateFilterStrategy;
 
@@ -26,7 +23,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     use KeywordableTrait;
     use UseTrackableTrait;
     use FilterTrait;
-    use AutoPublishableTrait;
 
     const ALIAS_FOR_GROUP = 'reference';
 
@@ -51,21 +47,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     }
 
     /**
-     * @param string $referenceId
-     * @param string $language
-     *
-     * @return ReferenceInterface
-     */
-    public function findPublishedVersion($referenceId, $language)
-    {
-        $qa = $this->createAggregationQueryWithLanguageAndPublished($language);
-
-        $qa->match(array('referenceId' => $referenceId));
-
-        return $this->singleHydrateAggregateQuery($qa);
-    }
-
-    /**
      * @param string      $language
      * @param string      $referenceType
      * @param string      $choiceType
@@ -77,7 +58,7 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     public function findByReferenceTypeAndCondition($language, $referenceType = '', $choiceType = self::CHOICE_AND, $condition = null, $siteId = null)
     {
         $qa = $this->createAggregationQuery();
-        $qa->match($this->generateFilterPublishedNotDeletedOnLanguage($language));
+        $qa->match($this->generateFilterNotDeletedOnLanguage($language));
         if (!is_null($siteId)) {
             $qa->match($this->generateSiteIdFilter($siteId));
         }
@@ -95,18 +76,17 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     }
 
     /**
-     * Generate filter on visible published references in $language
+     * Generate filter on visible references in $language
      *
      * @param string $language
      *
      * @return array
      */
-    protected function generateFilterPublishedNotDeletedOnLanguage($language)
+    protected function generateFilterNotDeletedOnLanguage($language)
     {
         return array(
             'language' => $language,
-            'deleted' => false,
-            'status.publishedState' => true
+            'deleted' => false
         );
     }
 
@@ -286,7 +266,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
      * @param string       $id
      * @param string       $siteId
      * @param array|null   $eventTypes
-     * @param boolean|null $published
      * @param int|null     $limit
      * @param array|null   $sort
      * @param array        $referenceTypes
@@ -297,7 +276,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
         $id,
         $siteId,
         array $eventTypes = null,
-        $published = null,
         $limit = null,
         array $sort = null,
         array $referenceTypes = array()
@@ -310,9 +288,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
         $qa->match($this->generateSiteIdFilter($siteId));
         if (null !== $eventTypes) {
             $filter['histories.eventType'] = array('$in' => $eventTypes);
-        }
-        if (null !== $published) {
-            $filter['status.published'] = $published;
         }
         if (!empty($referenceTypes)) {
             $filter['referenceType'] = array('$in' => $referenceTypes);
@@ -385,7 +360,10 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     protected function createAggregationQueryWithLanguage($language)
     {
         $qa = $this->createAggregationQuery();
-        $qa->match(array('language' => $language));
+        $qa->match(array(
+            'language' => $language,
+            'deleted' => false
+        ));
 
         return $qa;
     }
@@ -410,81 +388,18 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     }
 
     /**
-     * @param string $language
-     *
-     * @return Stage
-     */
-    protected function createAggregationQueryWithLanguageAndPublished($language)
-    {
-        $qa = $this->createAggregationQueryWithLanguage($language);
-        $qa->match(
-            array(
-                'deleted'               => false,
-                'status.publishedState' => true,
-            )
-        );
-
-        return $qa;
-    }
-
-    /**
-     * @param string $referenceId
-     * @param string $language
-     * @param string $siteId
-     *
-     * @return ReferenceInterface
-     */
-    public function findOnePublished($referenceId, $language, $siteId)
-    {
-        $qa = $this->createAggregationQueryWithLanguageAndPublished($language);
-        $filter['referenceId'] = $referenceId;
-        $qa->match($filter);
-
-        return $this->singleHydrateAggregateQuery($qa);
-    }
-
-    /**
      * @param string $referenceId
      *
      * @return array
      */
-    public function findAllPublishedByReferenceId($referenceId)
+    public function findAllByReferenceId($referenceId)
     {
         $qa = $this->createAggregationQuery();
-        $filter['status.publishedState'] = true;
         $filter['deleted'] = false;
         $filter['referenceId'] = $referenceId;
         $qa->match($filter);
 
         return $this->hydrateAggregateQuery($qa);
-    }
-
-    /**
-     * @param StatusableInterface $element
-     *
-     * @return array
-     */
-    public function findPublished(StatusableInterface $element)
-    {
-        $qa = $this->createAggregationQueryWithLanguageAndPublished($element->getLanguage());
-        $qa->match(array('referenceId' => $element->getReferenceId()));
-
-        return $this->hydrateAggregateQuery($qa);
-    }
-
-    /**
-     * @param StatusInterface $status
-     * @param string          $referenceType
-     *
-     * @return array
-     */
-    public function updateStatusByReferenceType(StatusInterface $status, $referenceType) {
-        $this->createQueryBuilder()
-            ->updateMany()
-            ->field('status')->set($status)
-            ->field('referenceType')->equals($referenceType)
-            ->getQuery()
-            ->execute();
     }
 
     /**
@@ -541,13 +456,12 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
      *
      * @return int
      */
-    public function hasReferenceIdWithoutAutoUnpublishToState($referenceId)
+    public function hasReferenceId($referenceId)
     {
         $qa = $this->createAggregationQuery();
         $qa->match(
             array(
-                'referenceId'  => $referenceId,
-                'status.autoUnpublishToState' => false
+                'referenceId' => $referenceId
             )
         );
 
@@ -567,10 +481,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
         $language = $configuration->getSearchIndex('language');
         if (null !== $language && $language !== '') {
             $qa->match(array('language' => $language));
-        }
-        $status = $configuration->getSearchIndex('status');
-        if (null !== $status && $status !== '') {
-            $qa->match(array('status._id' => new \MongoId($status)));
         }
         $qa = $this->generateFilter($configuration, $qa, DateFilterStrategy::FILTER_TYPE, 'created_at', 'createdAt', $configuration->getSearchIndex('date_format'));
         $qa = $this->generateFilter($configuration, $qa, StringFilterStrategy::FILTER_TYPE, 'created_by', 'createdBy');

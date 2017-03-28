@@ -104,14 +104,4 @@ interface ReferenceTypeInterface extends FieldTypeContainerInterface, BlameableI
      * @return boolean
      */
     public function isDefiningVersionable();
-
-    /**
-     * @param boolean $definingStatusable
-     */
-    public function setDefiningStatusable($definingStatusable);
-
-    /**
-     * @return boolean
-     */
-    public function isDefiningStatusable();
 }

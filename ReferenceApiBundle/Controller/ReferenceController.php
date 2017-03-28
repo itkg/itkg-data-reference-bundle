@@ -2,9 +2,7 @@
 
 namespace Itkg\ReferenceApiBundle\Controller;
 
-use OpenOrchestra\ApiBundle\Controller\ControllerTrait\ListStatus;
 use OpenOrchestra\ApiBundle\Exceptions\HttpException\ReferenceNotDeletableException;
-use OpenOrchestra\ApiBundle\Exceptions\HttpException\StatusChangeNotGrantedHttpException;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\BaseApiBundle\Controller\Annotation as Api;
 use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
@@ -27,8 +25,6 @@ use Itkg\ReferenceApiBundle\Exceptions\HttpException\ReferenceNotFoundHttpExcept
  */
 class ReferenceController extends BaseController
 {
-    use ListStatus;
-
     /**
      * @param string $referenceId
      * @param string $language
@@ -160,7 +156,7 @@ class ReferenceController extends BaseController
 //             $this->denyAccessUnlessGranted(ContributionActionInterface::DELETE, $reference);
             $referenceId = $reference->getReferenceId();
             if (
-                false === $repository->hasReferenceIdWithoutAutoUnpublishToState($referenceId) &&
+                false === $repository->hasReferenceId($referenceId) &&
                 $this->isGranted(ContributionActionInterface::DELETE, $reference)
                 ) {
                     $repository->softDeleteReference($referenceId);
@@ -186,7 +182,7 @@ class ReferenceController extends BaseController
         $reference = $repository->findOneByReferenceId($referenceId);
 //         $this->denyAccessUnlessGranted(ContributionActionInterface::DELETE, $reference);
 
-        if (true === $repository->hasReferenceIdWithoutAutoUnpublishToState($referenceId)) {
+        if (true === $repository->hasReferenceId($referenceId)) {
             throw new ReferenceNotDeletableException();
         }
 
@@ -194,32 +190,6 @@ class ReferenceController extends BaseController
         $this->dispatchEvent(ReferenceEvents::CONTENT_DELETE, new ReferenceDeleteEvent($referenceId, $reference->getSiteId()));
 
         return array();
-    }
-
-    /**
-     * @param boolean|null $published
-     *
-     * @Config\Route("/list/not-published-by-author", name="open_orchestra_api_reference_list_author_and_site_not_published", defaults={"published": false})
-     * @Config\Route("/list/by-author", name="open_orchestra_api_reference_list_author_and_site", defaults={"published": null})
-     * @Config\Method({"GET"})
-     *
-     * @return FacadeInterface
-     */
-    public function listReferenceByAuthorAndSiteIdAction($published)
-    {
-        $siteId = $this->get('open_orchestra_backoffice.context_manager')->getCurrentSiteId();
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-
-        $reference = $this->get('itkg_reference.repository.reference')->findByHistoryAndSiteId(
-            $user->getId(),
-            $siteId,
-            array(ReferenceEvents::CONTENT_CREATION, ReferenceEvents::CONTENT_UPDATE),
-            $published,
-            10,
-            array('histories.updatedAt' => -1)
-            );
-
-        return $this->get('open_orchestra_api.transformer_manager')->get('reference_collection')->transform($reference);
     }
 
     /**
@@ -241,77 +211,11 @@ class ReferenceController extends BaseController
 //         $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $reference);
 
         $newReference = $this->get('itkg_reference.manager.reference')->duplicateReference($reference);
-        $status = $this->get('open_orchestra_model.repository.status')->findOneByTranslationState();
-        $newReference->setStatus($status);
         $newReference->setLanguage($language);
         $objectManager = $this->get('object_manager');
         $objectManager->persist($newReference);
         $objectManager->flush();
         $this->dispatchEvent(ReferenceEvents::CONTENT_DUPLICATE, new ReferenceEvent($newReference));
-
-        return array();
-    }
-
-    /**
-     * @param string $referenceId
-     * @param string $language
-     *
-     * @Config\Route(
-     *     "/list-statuses/{referenceId}/{language}",
-     *     name="open_orchestra_api_reference_list_status")
-     * @Config\Method({"GET"})
-     *
-     * @return Response
-     * @throws ReferenceNotFoundHttpException
-     */
-    public function listStatusesForReferenceAction($referenceId, $language)
-    {
-        $reference = $this->findOneReference($referenceId, $language);
-        if (!$reference instanceof ReferenceInterface) {
-            throw new ReferenceNotFoundHttpException();
-        }
-//         $this->denyAccessUnlessGranted(ContributionActionInterface::READ, $reference);
-
-        return $this->listStatuses($reference);
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @Config\Route(
-     *     "/update-status",
-     *     name="open_orchestra_api_reference_update_status"
-     * )
-     * @Config\Method({"PUT"})
-     *
-     * @return Response
-     * @throws ReferenceNotFoundHttpException
-     * @throws StatusChangeNotGrantedHttpException
-     */
-    public function changeStatusAction(Request $request)
-    {
-        $facade = $this->get('jms_serializer')->deserialize(
-            $request->getReference(),
-            'OpenOrchestra\ApiBundle\Facade\ReferenceFacade',
-            $request->get('_format', 'json')
-            );
-
-        $reference = $this->get('itkg_reference.repository.reference')->find($facade->id);
-        if (!$reference instanceof ReferenceInterface) {
-            throw new ReferenceNotFoundHttpException();
-        }
-//         $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $reference);
-        $referenceSource = clone $reference;
-
-        $this->get('open_orchestra_api.transformer_manager')->get('reference')->reverseTransform($facade, $reference);
-        $status = $reference->getStatus();
-        if ($status !== $referenceSource->getStatus()) {
-            if (!$this->isGranted($status, $referenceSource)) {
-                throw new StatusChangeNotGrantedHttpException();
-            }
-
-            $this->updateStatus($referenceSource, $reference);
-        }
 
         return array();
     }
@@ -331,30 +235,6 @@ class ReferenceController extends BaseController
     }
 
     /**
-     * @param ReferenceInterface $referenceSource
-     * @param ReferenceInterface $reference
-     */
-    protected function updateStatus(
-        ReferenceInterface $referenceSource,
-        ReferenceInterface $reference
-    ) {
-        if (true === $reference->getStatus()->isPublishedState()) {
-            $oldPublishedReference = $this->get('itkg_reference.repository.reference')->findOnePublished(
-                $reference->getReferenceId(),
-                $reference->getLanguage(),
-                $reference->getSiteId()
-            );
-            if ($oldPublishedReference instanceof ReferenceInterface) {
-                $this->get('object_manager')->remove($oldPublishedReference);
-            }
-        }
-
-        $this->get('object_manager')->flush();
-        $event = new ReferenceEvent($reference, $referenceSource->getStatus());
-        $this->dispatchEvent(ReferenceEvents::CONTENT_CHANGE_STATUS, $event);
-    }
-
-    /**
      * @param string                 $language
      * @param ReferenceTypeInterface $referenceType
      *
@@ -364,7 +244,6 @@ class ReferenceController extends BaseController
     {
         $mapping = array(
             'name' => 'name',
-            'status_label' => 'status.labels.'.$language,
             'created_at' => 'createdAt',
             'created_by' => 'createdBy',
             'updated_at' => 'updatedAt',
