@@ -52,7 +52,7 @@ class ReferenceType implements ReferenceTypeInterface
      * @ODM\Field(type="hash")
      */
     protected $defaultListable;
-    
+
     /**
      * @var string $template
      *
@@ -80,13 +80,6 @@ class ReferenceType implements ReferenceTypeInterface
      * @ODM\Field(type="boolean")
      */
     protected $definingStatusable = true;
-
-    /**
-     * @var boolean alwaysShared
-     *
-     * @ODM\Field(type="boolean")
-     */
-    protected $alwaysShared = false;
 
     /**
      * Constructor
@@ -286,22 +279,6 @@ class ReferenceType implements ReferenceTypeInterface
     public function isDefiningStatusable()
     {
         return $this->definingStatusable;
-    }
-
-    /**
-     * @param boolean $alwaysShared
-     */
-    public function setAlwaysShared($alwaysShared)
-    {
-        $this->alwaysShared = $alwaysShared;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isAlwaysShared()
-    {
-        return $this->alwaysShared;
     }
 
     /**

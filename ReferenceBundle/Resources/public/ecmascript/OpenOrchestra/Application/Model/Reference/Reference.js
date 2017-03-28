@@ -69,8 +69,6 @@ class Reference extends OrchestraModel
     _getSyncCreateUrl(options, urlParameter) {
         let apiContext = options.apiContext || null;
         switch (apiContext) {
-            case "new-version":
-                return Routing.generate('open_orchestra_api_reference_new_version', urlParameter);
             case "new-language":
                 return Routing.generate('open_orchestra_api_reference_new_language', urlParameter);
             default:

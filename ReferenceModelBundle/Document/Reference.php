@@ -13,7 +13,6 @@ use OpenOrchestra\MongoTrait\Statusable;
 use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 use OpenOrchestra\ModelInterface\Model\ReadContentAttributeInterface;
 use OpenOrchestra\MongoTrait\Keywordable;
-use OpenOrchestra\MongoTrait\Versionable;
 use OpenOrchestra\MongoTrait\UseTrackable;
 use OpenOrchestra\MongoTrait\Historisable;
 use OpenOrchestra\MongoTrait\AutoPublishable;
@@ -26,11 +25,11 @@ use OpenOrchestra\MongoTrait\AutoPublishable;
  *   repositoryClass="Itkg\ReferenceModelBundle\Repository\ReferenceRepository"
  * )
  * @ODM\Indexes({
- *  @ODM\Index(keys={"contentId"="asc"}),
- *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "referenceType"="asc", "keywords.label"="asc", "version"="desc"}),
- *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "keywords.label"="asc", "version"="desc"}),
- *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "referenceType"="asc", "version"="desc"}),
- *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "version"="desc"}),
+ *  @ODM\Index(keys={"referenceId"="asc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "referenceType"="asc", "keywords.label"="asc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "keywords.label"="asc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc", "referenceType"="asc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "status.publishedState"="asc"}),
  *  @ODM\Index(keys={"keywords"="asc"})
  * })
  * @ORCHESTRA\Document(
@@ -45,7 +44,6 @@ class Reference implements ReferenceInterface
     use TimestampableDocument;
     use Keywordable;
     use Statusable;
-    use Versionable;
     use SoftDeleteable;
     use UseTrackable;
     use Historisable;

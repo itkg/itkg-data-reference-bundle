@@ -16,7 +16,6 @@ use OpenOrchestra\ModelBundle\Repository\RepositoryTrait\UseTrackableTrait;
 use OpenOrchestra\Pagination\MongoTrait\FilterTrait;
 use OpenOrchestra\ModelBundle\Repository\RepositoryTrait\AutoPublishableTrait;
 use OpenOrchestra\Pagination\MongoTrait\FilterTypeStrategy\Strategies\StringFilterStrategy;
-use OpenOrchestra\Pagination\MongoTrait\FilterTypeStrategy\Strategies\BooleanFilterStrategy;
 use OpenOrchestra\Pagination\MongoTrait\FilterTypeStrategy\Strategies\DateFilterStrategy;
 
 /**
@@ -91,8 +90,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
         } elseif ($condition) {
             $qa->match($this->transformConditionToMongoCondition($condition));
         }
-
-        $qa = $this->generateLastVersionFilter($qa);
 
         return $this->hydrateAggregateQuery($qa, self::ALIAS_FOR_GROUP);
     }
@@ -202,13 +199,12 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     /**
      * @param string      $referenceId
      * @param string      $language
-     * @param string|null $version
      *
      * @return ReferenceInterface|null
      */
-    public function findOneByLanguageAndVersion($referenceId, $language, $version = null)
+    public function findOneByLanguage($referenceId, $language)
     {
-        $qa = $this->createAggregationQueryWithReferenceIdAndLanguageAndVersion($referenceId, $language, $version);
+        $qa = $this->createAggregationQueryWithReferenceIdAndLanguage($referenceId, $language);
 
         return $this->singleHydrateAggregateQuery($qa);
     }
@@ -232,7 +228,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
         $this->filterSearch($configuration, $qa, $searchTypes);
 
         $order = $configuration->getOrder();
-        $qa = $this->generateLastVersionFilter($qa, $order);
 
         $newOrder = array();
         array_walk($order, function($item, $key) use(&$newOrder) {
@@ -246,9 +241,8 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
         $qa->skip($configuration->getSkip());
         $qa->limit($configuration->getLimit());
 
-        return $this->hydrateAggregateQuery($qa, self::ALIAS_FOR_GROUP);
+        return $this->hydrateAggregateQuery($qa);
     }
-
 
     /**
      * @param string $referenceType
@@ -295,11 +289,19 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
      * @param boolean|null $published
      * @param int|null     $limit
      * @param array|null   $sort
+     * @param array        $referenceTypes
      *
      * @return array
      */
-    public function findByHistoryAndSiteId($id, $siteId, array $eventTypes = null, $published = null, $limit = null, array $sort = null)
-    {
+    public function findByHistoryAndSiteId(
+        $id,
+        $siteId,
+        array $eventTypes = null,
+        $published = null,
+        $limit = null,
+        array $sort = null,
+        array $referenceTypes = array()
+    ) {
         $qa = $this->createAggregationQuery();
         $filter = array(
             'histories.user.$id' => new \MongoId($id),
@@ -311,6 +313,9 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
         }
         if (null !== $published) {
             $filter['status.published'] = $published;
+        }
+        if (!empty($referenceTypes)) {
+            $filter['referenceType'] = array('$in' => $referenceTypes);
         }
 
         $qa->match($filter);
@@ -357,29 +362,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     }
 
     /**
-     * @param Stage $qa
-     * @param array $order
-     *
-     * @return Stage
-     */
-    protected function generateLastVersionFilter(Stage $qa, array $order=array())
-    {
-        $group = array(
-            '_id' => array('referenceId' => '$referenceId'),
-            self::ALIAS_FOR_GROUP => array('$last' => '$$ROOT'),
-        );
-
-        foreach ($order as $column => $orderDirection) {
-            $group[str_replace('.', '_', $column)] = array('$last' => '$' . $column);
-        }
-
-        $qa->sort(array('createdAt' => 1));
-        $qa->group($group);
-
-        return $qa;
-    }
-
-    /**
      * @param $referenceType
      *
      * @return \Solution\MongoAggregation\Pipeline\Stage
@@ -411,11 +393,10 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     /**
      * @param string      $referenceId
      * @param string      $language
-     * @param string|null $version
      *
      * @return Stage
      */
-    protected function createAggregationQueryWithReferenceIdAndLanguageAndVersion($referenceId, $language, $version = null)
+    protected function createAggregationQueryWithReferenceIdAndLanguage($referenceId, $language)
     {
         $qa = $this->createAggregationQueryWithLanguage($language);
         $qa->match(
@@ -423,11 +404,7 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
                 'referenceId' => $referenceId
             )
         );
-        if (is_null($version)) {
-            $qa->sort(array('createdAt' => -1));
-        } else {
-            $qa->match(array('version' => $version));
-        }
+        $qa->sort(array('createdAt' => -1));
 
         return $qa;
     }
@@ -448,20 +425,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
         );
 
         return $qa;
-    }
-
-    /**
-     * @param StatusInterface $status
-     *
-     * @return bool
-     */
-    public function hasStatusedElement(StatusInterface $status)
-    {
-        $qa = $this->createAggregationQuery();
-        $qa->match(array('status._id' => new \MongoId($status->getId())));
-        $reference = $this->singleHydrateAggregateQuery($qa);
-
-        return $reference instanceof ReferenceInterface;
     }
 
     /**
@@ -559,7 +522,7 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
      *
      * @throws \Doctrine\ODM\MongoDB\MongoDBException
      */
-    public function removeReferenceVersion(array $ids)
+    public function removeReferences(array $ids)
     {
         $referenceMongoIds = array();
         foreach ($ids as $id) {
@@ -571,21 +534,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
             ->field('id')->in($referenceMongoIds)
             ->getQuery()
             ->execute();
-    }
-
-    /**
-     * @param string $referenceId
-     *
-     * @return ReferenceInterface
-     */
-    public function findLastVersion($referenceId)
-    {
-        $qa = $this->createAggregationQuery();
-        $qa->match(array('deleted' => false));
-        $qa->match(array('referenceId' => $referenceId));
-        $qa->sort(array('createdAt' => -1));
-
-        return $this->singleHydrateAggregateQuery($qa);
     }
 
     /**
@@ -665,8 +613,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
         if (!is_null($configuration)) {
             $this->filterSearch($configuration, $qa, $searchTypes);
         }
-
-        $qa = $this->generateLastVersionFilter($qa);
 
         return $this->countDocumentAggregateQuery($qa, self::ALIAS_FOR_GROUP);
     }

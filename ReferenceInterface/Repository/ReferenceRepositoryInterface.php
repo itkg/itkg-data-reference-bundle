@@ -7,13 +7,11 @@ use OpenOrchestra\Pagination\Configuration\PaginateFinderConfiguration;
 use OpenOrchestra\ModelInterface\Repository\RepositoryTrait\UseTrackableTraitInterface;
 use OpenOrchestra\ModelInterface\Model\StatusInterface;
 use OpenOrchestra\ModelInterface\Repository\RepositoryTrait\AutoPublishableTraitInterface;
-use OpenOrchestra\ModelInterface\Repository\StatusableContainerRepositoryInterface;
-use OpenOrchestra\ModelInterface\Repository\StatusableRepositoryInterface;
 
 /**
  * Interface ReferenceRepositoryInterface
  */
-interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface, StatusableContainerRepositoryInterface, StatusableRepositoryInterface, UseTrackableTraitInterface, AutoPublishableTraitInterface
+interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface, UseTrackableTraitInterface, AutoPublishableTraitInterface
 {
     /**
      * @return array list of news
@@ -53,11 +51,10 @@ interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface,
     /**
      * @param string   $referenceId
      * @param string   $language
-     * @param int|null $version
      *
      * @return ReferenceInterface|null
      */
-    public function findOneByLanguageAndVersion($referenceId, $language, $version = null);
+    public function findOneByLanguage($referenceId, $language);
 
     /**
      * @param PaginateFinderConfiguration $configuration
@@ -109,10 +106,19 @@ interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface,
      * @param boolean|null $published
      * @param int|null     $limit
      * @param array|null   $sort
+     * @param array        $referenceTypes
      *
      * @return array
      */
-    public function findByHistoryAndSiteId($id, $siteId, array $eventTypes = null, $published = null, $limit = null, array $sort = null);
+    public function findByHistoryAndSiteId(
+        $id,
+        $siteId,
+        array $eventTypes = null,
+        $published = null,
+        $limit = null,
+        array $sort = null,
+        array $referenceTypes = array()
+    );
 
     /**
      * @param string $entityId
@@ -130,7 +136,7 @@ interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface,
     /**
      * @param array $ids
      */
-    public function removeReferenceVersion(array $ids);
+    public function removeReferences(array $ids);
 
     /**variab
      * @param string $referenceId
@@ -145,13 +151,6 @@ interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface,
      * @throws \Exception
      */
     public function restoreDeletedReference($referenceId);
-
-    /**
-     * @param string $referenceId
-     *
-     * @return ReferenceInterface
-     */
-    public function findLastVersion($referenceId);
 
     /**
      * @param string $referenceId

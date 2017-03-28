@@ -114,14 +114,4 @@ interface ReferenceTypeInterface extends FieldTypeContainerInterface, BlameableI
      * @return boolean
      */
     public function isDefiningStatusable();
-
-    /**
-     * @param boolean $alwaysShared
-     */
-    public function setAlwaysShared($alwaysShared);
-
-    /**
-     * @return boolean
-     */
-    public function isAlwaysShared();
 }

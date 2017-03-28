@@ -52,7 +52,6 @@ class ReferenceManager
         $reference->setSiteId($this->contextManager->getCurrentSiteId());
         $reference->setReferenceType($referenceType);
         $reference->setStatus($initialStatus);
-        $reference->setVersion($this->uniqueIdGenerator->generateUniqueId());
 
         return $reference;
     }
@@ -86,42 +85,8 @@ class ReferenceManager
         $newReference = $this->cloneReference($reference);
         $newReference->setReferenceId($referenceId);
         $newReference->setName($this->duplicateLabel($reference->getName()));
-        $newReference = $this->setVersionName($newReference);
 
         return $newReference;
-    }
-
-    /**
-     * Duplicate a reference
-     *
-     * @param ReferenceInterface $originalReference
-     * @param string             $versionName
-     *
-     * @return ReferenceInterface
-     */
-    public function newVersionReference(ReferenceInterface $originalReference, $versionName = '')
-    {
-        $newReference = $this->cloneReference($originalReference);
-        $newReference->setVersionName($versionName);
-        if (empty($versionName)) {
-            $newReference = $this->setVersionName($newReference);
-        }
-    
-        return $newReference;
-    }
-
-    /**
-     * @param ReferenceInterface $node
-     *
-     * @return ReferenceInterface
-     */
-    public function setVersionName(ReferenceInterface $node)
-    {
-        $date = new \DateTime("now");
-        $versionName = $node->getName().'_'. $date->format("Y-m-d_H:i:s");
-        $node->setVersionName($versionName);
-    
-        return $node;
     }
 
     /**
@@ -135,7 +100,6 @@ class ReferenceManager
 
         $newReference = clone $reference;
         $newReference->setStatus($status);
-        $newReference->setVersion($this->uniqueIdGenerator->generateUniqueId());
         foreach ($reference->getKeywords() as $keyword) {
             $newReference->addKeyword($keyword);
         }

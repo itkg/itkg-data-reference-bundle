@@ -66,13 +66,6 @@ class ReferenceTypeType extends AbstractType
                 'group_id' => 'property',
                 'sub_group_id' => 'property',
             ))
-            ->add('definingVersionable', 'checkbox', array(
-                'label' => 'itkg_reference.form.reference_type.defining_versionable.label',
-                'required' => false,
-                'attr' => array('help_text' => 'itkg_reference.form.reference_type.defining_versionable.helper'),
-                'group_id' => 'property',
-                'sub_group_id' => 'property',
-            ))
             ->add('template', 'text', array(
                 'label' => 'itkg_reference.form.reference_type.template.label',
                 'required' => false,

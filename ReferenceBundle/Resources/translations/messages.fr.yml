@@ -16,6 +16,7 @@ itkg_reference:
                 version: Version
             success: Le type de référence a été modifié
             creation: Le type de référence a été créé
+            version: Version
         reference:
             name: Nom de la référence
             keywords: Mots-clé

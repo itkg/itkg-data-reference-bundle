@@ -73,7 +73,6 @@ class ReferenceType extends AbstractType
                 'required' => false
             ));
 
-        $builder->addEventSubscriber($this->statusableChoiceStatusSubscriber);
         $builder->addEventSubscriber($this->referenceTypeSubscriber);
         if (array_key_exists('disabled', $options)) {
             $builder->setAttribute('disabled', $options['disabled']);

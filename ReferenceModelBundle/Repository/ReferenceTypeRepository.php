@@ -13,11 +13,11 @@ use Itkg\ReferenceInterface\Repository\ReferenceTypeRepositoryInterface;
 class ReferenceTypeRepository extends AbstractAggregateRepository implements ReferenceTypeRepositoryInterface
 {
     /**
-     * @param $language
+     * @param array $referenceTypes
      *
      * @return array
      */
-    public function findAllNotDeletedInLastVersion($language = null)
+    public function findAllNotDeletedInLastVersion(array $referenceTypes = array())
     {
         $qa = $this->createAggregationQuery();
         $qa->match(
@@ -25,16 +25,13 @@ class ReferenceTypeRepository extends AbstractAggregateRepository implements Ref
                 'deleted' => false
             )
         );
-        $elementName = 'referenceType';
-        $this->generateLastVersionFilter($qa, $elementName);
-
-        if ($language) {
-            $qa->sort(
-                array(
-                    $elementName . '.names.' . $language. '.value' => 1
-                )
+        if (!empty($referenceTypes)) {
+            $qa->match(
+                array('referenceTypeId' => array('$in' => $referenceTypes))
             );
         }
+        $elementName = 'referenceType';
+        $this->generateLastVersionFilter($qa, $elementName);
 
         return $this->hydrateAggregateQuery($qa, $elementName, 'getReferenceTypeId');
     }
@@ -158,8 +155,8 @@ class ReferenceTypeRepository extends AbstractAggregateRepository implements Ref
     protected function generateLastVersionFilter(Stage $qa, $elementName, $group = array())
     {
         $group = array_merge($group, array(
-                '_id' => array('referenceTypeId' => '$referenceTypeId'),
-                $elementName => array('$last' => '$$ROOT')
+            '_id' => array('referenceTypeId' => '$referenceTypeId'),
+            $elementName => array('$last' => '$$ROOT')
         ));
 
         $qa->sort(array('version' => 1));

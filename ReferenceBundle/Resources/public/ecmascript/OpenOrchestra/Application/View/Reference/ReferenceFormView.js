@@ -6,7 +6,6 @@ import References            from '../../Collection/Reference/References'
 import Statuses              from '../../Collection/Status/Statuses'
 import FormViewButtonsMixin  from '../../../Service/Form/Mixin/FormViewButtonsMixin'
 import ReferenceToolbarView  from './ReferenceToolbarView'
-//import ReferenceVersionsView from './ReferenceVersionsView'
 import FlashMessageBag       from '../../../Service/FlashMessage/FlashMessageBag'
 
 /**
@@ -49,9 +48,6 @@ class ReferenceFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
      * @inheritDoc
      */
     _renderForm() {
-//        if (true === this._referenceType.get('defining_versionable') || true === this._referenceType.get('defining_statusable')) {
-//            this._renderReferenceActionToolbar($('.reference-action-toolbar', this.$el));
-//        }
         super._renderForm();
 
         // activate tab data
@@ -68,46 +64,22 @@ class ReferenceFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
         this._displayLoader($selector);
 
         let statuses = new Statuses();
-        let referenceVersions = new References();
         $.when(
 //            statuses.fetch({
 //                apiContext: 'reference',
 //                urlParameter: {
 //                    language: this._reference.get('language'),
-//                    referenceId: this._reference.get('reference_id'),
-//                    version: this._reference.get('version')
+//                    referenceId: this._reference.get('reference_id')
 //                }
 //            }),
-            referenceVersions.fetch({
-                apiContext: 'list-version',
-                urlParameter: {
-                    language: this._reference.get('language'),
-                    referenceId: this._reference.get('reference_id')
-                }
-            })
         ).done( () => {
             let referenceToolbarView = new ReferenceToolbarView({
-                referenceVersions: referenceVersions,
 //                statuses: statuses,
                 reference: this._reference,
                 referenceType: this._referenceType
             });
             $selector.html(referenceToolbarView.render().$el);
         });
-    }
-
-    /**
-     * Manage Version
-     * @param {References} referenceVersions
-     */
-    manageVersion(referenceVersions) {
-//        let referenceVersionsView = new ReferenceVersionsView({
-//            collection: referenceVersions,
-//            referenceId: this._reference.get('reference_id'),
-//            language: this._reference.get('language'),
-//            referenceTypeId: this._referenceType.get('reference_type_id')
-//        });
-//        this._$formRegion.html(referenceVersionsView.render().$el);
     }
 
     /**

@@ -21,24 +21,22 @@ class ReferenceController extends AbstractAdminController
      * @param Request $request
      * @param string  $referenceId
      * @param string  $language
-     * @param string  $version
      *
      * @Config\Route(
-     *     "/reference/form/{referenceId}/{language}/{version}",
-     *      name="itkg_reference_bundle_reference_form",
-     *      defaults={"version": null},
+     *     "/reference/form/{referenceId}/{language}",
+     *      name="itkg_reference_bundle_reference_form"
      * )
      * @Config\Method({"GET", "POST"})
      *
      * @return Response
      */
-    public function formAction(Request $request, $referenceId, $language, $version)
+    public function formAction(Request $request, $referenceId, $language)
     {
-        $reference = $this->get('itkg_reference.repository.reference')->findOneByLanguageAndVersion($referenceId, $language, $version);
+        $reference = $this->get('itkg_reference.repository.reference')->findOneByLanguage($referenceId, $language);
         if (!$reference instanceof ReferenceInterface) {
             throw new \UnexpectedValueException();
         }
-        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($reference->getReferenceType());
+        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeId($reference->getReferenceType());
         if (!$referenceType instanceof ReferenceTypeInterface) {
             throw new \UnexpectedValueException();
         }
@@ -52,8 +50,7 @@ class ReferenceController extends AbstractAdminController
         $options = array(
             'action' => $this->generateUrl('itkg_reference_bundle_reference_form', array(
                 'referenceId' => $reference->getReferenceId(),
-                'language' => $reference->getLanguage(),
-                'version' => $reference->getVersion(),
+                'language' => $reference->getLanguage()
             )),
             'delete_button' => $this->canDeleteReference($reference),
             'is_blocked_edition' => $reference->getStatus() ? $reference->getStatus()->isBlockedEdition() : false,
@@ -92,7 +89,7 @@ class ReferenceController extends AbstractAdminController
     public function newAction(Request $request, $referenceTypeId, $language)
     {
         $referenceManager = $this->get('itkg_reference.manager.reference');
-        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($referenceTypeId);
+        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeId($referenceTypeId);
         if (!$referenceType instanceof ReferenceTypeInterface) {
             throw new \UnexpectedValueException();
         }
@@ -116,7 +113,6 @@ class ReferenceController extends AbstractAdminController
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $reference = $referenceManager->setVersionName($reference);
             $documentManager = $this->get('object_manager');
             $documentManager->persist($reference);
             $this->dispatchEvent(ReferenceEvents::REFERENCE_CREATION, new ReferenceEvent($reference));
@@ -132,7 +128,7 @@ class ReferenceController extends AbstractAdminController
             $response = new Response(
                 $message,
                 Response::HTTP_CREATED,
-                array('Reference-type' => 'text/plain; charset=utf-8', 'referenceId' => $reference->getReferenceId(), 'version' => $reference->getVersion())
+                array('Reference-type' => 'text/plain; charset=utf-8', 'referenceId' => $reference->getReferenceId())
             );
 
             return $response;
@@ -164,7 +160,7 @@ class ReferenceController extends AbstractAdminController
     {
         $template = AbstractAdminController::TEMPLATE;
 
-        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($referenceTypeId);
+        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeId($referenceTypeId);
 
         if ($referenceType instanceof ReferenceTypeInterface) {
             $customTemplate = $referenceType->getTemplate();

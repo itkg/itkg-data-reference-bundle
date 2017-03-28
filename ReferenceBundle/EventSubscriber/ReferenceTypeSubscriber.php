@@ -79,7 +79,7 @@ class ReferenceTypeSubscriber implements EventSubscriberInterface
     {
         $form = $event->getForm();
         $reference = $event->getData();
-        $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeIdInLastVersion($reference->getReferenceType());
+        $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeId($reference->getReferenceType());
         if ($referenceType instanceof ReferenceTypeInterface) {
             $this->addReferenceTypeFieldsToForm($referenceType->getFields(), $form, $reference->getStatus() ? $reference->getStatus()->isBlockedEdition() : false);
         }
@@ -93,7 +93,7 @@ class ReferenceTypeSubscriber implements EventSubscriberInterface
         $form = $event->getForm();
         $data = $event->getData();
 
-        $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeIdInLastVersion($data->getReferenceType());
+        $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeId($data->getReferenceType());
         if ($referenceType instanceof ReferenceTypeInterface) {
             foreach ($referenceType->getFields() as $referenceTypeField) {
                 $referenceTypeFieldId = $referenceTypeField->getFieldId();
@@ -137,7 +137,7 @@ class ReferenceTypeSubscriber implements EventSubscriberInterface
     {
         $form = $event->getForm();
         $reference = $form->getData();
-        $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeIdInLastVersion($reference->getReferenceType());
+        $referenceType = $this->referenceTypeRepository->findOneByReferenceTypeId($reference->getReferenceType());
 
         if ($referenceType instanceof ReferenceTypeInterface) {
             foreach ($referenceType->getFields() as $referenceTypeField) {

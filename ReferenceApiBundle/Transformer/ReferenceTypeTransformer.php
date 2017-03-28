@@ -60,8 +60,6 @@ class ReferenceTypeTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->id = $referenceType->getId();
         $facade->referenceTypeId = $referenceType->getReferenceTypeId();
         $facade->name = $this->multiLanguagesChoiceManager->choose($referenceType->getNames());
-        $facade->version = $referenceType->getVersion();
-        $facade->definingVersionable = $referenceType->isDefiningVersionable();
         $facade->definingStatusable = $referenceType->isDefiningStatusable();
         $facade->defaultListable = $referenceType->getDefaultListable();
 

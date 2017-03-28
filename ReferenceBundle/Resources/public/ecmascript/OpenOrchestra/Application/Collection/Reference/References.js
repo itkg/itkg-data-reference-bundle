@@ -47,8 +47,6 @@ class References extends DataTableCollection
         switch (apiContext) {
             case "list":
                 return Routing.generate('open_orchestra_api_reference_list', urlParameter);
-            case "list-version":
-                return Routing.generate('open_orchestra_api_reference_list_version', urlParameter);
         }
     }
 
@@ -62,8 +60,6 @@ class References extends DataTableCollection
     _getSyncDeleteUrl(options, urlParameter) {
         let apiContext = options.apiContext || null;
         switch (apiContext) {
-            case "delete-multiple-version":
-                return Routing.generate('open_orchestra_api_reference_delete_multiple_versions', urlParameter);
             default:
                 return Routing.generate('open_orchestra_api_reference_delete_multiple');
         }

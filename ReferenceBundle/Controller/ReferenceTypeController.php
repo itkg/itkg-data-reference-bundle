@@ -27,7 +27,7 @@ class ReferenceTypeController  extends AbstractAdminController
      */
     public function formAction(Request $request, $referenceTypeId)
     {
-        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($referenceTypeId);
+        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeId($referenceTypeId);
 //         $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $referenceType);
 
         $newReferenceType = $this->get('itkg_reference.manager.reference_type')->duplicate($referenceType);

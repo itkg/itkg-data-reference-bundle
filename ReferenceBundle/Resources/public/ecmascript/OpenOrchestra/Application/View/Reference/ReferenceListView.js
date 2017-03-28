@@ -107,8 +107,7 @@ class ReferenceListView extends mix(AbstractDataTableView).with(UrlPaginateViewM
         let link = Backbone.history.generateUrl('editReference', {
             referenceTypeId: context._referenceType.get('reference_type_id'),
             language: rowData.get('language'),
-            referenceId: rowData.get('reference_id'),
-//            version: rowData.get('version')
+            referenceId: rowData.get('reference_id')
         });
 //        if (!rowData.get('status').blocked_edition) {
             cellData = $('<a>',{

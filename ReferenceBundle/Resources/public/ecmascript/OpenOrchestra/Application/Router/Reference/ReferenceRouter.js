@@ -12,7 +12,6 @@ import Reference             from '../../Model/Reference/Reference'
 import Statuses            from '../../Collection/Status/Statuses'
 //import ApplicationError    from '../../../Service/Error/ApplicationError'
 //import ConfirmModalView    from '../../../Service/ConfirmModal/View/ConfirmModalView'
-//import ReferenceVersionsView from '../../View/Reference/ReferenceVersionsView'
 
 /**
  * @class ReferenceRouter
@@ -26,9 +25,8 @@ class ReferenceRouter extends OrchestraRouter
         this.routes = {
             'reference/summary'                                                        : 'showReferenceSummary',
             'reference/list/:referenceTypeId/:language(/:page)'                        : 'listReference',
-            'reference/edit/:referenceTypeId/:language/:referenceId(/:version)'        : 'editReference',
-            'reference/new/:referenceTypeId/:language'                                 : 'newReference',
-            'reference/manage-versions/:referenceTypeId/:language/:referenceId(/:page)': 'manageVersionsReference'
+            'reference/edit/:referenceTypeId/:language/:referenceId'                   : 'editReference',
+            'reference/new/:referenceTypeId/:language'                                 : 'newReference'
         };
     }
 
@@ -57,43 +55,6 @@ class ReferenceRouter extends OrchestraRouter
     }
 
     /**
-     * Manage version reference
-     *
-     * @param {string} referenceTypeId
-     * @param {string} language
-     * @param {string} referenceId
-     * @param {string} page
-     */
-    manageVersionsReference(referenceTypeId, language, referenceId, page) {
-//        if (null === page) {
-//            page = 1
-//        }
-//        page = Number(page) - 1;
-//        this._displayLoader(Application.getRegion('content'));
-//
-//        new References().fetch({
-//            apiContext: 'list-version',
-//            urlParameter: {
-//                language: language,
-//                referenceId: referenceId
-//            },
-//            success: (referenceVersions) => {
-//                let referenceVersionsView = new ReferenceVersionsView({
-//                    collection: referenceVersions,
-//                    settings: {
-//                        page: page
-//                    },
-//                    referenceId: referenceId,
-//                    language: language,
-//                    referenceTypeId: referenceTypeId,
-//                    siteLanguages: Application.getContext().siteLanguages
-//                });
-//                Application.getRegion('content').html(referenceVersionsView.render().$el);
-//            }
-//        });
-    }
-
-    /**
      * show reference summary
      */
     showReferenceSummary() {
@@ -116,17 +77,15 @@ class ReferenceRouter extends OrchestraRouter
     /**
      * Edit reference
      *
-     * @param {string}   referenceTypeId
-     * @param {string}   language
-     * @param {string}   referenceId
-     * @param {int|null} version
+     * @param {string} referenceTypeId
+     * @param {string} language
+     * @param {string} referenceId
      */
-    editReference(referenceTypeId, language, referenceId, version = null) {
+    editReference(referenceTypeId, language, referenceId) {
         this._displayLoader(Application.getRegion('content'));
         let url = Routing.generate('itkg_reference_bundle_reference_form', {
             referenceId: referenceId,
-            language: language,
-            version: version
+            language: language
         });
         let referenceType = new ReferenceType();
         let reference = new Reference({id: referenceId});
@@ -134,7 +93,7 @@ class ReferenceRouter extends OrchestraRouter
         $.when(
             referenceType.fetch({urlParameter: {referenceTypeId: referenceTypeId}}),
             reference.fetch({
-                urlParameter: {version: version, language: language},
+                urlParameter: {language: language},
                 enabledCallbackError: false
             })
         ).done(() => {

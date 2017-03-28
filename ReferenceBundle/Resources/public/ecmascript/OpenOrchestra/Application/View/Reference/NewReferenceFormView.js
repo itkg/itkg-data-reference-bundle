@@ -54,15 +54,13 @@ class NewReferenceFormView extends mix(AbstractFormView).with(FormViewButtonsMix
      */
     _redirectEditElement(data, textStatus, jqXHR) {
         let referenceId = jqXHR.getResponseHeader('referenceId');
-        let version = jqXHR.getResponseHeader('version');
-        if (null === referenceId || null === version) {
-            throw new ApplicationError('Invalid referenceId or version');
+        if (null === referenceId) {
+            throw new ApplicationError('Invalid referenceId');
         }
         let url = Backbone.history.generateUrl('editReference', {
             referenceTypeId: this._referenceTypeId,
             language: this._language,
-            referenceId: referenceId,
-            version: version
+            referenceId: referenceId
         });
         if (data != '') {
             let message = new FlashMessage(data, 'success');

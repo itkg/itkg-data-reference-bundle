@@ -61,8 +61,6 @@ class ReferenceTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade->referenceId = $reference->getReferenceId();
         $facade->referenceType = $reference->getReferenceType();
         $facade->name = $reference->getName();
-        $facade->version = $reference->getVersion();
-        $facade->versionName = $reference->getVersionName();
         $facade->language = $reference->getLanguage();
         $facade->status = $this->getTransformer('status')->transform($reference->getStatus());
         $facade->statusLabel = $reference->getStatus()->getLabel($this->contextManager->getCurrentLocale());
@@ -83,10 +81,6 @@ class ReferenceTransformer extends AbstractSecurityCheckerAwareTransformer
                 $this->authorizationChecker->isGranted(ContributionActionInterface::DELETE, $reference)
             ));
             $facade->addRight('can_duplicate', $this->authorizationChecker->isGranted(ContributionActionInterface::CREATE, ReferenceInterface::ENTITY_TYPE));
-        }
-
-        if ($this->hasGroup(CMSGroupContext::AUTHORIZATIONS_DELETE_VERSION)) {
-            $facade->addRight('can_delete_version', $this->authorizationChecker->isGranted(ContributionActionInterface::DELETE, $reference) && !$reference->getStatus()->isPublishedState());
         }
 
         return $facade;

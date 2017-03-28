@@ -5,9 +5,4 @@
     <a class="btn btn-border btn-edit" role="button" href="#<%= Backbone.history.generateUrl('editReference', {referenceTypeId: referenceTypeId, referenceId: referenceId, language: language}) %>">
         <%= Translator.trans('open_orchestra_backoffice.reference.edit') %>
     </a>
-    <% if (true == versionable) { %>
-        <a class="btn btn-border" role="button" href="#<%= Backbone.history.generateUrl('manageVersionsReference', {referenceTypeId: referenceTypeId, referenceId: referenceId, language: language}) %>">
-            <%= Translator.trans('open_orchestra_backoffice.versionable.manage_version') %>
-        </a>
-    <% } %>
 </div>

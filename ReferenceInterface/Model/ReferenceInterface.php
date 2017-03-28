@@ -2,7 +2,6 @@
 
 namespace Itkg\ReferenceInterface\Model;
 
-use OpenOrchestra\ModelInterface\Model\StatusableInterface;
 use OpenOrchestra\ModelInterface\Model\TimestampableInterface;
 use OpenOrchestra\ModelInterface\Model\BlameableInterface;
 use OpenOrchestra\ModelInterface\Model\SoftDeleteableInterface;
@@ -14,7 +13,7 @@ use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 /**
  * Interface ReferenceInterface
  */
-interface ReferenceInterface extends ReadReferenceInterface, StatusableInterface, TimestampableInterface, BlameableInterface, SoftDeleteableInterface, UseTrackableInterface, HistorisableInterface, AutoPublishableInterface
+interface ReferenceInterface extends ReadReferenceInterface, TimestampableInterface, BlameableInterface, SoftDeleteableInterface, UseTrackableInterface, HistorisableInterface, AutoPublishableInterface
 {
     const ENTITY_TYPE = 'reference';
     const TRASH_ITEM_TYPE = 'reference';

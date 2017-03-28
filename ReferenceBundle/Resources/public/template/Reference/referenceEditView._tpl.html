@@ -1,9 +1,7 @@
 <%= renderTemplate('Reference/referenceTopButtonsView', {
     referenceTypeId: referenceType.get('reference_type_id'),
     language: reference.get('language'),
-    version: reference.get('version'),
-    referenceId: reference.get('reference_id'),
-    versionable: referenceType.get('defining_versionable')
+    referenceId: reference.get('reference_id')
 }) %>
 <div class="pull-right languages">
     <ul>
