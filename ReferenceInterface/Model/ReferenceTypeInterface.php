@@ -94,14 +94,4 @@ interface ReferenceTypeInterface extends FieldTypeContainerInterface, BlameableI
      * @param array $defaultListable
      */
     public function setDefaultListable(array $defaultListable);
-
-    /**
-     * @param boolean $definingVersionable
-     */
-    public function setDefiningVersionable($definingVersionable);
-
-    /**
-     * @return boolean
-     */
-    public function isDefiningVersionable();
 }

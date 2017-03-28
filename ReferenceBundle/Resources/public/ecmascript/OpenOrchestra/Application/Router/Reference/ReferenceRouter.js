@@ -9,7 +9,7 @@ import ReferenceTypes       from '../../Collection/ReferenceType/ReferenceTypes'
 import References           from '../../Collection/Reference/References'
 import ReferenceType        from '../../Model/ReferenceType/ReferenceType'
 import Reference            from '../../Model/Reference/Reference'
-//import ConfirmModalView   from '../../../Service/ConfirmModal/View/ConfirmModalView'
+import ConfirmModalView     from '../../../Service/ConfirmModal/View/ConfirmModalView'
 
 /**
  * @class ReferenceRouter
@@ -21,10 +21,10 @@ class ReferenceRouter extends OrchestraRouter
      */
     preinitialize() {
         this.routes = {
-            'reference/summary'                                      : 'showReferenceSummary',
-            'reference/list/:referenceTypeId/:language(/:page)'      : 'listReference',
-            'reference/edit/:referenceTypeId/:language/:referenceId' : 'editReference',
-            'reference/new/:referenceTypeId/:language'               : 'newReference'
+            'reference/summary'                                     : 'showReferenceSummary',
+            'reference/list/:referenceTypeId/:language(/:page)'     : 'listReference',
+            'reference/edit/:referenceTypeId/:language/:referenceId': 'editReference',
+            'reference/new/:referenceTypeId/:language'              : 'newReference'
         };
     }
 
@@ -187,36 +187,36 @@ class ReferenceRouter extends OrchestraRouter
      * @private
      */
     _errorCallbackEdit(referenceTypeId, referenceId, language) {
-//        let noCallback = () => {
-//            let url = Backbone.history.generateUrl('listReference',{
-//                referenceTypeId: referenceTypeId,
-//                language: language
-//            });
-//            Backbone.history.navigate(url, true);
-//        };
-//        let yesCallback = () => {
-//            new Reference().save({}, {
-//                apiContext: 'new-language',
-//                urlParameter: {
-//                    referenceId: referenceId,
-//                    language: language
-//                },
-//                success: () => {
-//                    Backbone.history.loadUrl(Backbone.history.fragment);
-//                }
-//            })
-//        };
-//
-//        let confirmModalView = new ConfirmModalView({
-//            confirmTitle: Translator.trans('open_orchestra_backoffice.reference.confirm_create.title'),
-//            confirmMessage: Translator.trans('open_orchestra_backoffice.reference.confirm_create.message'),
-//            context: this,
-//            yesCallback: yesCallback,
-//            noCallback: noCallback
-//        });
-//
-//        Application.getRegion('modal').html(confirmModalView.render().$el);
-//        confirmModalView.show();
+        let noCallback = () => {
+            let url = Backbone.history.generateUrl('listReference',{
+                referenceTypeId: referenceTypeId,
+                language: language
+            });
+            Backbone.history.navigate(url, true);
+        };
+        let yesCallback = () => {
+            new Reference().save({}, {
+                apiContext: 'new-language',
+                urlParameter: {
+                    referenceId: referenceId,
+                    language: language
+                },
+                success: () => {
+                    Backbone.history.loadUrl(Backbone.history.fragment);
+                }
+            })
+        };
+
+        let confirmModalView = new ConfirmModalView({
+            confirmTitle: Translator.trans('itkg_reference.reference.confirm_create.title'),
+            confirmMessage: Translator.trans('itkg_reference.reference.confirm_create.message'),
+            context: this,
+            yesCallback: yesCallback,
+            noCallback: noCallback
+        });
+
+        Application.getRegion('modal').html(confirmModalView.render().$el);
+        confirmModalView.show();
     }
 }
 
