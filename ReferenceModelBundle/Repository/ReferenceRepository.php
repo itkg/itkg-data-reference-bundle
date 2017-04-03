@@ -452,23 +452,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     }
 
     /**
-     * @param string $referenceId
-     *
-     * @return int
-     */
-    public function hasReferenceId($referenceId)
-    {
-        $qa = $this->createAggregationQuery();
-        $qa->match(
-            array(
-                'referenceId' => $referenceId
-            )
-        );
-
-        return 0 !== $this->countDocumentAggregateQuery($qa);
-    }
-
-    /**
      * @param PaginateFinderConfiguration $configuration
      * @param Stage                       $qa
      * @param array                       $searchTypes

@@ -141,11 +141,4 @@ interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface,
      * @throws \Exception
      */
     public function restoreDeletedReference($referenceId);
-
-    /**
-     * @param string $referenceId
-     *
-     * @return int
-     */
-    public function hasReferenceId($referenceId);
 }

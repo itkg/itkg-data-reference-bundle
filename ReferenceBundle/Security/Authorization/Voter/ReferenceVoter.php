@@ -6,6 +6,7 @@ use OpenOrchestra\Backoffice\Security\Authorization\Voter\AbstractVoter;
 use Itkg\ReferenceModelBundle\Document\Reference;
 use Itkg\ReferenceBundle\Security\ReferenceRoleInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Itkg\ReferenceInterface\Model\ReferenceInterface;
 
 /*
  * Class ReferenceVoter
@@ -21,7 +22,7 @@ class ReferenceVoter extends AbstractVoter
      */
     protected function supportSubject($subject)
     {
-        return $subject instanceof Reference;
+        return $subject instanceof Reference || $subject === ReferenceInterface::ENTITY_TYPE;
     }
 
     /**

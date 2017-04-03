@@ -17,6 +17,7 @@ itkg_reference:
         references:
             list: List
             add: Add
+            new: New reference
             name: References
             created_at: Created at
             created_by: Author

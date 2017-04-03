@@ -15,6 +15,8 @@ use Itkg\ReferenceInterface\Model\ReferenceInterface;
 use Itkg\ReferenceInterface\Event\ReferenceEvent;
 use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
 use Itkg\ReferenceApiBundle\Exceptions\HttpException\ReferenceNotFoundHttpException;
+use Itkg\ReferenceInterface\ReferenceEvents;
+use Itkg\ReferenceInterface\Event\ReferenceDeleteEvent;
 
 /**
  * Class ReferenceController
@@ -40,14 +42,16 @@ class ReferenceController extends BaseController
      */
     public function showAction($referenceId, $language)
     {
-//         $this->denyAccessUnlessGranted(ContributionActionInterface::READ, SiteInterface::ENTITY_TYPE);
         if (null === $language) {
             $language = $this->get('open_orchestra_backoffice.context_manager')->getCurrentSiteDefaultLanguage();
         }
         $reference = $this->findOneReference($referenceId, $language);
+
         if (!$reference) {
             throw new ReferenceNotFoundHttpException();
         }
+
+        $this->denyAccessUnlessGranted(ContributionActionInterface::READ, $reference);
 
         return $this->get('open_orchestra_api.transformer_manager')->get('reference')->transform($reference);
     }
@@ -69,9 +73,10 @@ class ReferenceController extends BaseController
      */
     public function listAction(Request $request, $referenceTypeId, $siteId, $language)
     {
-//         $this->denyAccessUnlessGranted(ContributionActionInterface::READ, SiteInterface::ENTITY_TYPE);
+        $this->denyAccessUnlessGranted(ContributionActionInterface::READ, ReferenceInterface::ENTITY_TYPE);
 
-        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeId($referenceTypeId);
+        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($referenceTypeId);
+
         $mapping = $this->getMappingReferenceType($language, $referenceType);
 
         $searchTypes = array();
@@ -103,8 +108,6 @@ class ReferenceController extends BaseController
      */
     public function duplicateAction(Request $request)
     {
-//         $this->denyAccessUnlessGranted(ContributionActionInterface::CREATE, ReferenceInterface::ENTITY_TYPE);
-
         $format = $request->get('_format', 'json');
         $facade = $this->get('jms_serializer')->deserialize(
             $request->getReference(),
@@ -112,6 +115,8 @@ class ReferenceController extends BaseController
             $format
             );
         $reference = $this->get('open_orchestra_api.transformer_manager')->get('reference')->reverseTransform($facade);
+        $this->denyAccessUnlessGranted(ContributionActionInterface::CREATE, $reference);
+
         $frontLanguages = $this->getParameter('open_orchestra_backoffice.orchestra_choice.front_language');
 
         $referenceId = $reference->getReferenceId();
@@ -145,23 +150,20 @@ class ReferenceController extends BaseController
     {
         $format = $request->get('_format', 'json');
         $facade = $this->get('jms_serializer')->deserialize(
-            $request->getReference(),
-            $this->getParameter('open_orchestra_api.facade.reference_collection.class'),
+            $request->getContent(),
+            $this->getParameter('itkg_reference.facade.reference_collection.class'),
             $format
-            );
+        );
         $references = $this->get('open_orchestra_api.transformer_manager')->get('reference_collection')->reverseTransform($facade);
         $repository = $this->get('itkg_reference.repository.reference');
 
         foreach ($references as $reference) {
-//             $this->denyAccessUnlessGranted(ContributionActionInterface::DELETE, $reference);
+            $this->denyAccessUnlessGranted(ContributionActionInterface::DELETE, $reference);
             $referenceId = $reference->getReferenceId();
-            if (
-                false === $repository->hasReferenceId($referenceId) &&
-                $this->isGranted(ContributionActionInterface::DELETE, $reference)
-                ) {
-                    $repository->softDeleteReference($referenceId);
-                    $this->dispatchEvent(ReferenceEvents::CONTENT_DELETE, new ReferenceDeleteEvent($referenceId, $reference->getSiteId()));
-                }
+            if ($this->isGranted(ContributionActionInterface::DELETE, $reference)) {
+                $repository->softDeleteReference($referenceId);
+                $this->dispatchEvent(ReferenceEvents::REFERENCE_DELETE, new ReferenceDeleteEvent($referenceId, $reference->getSiteId()));
+            }
         }
 
         return array();
@@ -180,14 +182,10 @@ class ReferenceController extends BaseController
     {
         $repository = $this->get('itkg_reference.repository.reference');
         $reference = $repository->findOneByReferenceId($referenceId);
-//         $this->denyAccessUnlessGranted(ContributionActionInterface::DELETE, $reference);
-
-        if (true === $repository->hasReferenceId($referenceId)) {
-            throw new ReferenceNotDeletableException();
-        }
+        $this->denyAccessUnlessGranted(ContributionActionInterface::DELETE, $reference);
 
         $repository->softDeleteReference($referenceId);
-        $this->dispatchEvent(ReferenceEvents::CONTENT_DELETE, new ReferenceDeleteEvent($referenceId, $reference->getSiteId()));
+        $this->dispatchEvent(ReferenceEvents::REFERENCE_DELETE, new ReferenceDeleteEvent($referenceId, $reference->getSiteId()));
 
         return array();
     }
@@ -205,10 +203,12 @@ class ReferenceController extends BaseController
     public function newLanguageAction($referenceId, $language)
     {
         $reference = $this->get('itkg_reference.repository.reference')->findById($referenceId);
+
         if (!$reference instanceof ReferenceInterface) {
             throw new ReferenceNotFoundHttpException();
         }
-//         $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $reference);
+
+        $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $reference);
 
         $newReference = $this->get('itkg_reference.manager.reference')->duplicateReference($reference);
         $newReference->setLanguage($language);

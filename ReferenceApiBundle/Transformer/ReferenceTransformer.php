@@ -68,10 +68,7 @@ class ReferenceTransformer extends AbstractSecurityCheckerAwareTransformer
             $facade->addAttribute($referenceAttribute);
         }
         if ($this->hasGroup(CMSGroupContext::AUTHORIZATIONS)) {
-            $facade->addRight('can_delete',(
-                false === $this->referenceRepository->hasReferenceId($reference->getReferenceId()) &&
-                $this->authorizationChecker->isGranted(ContributionActionInterface::DELETE, $reference)
-            ));
+            $facade->addRight('can_delete', $this->authorizationChecker->isGranted(ContributionActionInterface::DELETE, $reference));
             $facade->addRight('can_duplicate', $this->authorizationChecker->isGranted(ContributionActionInterface::CREATE, ReferenceInterface::ENTITY_TYPE));
         }
 

@@ -40,7 +40,7 @@ class ReferenceController extends AbstractAdminController
         if (!$referenceType instanceof ReferenceTypeInterface) {
             throw new \UnexpectedValueException();
         }
-//         $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $reference);
+        $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $reference);
 
         $references = $this->get('itkg_reference.repository.reference')->findAllByReferenceId($referenceId);
         $isUsed = false;
@@ -96,7 +96,7 @@ class ReferenceController extends AbstractAdminController
         if (!$reference instanceof ReferenceInterface) {
             throw new \UnexpectedValueException();
         }
-//         $this->denyAccessUnlessGranted(ContributionActionInterface::CREATE, $reference);
+        $this->denyAccessUnlessGranted(ContributionActionInterface::CREATE, $reference);
 
         $form = $this->createForm('itkg_reference', $reference, array(
             'action' => $this->generateUrl('itkg_reference_bundle_reference_new', array(
@@ -139,8 +139,7 @@ class ReferenceController extends AbstractAdminController
     protected function canDeleteReference(ReferenceInterface $reference) {
         $referenceRepository = $this->get('itkg_reference.repository.reference');
 
-        return false === $referenceRepository->hasReferenceId($reference->getReferenceId()) &&
-           $this->isGranted(ContributionActionInterface::DELETE, $reference);
+        return $this->isGranted(ContributionActionInterface::DELETE, $reference);
     }
 
     /**

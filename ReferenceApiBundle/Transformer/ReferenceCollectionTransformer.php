@@ -26,17 +26,27 @@ class ReferenceCollectionTransformer extends AbstractTransformer
             $facade->addReference($this->getTransformer('reference')->transform($reference, $referenceType));
         }
 
-//         if ($referenceType) {
-//             $facade->addLink(
-//                 '_self_add',
-//                 $this->generateRoute(
-//                     'itkg_reference_bundle_reference_new',
-//                     array('referenceType' => $referenceType)
-//                 )
-//             );
-//         }
-
         return $facade;
+    }
+
+    /**
+     * @param FacadeInterface $facade
+     * @param null            $source
+     *
+     * @return array
+     */
+    public function reverseTransform(FacadeInterface $facade, $source = null)
+    {
+        $references = array();
+        $referencesFacade = $facade->getReferences();
+        foreach ($referencesFacade as $referenceFacade) {
+            $reference = $this->getTransformer('reference')->reverseTransform($referenceFacade);
+            if (null !== $reference) {
+                $references[] = $reference;
+            }
+        }
+
+        return $references;
     }
 
     /**

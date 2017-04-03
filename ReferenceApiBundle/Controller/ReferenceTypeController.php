@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
+use Itkg\ReferenceInterface\Model\ReferenceTypeInterface;
 
 /**
  * Class ReferenceTypeController
@@ -52,7 +53,7 @@ class ReferenceTypeController extends BaseController
      */
     public function listAction(Request $request)
     {
-//         $this->denyAccessUnlessGranted(ContributionActionInterface::READ, ReferenceTypeInterface::ENTITY_TYPE);
+        $this->denyAccessUnlessGranted(ContributionActionInterface::READ, ReferenceTypeInterface::ENTITY_TYPE);
         $mapping = array(
             'name' => 'names',
             'reference_type_id' => 'referenceTypeId'
@@ -84,8 +85,8 @@ class ReferenceTypeController extends BaseController
         $format = $request->get('_format', 'json');
 
         $facade = $this->get('jms_serializer')->deserialize(
-            $request->getReference(),
-            $this->getParameter('open_orchestra_api.facade.reference_type_collection.class'),
+            $request->getContent(),
+            $this->getParameter('itkg_reference.facade.reference_type_collection.class'),
             $format
         );
         $referenceTypeRepository = $this->get('itkg_reference.repository.reference_type');
@@ -96,7 +97,7 @@ class ReferenceTypeController extends BaseController
                 0 == $this->get('itkg_reference.repository.reference')->countByReferenceType($referenceType->getReferenceTypeId())
             ) {
                 $referenceTypeIds[] = $referenceType->getReferenceTypeId();
-                $this->dispatchEvent(ReferenceTypeEvents::CONTENT_TYPE_DELETE, new ReferenceTypeEvent($referenceType));
+                $this->dispatchEvent(ReferenceTypeEvents::REFERENCE_TYPE_DELETE, new ReferenceTypeEvent($referenceType));
             }
         }
         $referenceTypeRepository->removeByReferenceTypeId($referenceTypeIds);
