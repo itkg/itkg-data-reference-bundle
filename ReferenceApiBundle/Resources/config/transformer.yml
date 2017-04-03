@@ -28,6 +28,7 @@ services:
             - '@itkg_reference.repository.reference'
             - '@itkg_reference.repository.reference_type'
             - '@security.authorization_checker'
+            - '@itkg_reference.manager.reference'
         tags     :
             - { name: open_orchestra_api.transformer.strategy}
 

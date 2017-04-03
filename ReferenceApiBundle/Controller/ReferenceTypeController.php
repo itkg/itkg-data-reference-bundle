@@ -107,6 +107,9 @@ class ReferenceTypeController extends BaseController
     /**
      * @Config\Route("/reference/reference-type-list", name="open_orchestra_api_reference_type_list_for_reference")
      * @Config\Method({"GET"})
+     * @Api\Groups({
+     *     OpenOrchestra\ApiBundle\Context\CMSGroupContext::AUTHORIZATIONS
+     * })
      * @return FacadeInterface
      */
     public function listForReferenceAction()

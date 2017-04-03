@@ -1,0 +1,18 @@
+parameters:
+    itkg_reference.voter.reference.class     : Itkg\ReferenceBundle\Security\Authorization\Voter\ReferenceVoter
+    itkg_reference.voter.reference_type.class: Itkg\ReferenceBundle\Security\Authorization\Voter\ReferenceTypeVoter
+
+services:
+    itkg_reference.voter.reference:
+        class: '%itkg_reference.voter.reference.class%'
+        arguments:
+            - '@security.access.decision_manager'
+        tags:
+            - { name: security.voter }
+
+    itkg_reference.voter.reference_type:
+        class: '%itkg_reference.voter.reference_type.class%'
+        arguments:
+            - '@security.access.decision_manager'
+        tags:
+            - { name: security.voter }

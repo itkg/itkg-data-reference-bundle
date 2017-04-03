@@ -21,6 +21,7 @@ class ReferenceTypeTransformer extends AbstractSecurityCheckerAwareTransformer
     protected $multiLanguagesChoiceManager;
     protected $referenceRepository;
     protected $referenceTypeRepository;
+    protected $referenceManager;
 
     /**
      * @param string                               $facadeClass
@@ -34,12 +35,14 @@ class ReferenceTypeTransformer extends AbstractSecurityCheckerAwareTransformer
         MultiLanguagesChoiceManagerInterface $multiLanguagesChoiceManager,
         ReferenceRepositoryInterface $referenceRepository,
         ReferenceTypeRepositoryInterface $referenceTypeRepository,
-        AuthorizationCheckerInterface $authorizationChecker
+        AuthorizationCheckerInterface $authorizationChecker,
+        $referenceManager
     ) {
         parent::__construct($facadeClass, $authorizationChecker);
         $this->multiLanguagesChoiceManager = $multiLanguagesChoiceManager;
         $this->referenceRepository = $referenceRepository;
         $this->referenceTypeRepository = $referenceTypeRepository;
+        $this->referenceManager = $referenceManager;
     }
 
     /**
@@ -65,6 +68,10 @@ class ReferenceTypeTransformer extends AbstractSecurityCheckerAwareTransformer
         if ($this->hasGroup(CMSGroupContext::AUTHORIZATIONS)) {
             $facade->addRight('can_delete', $this->authorizationChecker->isGranted(ContributionActionInterface::DELETE, $referenceType) && 0 == $this->referenceRepository->countByReferenceType($referenceType->getReferenceTypeId()));
             $facade->addRight('can_duplicate', $this->authorizationChecker->isGranted(ContributionActionInterface::CREATE, ReferenceTypeInterface::ENTITY_TYPE));
+            $facade->addRight('can_create', $this->authorizationChecker->isGranted(ContributionActionInterface::CREATE, ReferenceTypeInterface::ENTITY_TYPE));
+
+            $reference = $this->referenceManager->initializeNewReference($referenceType->getReferenceTypeId(), '');
+            $facade->addRight('can_create_reference', $this->authorizationChecker->isGranted(ContributionActionInterface::CREATE, $reference));
         }
 
         if ($this->hasGroup(CMSGroupContext::FIELD_TYPES)) {
