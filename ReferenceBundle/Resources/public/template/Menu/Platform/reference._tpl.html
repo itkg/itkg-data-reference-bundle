@@ -1,5 +1,7 @@
-<li>
-    <a href="#<%= Backbone.history.generateUrl('showReferenceSummary') %>" id="navigation-reference">
-        <%= Translator.trans('itkg_reference.menu.platform.reference') %>
-    </a>
-</li>
+<% if (access_section.reference) { %>
+    <li>
+        <a href="#<%= Backbone.history.generateUrl('showReferenceSummary') %>" id="navigation-reference">
+            <%= Translator.trans('itkg_reference.menu.platform.reference') %>
+        </a>
+    </li>
+<% } %>
