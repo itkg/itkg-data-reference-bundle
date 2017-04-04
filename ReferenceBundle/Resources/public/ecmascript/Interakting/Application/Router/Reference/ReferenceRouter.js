@@ -1,6 +1,6 @@
-import OrchestraRouter      from '../OrchestraRouter'
-import Application          from '../../Application'
-import FormBuilder          from '../../../Service/Form/Model/FormBuilder'
+import OrchestraRouter      from '../../../../OpenOrchestra/Application/Router/OrchestraRouter'
+import Application          from '../../../../OpenOrchestra/Application/Application'
+import FormBuilder          from '../../../../OpenOrchestra/Service/Form/Model/FormBuilder'
 import ReferenceSummaryView from '../../View/Reference/ReferenceSummaryView'
 import ReferencesView       from '../../View/Reference/ReferencesView'
 import ReferenceFormView    from '../../View/Reference/ReferenceFormView'
@@ -9,7 +9,7 @@ import ReferenceTypes       from '../../Collection/ReferenceType/ReferenceTypes'
 import References           from '../../Collection/Reference/References'
 import ReferenceType        from '../../Model/ReferenceType/ReferenceType'
 import Reference            from '../../Model/Reference/Reference'
-import ConfirmModalView     from '../../../Service/ConfirmModal/View/ConfirmModalView'
+import ConfirmModalView     from '../../../../OpenOrchestra/Service/ConfirmModal/View/ConfirmModalView'
 
 /**
  * @class ReferenceRouter

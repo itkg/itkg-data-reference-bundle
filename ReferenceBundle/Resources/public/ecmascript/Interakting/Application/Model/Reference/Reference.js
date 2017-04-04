@@ -1,5 +1,5 @@
-import OrchestraModel from '../OrchestraModel'
-import Fields         from '../Content/Fields'
+import OrchestraModel from '../../../../OpenOrchestra/Application/Model/OrchestraModel'
+import Fields         from '../../../../OpenOrchestra/Application/Model/Content/Fields'
 
 /**
  * @class Reference

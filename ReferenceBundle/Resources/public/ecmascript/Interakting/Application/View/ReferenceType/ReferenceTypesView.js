@@ -1,6 +1,6 @@
-import AbstractCollectionView from '../../../Service/DataTable/View/AbstractCollectionView'
+import AbstractCollectionView from '../../../../OpenOrchestra/Service/DataTable/View/AbstractCollectionView'
 import ReferenceTypesListView from './ReferenceTypesListView'
-import Application            from '../../Application'
+import Application            from '../../../../OpenOrchestra/Application/Application'
 
 /**
  * @class ReferenceTypesView

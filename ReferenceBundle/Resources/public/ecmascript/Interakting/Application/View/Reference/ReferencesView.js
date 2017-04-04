@@ -1,6 +1,6 @@
-import AbstractCollectionView from '../../../Service/DataTable/View/AbstractCollectionView'
-import SearchFormGroupManager from '../../../Service/SearchFormGroup/Manager'
-import Application            from '../../Application'
+import AbstractCollectionView from '../../../../OpenOrchestra/Service/DataTable/View/AbstractCollectionView'
+import SearchFormGroupManager from '../../../../OpenOrchestra/Service/SearchFormGroup/Manager'
+import Application            from '../../../../OpenOrchestra/Application/Application'
 import ReferenceListView      from '../../View/Reference/ReferenceListView'
 
 /**

@@ -1,7 +1,7 @@
-import OrchestraView    from '../OrchestraView'
+import OrchestraView    from '../../../../OpenOrchestra/Application/View/OrchestraView'
 import Reference        from '../../Model/Reference/Reference'
-import ApplicationError from '../../../Service/Error/ApplicationError'
-import Application      from '../../Application'
+import ApplicationError from '../../../../OpenOrchestra/Service/Error/ApplicationError'
+import Application      from '../../../../OpenOrchestra/Application/Application'
 
 /**
  * @class ReferenceToolbarView

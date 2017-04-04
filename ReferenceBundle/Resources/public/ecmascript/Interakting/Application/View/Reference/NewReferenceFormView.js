@@ -1,12 +1,12 @@
-import AbstractFormView     from '../../../Service/Form/View/AbstractFormView'
-import Application          from '../../Application'
-import ApplicationError     from '../../../Service/Error/ApplicationError'
+import AbstractFormView     from '../../../../OpenOrchestra/Service/Form/View/AbstractFormView'
+import Application          from '../../../../OpenOrchestra/Application/Application'
+import ApplicationError     from '../../../../OpenOrchestra/Service/Error/ApplicationError'
 import Reference            from '../../Model/Reference/Reference'
 import References           from '../../Collection/Reference/References'
-import FormViewButtonsMixin from '../../../Service/Form/Mixin/FormViewButtonsMixin'
+import FormViewButtonsMixin from '../../../../OpenOrchestra/Service/Form/Mixin/FormViewButtonsMixin'
 import ReferenceToolbarView from './ReferenceToolbarView'
-import FlashMessageBag      from '../../../Service/FlashMessage/FlashMessageBag'
-import FlashMessage         from '../../../Service/FlashMessage/FlashMessage'
+import FlashMessageBag      from '../../../../OpenOrchestra/Service/FlashMessage/FlashMessageBag'
+import FlashMessage         from '../../../../OpenOrchestra/Service/FlashMessage/FlashMessage'
 
 /**
  * @class NewReferenceFormView

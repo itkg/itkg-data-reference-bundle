@@ -1,4 +1,4 @@
-import Application         from '../Application/Application'
+import Application         from '../../OpenOrchestra/Application/Application'
 import ReferenceTypeRouter from './Router/ReferenceType/ReferenceTypeRouter'
 import ReferenceRouter     from './Router/Reference/ReferenceRouter'
 

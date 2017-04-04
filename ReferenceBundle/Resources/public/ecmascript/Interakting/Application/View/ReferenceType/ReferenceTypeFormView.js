@@ -1,8 +1,8 @@
-import AbstractFormView     from '../../../Service/Form/View/AbstractFormView'
-import Application          from '../../Application'
+import AbstractFormView     from '../../../../OpenOrchestra/Service/Form/View/AbstractFormView'
+import Application          from '../../../../OpenOrchestra/Application/Application'
 import ReferenceType        from '../../Model/ReferenceType/ReferenceType'
-import FormViewButtonsMixin from '../../../Service/Form/Mixin/FormViewButtonsMixin'
-import ApplicationError     from '../../../Service/Error/ApplicationError'
+import FormViewButtonsMixin from '../../../../OpenOrchestra/Service/Form/Mixin/FormViewButtonsMixin'
+import ApplicationError     from '../../../../OpenOrchestra/Service/Error/ApplicationError'
 
 /**
  * @class ReferenceTypeFormView

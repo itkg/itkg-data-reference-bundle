@@ -1,4 +1,4 @@
-import DataTableCollection from '../../../Service/DataTable/Collection/DataTableCollection'
+import DataTableCollection from '../../../../OpenOrchestra/Service/DataTable/Collection/DataTableCollection'
 import ReferenceType       from '../../Model/ReferenceType/ReferenceType'
 
 /**

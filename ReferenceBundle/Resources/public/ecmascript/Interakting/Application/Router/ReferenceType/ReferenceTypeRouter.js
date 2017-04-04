@@ -1,7 +1,7 @@
-import OrchestraRouter       from '../OrchestraRouter'
-import Application           from '../../Application'
+import OrchestraRouter       from '../../../../OpenOrchestra/Application/Router/OrchestraRouter'
+import Application           from '../../../../OpenOrchestra/Application/Application'
 import ReferenceTypes        from '../../Collection/ReferenceType/ReferenceTypes'
-import FormBuilder           from '../../../Service/Form/Model/FormBuilder'
+import FormBuilder           from '../../../../OpenOrchestra/Service/Form/Model/FormBuilder'
 import ReferenceTypeFormView from '../../View/ReferenceType/ReferenceTypeFormView'
 import ReferenceTypesView    from '../../View/ReferenceType/ReferenceTypesView'
 
