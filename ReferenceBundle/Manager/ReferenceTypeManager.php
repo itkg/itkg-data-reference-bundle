@@ -73,11 +73,11 @@ class ReferenceTypeManager
     protected function getDefaultListableColumns()
     {
         return array(
-            'name'           => true,
-            'created_at'     => true,
-            'created_by'     => true,
-            'updated_at'     => false,
-            'updated_by'     => false,
+            'name'       => true,
+            'created_at' => true,
+            'created_by' => true,
+            'updated_at' => false,
+            'updated_by' => false,
         );
     }
 }

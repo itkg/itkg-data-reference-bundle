@@ -35,7 +35,7 @@ class ReferencesView extends AbstractCollectionView
             prevText: '<i class="fa fa-chevron-left"></i>',
             nextText: '<i class="fa fa-chevron-right"></i>'
         });
-        
+
         this._listView = new ReferenceListView({
             collection: this._collection,
             settings: this._settings,

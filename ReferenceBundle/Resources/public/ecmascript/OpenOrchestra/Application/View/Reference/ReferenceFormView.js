@@ -1,11 +1,11 @@
-import AbstractFormView      from '../../../Service/Form/View/AbstractFormView'
-import Application           from '../../Application'
-import ApplicationError      from '../../../Service/Error/ApplicationError'
-import Reference             from '../../Model/Reference/Reference'
-import References            from '../../Collection/Reference/References'
-import FormViewButtonsMixin  from '../../../Service/Form/Mixin/FormViewButtonsMixin'
-import ReferenceToolbarView  from './ReferenceToolbarView'
-import FlashMessageBag       from '../../../Service/FlashMessage/FlashMessageBag'
+import AbstractFormView     from '../../../Service/Form/View/AbstractFormView'
+import Application          from '../../Application'
+import ApplicationError     from '../../../Service/Error/ApplicationError'
+import Reference            from '../../Model/Reference/Reference'
+import References           from '../../Collection/Reference/References'
+import FormViewButtonsMixin from '../../../Service/Form/Mixin/FormViewButtonsMixin'
+import ReferenceToolbarView from './ReferenceToolbarView'
+import FlashMessageBag      from '../../../Service/FlashMessage/FlashMessageBag'
 
 /**
  * @class ReferenceFormView

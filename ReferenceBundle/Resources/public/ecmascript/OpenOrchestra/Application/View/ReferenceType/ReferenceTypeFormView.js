@@ -54,10 +54,10 @@ class ReferenceTypeFormView extends mix(AbstractFormView).with(FormViewButtonsMi
        Backbone.history.navigate(url, true);
     }
 
-   /**
-    * Delete reference type
-    */
-   _deleteElement() {
+    /**
+     * Delete reference type
+     */
+    _deleteElement() {
         if (null === this._referenceTypeId) {
             throw new ApplicationError('Invalid referenceTypeId');
         }
@@ -68,7 +68,7 @@ class ReferenceTypeFormView extends mix(AbstractFormView).with(FormViewButtonsMi
                 Backbone.history.navigate(url, true);
             }
         });
-   }
+    }
 }
 
 export default ReferenceTypeFormView;

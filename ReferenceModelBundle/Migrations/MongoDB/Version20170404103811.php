@@ -67,6 +67,11 @@ class Version20170404103811 extends AbstractMigration
         ');
     }
 
+    /**
+     * Update References
+     *
+     * @param Database $db
+     */
     protected function updateReferences(Database $db)
     {
         $this->write(' + Update References');

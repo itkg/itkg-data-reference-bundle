@@ -112,7 +112,7 @@ class ReferenceController extends BaseController
             $request->getReference(),
             $this->getParameter('open_orchestra_api.facade.reference.class'),
             $format
-            );
+        );
         $reference = $this->get('open_orchestra_api.transformer_manager')->get('reference')->reverseTransform($facade);
         $this->denyAccessUnlessGranted(ContributionActionInterface::CREATE, $reference);
 

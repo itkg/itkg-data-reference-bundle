@@ -1,10 +1,10 @@
 parameters:
     itkg_reference_bundle.type.itkg_reference_type.class       : Itkg\ReferenceBundle\Form\Type\ReferenceTypeType
     itkg_reference_bundle.document.reference_type.class        : Itkg\ReferenceModelBundle\Document\ReferenceType
-
     itkg_reference_bundle.type.itkg_reference.class            : Itkg\ReferenceBundle\Form\Type\ReferenceType
     itkg_reference_bundle.document.reference.class             : Itkg\ReferenceModelBundle\Document\Reference
     itkg_reference_bundle.event.reference_type_subscriber.class: Itkg\ReferenceBundle\EventSubscriber\ReferenceTypeSubscriber
+
 services:
     itkg_reference_bundle.type.itkg_reference_type:
         class    : '%itkg_reference_bundle.type.itkg_reference_type.class%'

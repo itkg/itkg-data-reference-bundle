@@ -1,10 +1,10 @@
 parameters:
-    itkg_reference.manager.reference_type.class : Itkg\ReferenceBundle\Manager\ReferenceTypeManager
-    itkg_reference.manager.reference.class      : Itkg\ReferenceBundle\Manager\ReferenceManager
+    itkg_reference.manager.reference_type.class: Itkg\ReferenceBundle\Manager\ReferenceTypeManager
+    itkg_reference.manager.reference.class     : Itkg\ReferenceBundle\Manager\ReferenceManager
 
 services:
     itkg_reference.manager.reference_type:
-        class   : '%itkg_reference.manager.reference_type.class%'
+        class    : '%itkg_reference.manager.reference_type.class%'
         arguments:
           - '%itkg_reference.document.reference_type.class%'
 
