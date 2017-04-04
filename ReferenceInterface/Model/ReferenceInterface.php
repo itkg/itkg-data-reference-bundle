@@ -56,11 +56,4 @@ interface ReferenceInterface extends ReadReferenceInterface, TimestampableInterf
      * @param string $name
      */
     public function setName($name);
-
-    /**
-     * Set siteId
-     *
-     * @param String $siteId
-     */
-    public function setSiteId($siteId);
 }

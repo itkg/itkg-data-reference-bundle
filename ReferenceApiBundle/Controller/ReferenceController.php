@@ -59,10 +59,9 @@ class ReferenceController extends BaseController
     /**
      * @param Request $request
      * @param string  $referenceTypeId
-     * @param string  $siteId
      * @param string  $language
      *
-     * @Config\Route("/list/{referenceTypeId}/{siteId}/{language}", name="open_orchestra_api_reference_list")
+     * @Config\Route("/list/{referenceTypeId}/{language}", name="open_orchestra_api_reference_list")
      * @Config\Method({"GET"})
      *
      * @Api\Groups({
@@ -71,7 +70,7 @@ class ReferenceController extends BaseController
      *
      * @return FacadeInterface
      */
-    public function listAction(Request $request, $referenceTypeId, $siteId, $language)
+    public function listAction(Request $request, $referenceTypeId, $language)
     {
         $this->denyAccessUnlessGranted(ContributionActionInterface::READ, ReferenceInterface::ENTITY_TYPE);
 
@@ -88,9 +87,9 @@ class ReferenceController extends BaseController
 
         $repository =  $this->get('itkg_reference.repository.reference');
 
-        $collection = $repository->findForPaginateFilterByReferenceTypeSiteAndLanguage($configuration, $referenceTypeId, $siteId, $language, $searchTypes);
-        $recordsTotal = $repository->countFilterByReferenceTypeSiteAndLanguage($referenceTypeId, $siteId, $language);
-        $recordsFiltered = $repository->countWithFilterAndReferenceTypeSiteAndLanguage($configuration, $referenceTypeId, $siteId, $language, $searchTypes);
+        $collection = $repository->findForPaginateFilterByReferenceTypeAndLanguage($configuration, $referenceTypeId, $language, $searchTypes);
+        $recordsTotal = $repository->countFilterByReferenceTypeAndLanguage($referenceTypeId, $language);
+        $recordsFiltered = $repository->countWithFilterAndReferenceTypeAndLanguage($configuration, $referenceTypeId, $language, $searchTypes);
         $facade = $this->get('open_orchestra_api.transformer_manager')->get('reference_collection')->transform($collection);
         $facade->recordsTotal = $recordsTotal;
         $facade->recordsFiltered = $recordsFiltered;
@@ -162,7 +161,7 @@ class ReferenceController extends BaseController
             $referenceId = $reference->getReferenceId();
             if ($this->isGranted(ContributionActionInterface::DELETE, $reference)) {
                 $repository->softDeleteReference($referenceId);
-                $this->dispatchEvent(ReferenceEvents::REFERENCE_DELETE, new ReferenceDeleteEvent($referenceId, $reference->getSiteId()));
+                $this->dispatchEvent(ReferenceEvents::REFERENCE_DELETE, new ReferenceDeleteEvent($referenceId));
             }
         }
 
@@ -185,7 +184,7 @@ class ReferenceController extends BaseController
         $this->denyAccessUnlessGranted(ContributionActionInterface::DELETE, $reference);
 
         $repository->softDeleteReference($referenceId);
-        $this->dispatchEvent(ReferenceEvents::REFERENCE_DELETE, new ReferenceDeleteEvent($referenceId, $reference->getSiteId()));
+        $this->dispatchEvent(ReferenceEvents::REFERENCE_DELETE, new ReferenceDeleteEvent($referenceId));
 
         return array();
     }

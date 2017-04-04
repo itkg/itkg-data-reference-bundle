@@ -88,13 +88,6 @@ class Reference implements ReferenceInterface
     protected $attributes;
 
     /**
-     * @var string $siteId
-     *
-     * @ODM\Field(type="string")
-     */
-    protected $siteId;
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -206,22 +199,6 @@ class Reference implements ReferenceInterface
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSiteId()
-    {
-        return $this->siteId;
-    }
-
-    /**
-     * @param string $siteId
-     */
-    public function setSiteId($siteId)
-    {
-        $this->siteId = $siteId;
     }
 
     /**

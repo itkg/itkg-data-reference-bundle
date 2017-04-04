@@ -22,9 +22,8 @@ interface ReadReferenceRepositoryInterface
      * @param string      $referenceType
      * @param string      $choiceType
      * @param string|null $condition
-     * @param string|null $siteId
      *
      * @return array
      */
-    public function findByReferenceTypeAndCondition($language, $referenceType = '', $choiceType = self::CHOICE_AND, $condition = null,  $siteId = null);
+    public function findByReferenceTypeAndCondition($language, $referenceType = '', $choiceType = self::CHOICE_AND, $condition = null);
 }

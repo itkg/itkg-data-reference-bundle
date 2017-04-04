@@ -57,31 +57,28 @@ interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface,
     /**
      * @param PaginateFinderConfiguration $configuration
      * @param string                      $referenceType
-     * @param string                      $siteId
      * @param string                      $language
      *
      * @return array
      */
-    public function findForPaginateFilterByReferenceTypeSiteAndLanguage(PaginateFinderConfiguration $configuration, $referenceType, $siteId, $language);
+    public function findForPaginateFilterByReferenceTypeAndLanguage(PaginateFinderConfiguration $configuration, $referenceType, $language);
 
     /**
      * @param string $referenceType
-     * @param string $siteId
      * @param string $language
      *
      * @return int
      */
-    public function countFilterByReferenceTypeSiteAndLanguage($referenceType, $siteId, $language);
+    public function countFilterByReferenceTypeAndLanguage($referenceType, $language);
 
     /**
      * @param PaginateFinderConfiguration $configuration
      * @param string                      $referenceType
-     * @param string                      $siteId
      * @param string                      $language
      *
      * @return int
      */
-    public function countWithFilterAndReferenceTypeSiteAndLanguage(PaginateFinderConfiguration $configuration, $referenceType, $siteId, $language);
+    public function countWithFilterAndReferenceTypeAndLanguage(PaginateFinderConfiguration $configuration, $referenceType, $language);
 
     /**
      * @param string $referenceType
@@ -99,7 +96,6 @@ interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface,
 
     /**
      * @param string       $id
-     * @param string       $siteId
      * @param array|null   $eventTypes
      * @param int|null     $limit
      * @param array|null   $sort
@@ -107,9 +103,8 @@ interface ReferenceRepositoryInterface extends ReadReferenceRepositoryInterface,
      *
      * @return array
      */
-    public function findByHistoryAndSiteId(
+    public function findByHistory(
         $id,
-        $siteId,
         array $eventTypes = null,
         $limit = null,
         array $sort = null,

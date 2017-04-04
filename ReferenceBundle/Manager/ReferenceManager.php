@@ -2,7 +2,6 @@
 
 namespace Itkg\ReferenceBundle\Manager;
 
-use OpenOrchestra\Backoffice\Context\ContextManager;
 use OpenOrchestra\Backoffice\Util\UniqueIdGenerator;
 use Itkg\ReferenceInterface\Model\ReferenceInterface;
 
@@ -12,20 +11,14 @@ use Itkg\ReferenceInterface\Model\ReferenceInterface;
 
 class ReferenceManager
 {
-    protected $contextManager;
     protected $referenceClass;
 
     /**
-     * @param ContextManager            $contextManager
-     * @param string                    $referenceClass
-     * @param UniqueIdGenerator         $uniqueIdGenerator
+     * @param string            $referenceClass
+     * @param UniqueIdGenerator $uniqueIdGenerator
      */
-    public function __construct(
-        ContextManager $contextManager,
-        $referenceClass,
-        UniqueIdGenerator $uniqueIdGenerator
-    ) {
-        $this->contextManager = $contextManager;
+    public function __construct($referenceClass, UniqueIdGenerator $uniqueIdGenerator)
+    {
         $this->referenceClass = $referenceClass;
         $this->uniqueIdGenerator = $uniqueIdGenerator;
     }
@@ -42,7 +35,6 @@ class ReferenceManager
         /** @var ReferenceInterface $reference */
         $reference = new $referenceClass();
         $reference->setLanguage($language);
-        $reference->setSiteId($this->contextManager->getCurrentSiteId());
         $reference->setReferenceType($referenceType);
 
         return $reference;

@@ -11,16 +11,13 @@ use Symfony\Component\EventDispatcher\Event;
 class ReferenceDeleteEvent extends Event
 {
     protected $referenceId;
-    protected $siteId;
 
     /**
      * @param string $referenceId
-     * @param string $siteId
      */
-    public function __construct($referenceId, $siteId)
+    public function __construct($referenceId)
     {
         $this->referenceId = $referenceId;
-        $this->siteId = $siteId;
     }
 
     /**
@@ -29,13 +26,5 @@ class ReferenceDeleteEvent extends Event
     public function getReferenceId()
     {
         return $this->referenceId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSiteId()
-    {
-        return $this->siteId;
     }
 }

@@ -5,7 +5,6 @@ namespace Itkg\ReferenceApiBundle\Transformer;
 use Itkg\ReferenceInterface\Model\ReferenceInterface;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use Itkg\ReferenceInterface\Repository\ReferenceRepositoryInterface;
-use OpenOrchestra\BaseBundle\Context\CurrentSiteIdInterface;
 use OpenOrchestra\BaseApi\Exceptions\TransformerParameterTypeException;
 use OpenOrchestra\Backoffice\Security\ContributionActionInterface;
 use OpenOrchestra\ApiBundle\Context\CMSGroupContext;
@@ -18,22 +17,18 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class ReferenceTransformer extends AbstractSecurityCheckerAwareTransformer
 {
     protected $referenceRepository;
-    protected $contextManager;
 
     /**
-     * @param string                         $facadeClass
-     * @param ReferenceRepositoryInterface   $referenceRepository,
-     * @param AuthorizationCheckerInterface  $authorizationChecker
-     * @param CurrentSiteIdInterface         $contextManager
+     * @param string                        $facadeClass
+     * @param ReferenceRepositoryInterface  $referenceRepository,
+     * @param AuthorizationCheckerInterface $authorizationChecker
      */
     public function __construct(
         $facadeClass,
         ReferenceRepositoryInterface $referenceRepository,
-        AuthorizationCheckerInterface $authorizationChecker,
-        CurrentSiteIdInterface $contextManager
+        AuthorizationCheckerInterface $authorizationChecker
     ) {
         $this->referenceRepository = $referenceRepository;
-        $this->contextManager = $contextManager;
         parent::__construct($facadeClass, $authorizationChecker);
     }
 

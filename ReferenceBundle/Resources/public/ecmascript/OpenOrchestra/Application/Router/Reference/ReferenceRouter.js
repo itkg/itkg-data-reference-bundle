@@ -146,7 +146,6 @@ class ReferenceRouter extends OrchestraRouter
         page = Number(page) - 1;
         let urlParameter = {
             referenceTypeId: referenceTypeId,
-            siteId: Application.getContext().siteId,
             language: language
         };
 

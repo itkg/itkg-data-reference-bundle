@@ -51,17 +51,13 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
      * @param string      $referenceType
      * @param string      $choiceType
      * @param string|null $condition
-     * @param string|null $siteId
      *
      * @return array
      */
-    public function findByReferenceTypeAndCondition($language, $referenceType = '', $choiceType = self::CHOICE_AND, $condition = null, $siteId = null)
+    public function findByReferenceTypeAndCondition($language, $referenceType = '', $choiceType = self::CHOICE_AND, $condition = null)
     {
         $qa = $this->createAggregationQuery();
         $qa->match($this->generateFilterNotDeletedOnLanguage($language));
-        if (!is_null($siteId)) {
-            $qa->match($this->generateSiteIdFilter($siteId));
-        }
         $filter = $this->generateReferenceTypeFilter($referenceType);
 
         if ($filter && $condition) {
@@ -192,17 +188,15 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     /**
      * @param PaginateFinderConfiguration $configuration
      * @param string                      $referenceType
-     * @param string                      $siteId
      * @param string                      $language
      * @param array                       $searchTypes
      *
      * @return array
      */
-    public function findForPaginateFilterByReferenceTypeSiteAndLanguage(PaginateFinderConfiguration $configuration, $referenceType, $siteId, $language, array $searchTypes = array())
+    public function findForPaginateFilterByReferenceTypeAndLanguage(PaginateFinderConfiguration $configuration, $referenceType, $language, array $searchTypes = array())
     {
         $qa = $this->createAggregateQueryWithDeletedFilter(false);
         $qa->match($this->generateReferenceTypeFilter($referenceType));
-        $qa->match($this->generateSiteIdFilter($siteId));
         $qa->match($this->generateLanguageFilter($language));
 
         $this->filterSearch($configuration, $qa, $searchTypes);
@@ -226,28 +220,26 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
 
     /**
      * @param string $referenceType
-     * @param string $siteId
      * @param string $language
      *
      * @return int
      */
-    public function countFilterByReferenceTypeSiteAndLanguage($referenceType, $siteId, $language)
+    public function countFilterByReferenceTypeAndLanguage($referenceType, $language)
     {
-        return $this->countInContextByReferenceTypeSiteAndLanguage($referenceType, $siteId, $language);
+        return $this->countInContextByReferenceTypeAndLanguage($referenceType, $language);
     }
 
     /**
      * @param PaginateFinderConfiguration $configuration
      * @param string                      $referenceType
-     * @param string                      $siteId
      * @param string                      $language
      * @param array                       $searchTypes
      *
      * @return int
      */
-    public function countWithFilterAndReferenceTypeSiteAndLanguage(PaginateFinderConfiguration $configuration, $referenceType, $siteId, $language, array $searchTypes = array())
+    public function countWithFilterAndReferenceTypeAndLanguage(PaginateFinderConfiguration $configuration, $referenceType, $language, array $searchTypes = array())
     {
-        return $this->countInContextByReferenceTypeSiteAndLanguage($referenceType, $siteId, $language, $configuration, $searchTypes);
+        return $this->countInContextByReferenceTypeAndLanguage($referenceType, $language, $configuration, $searchTypes);
     }
 
     /**
@@ -264,7 +256,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
 
     /**
      * @param string       $id
-     * @param string       $siteId
      * @param array|null   $eventTypes
      * @param int|null     $limit
      * @param array|null   $sort
@@ -272,9 +263,8 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
      *
      * @return array
      */
-    public function findByHistoryAndSiteId(
+    public function findByHistory(
         $id,
-        $siteId,
         array $eventTypes = null,
         $limit = null,
         array $sort = null,
@@ -285,7 +275,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
             'histories.user.$id' => new \MongoId($id),
             'deleted' => false
         );
-        $qa->match($this->generateSiteIdFilter($siteId));
         if (null !== $eventTypes) {
             $filter['histories.eventType'] = array('$in' => $eventTypes);
         }
@@ -314,16 +303,6 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
     public function findById($entityId)
     {
         return $this->find(new \MongoId($entityId));
-    }
-
-    /**
-     * @param string $siteId
-     *
-     * @return array
-     */
-    protected function generateSiteIdFilter($siteId)
-    {
-        return array('siteId' => $siteId);
     }
 
     /**
@@ -489,18 +468,16 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
 
     /**
      * @param string                      $referenceType
-     * @param string                      $siteId
      * @param string                      $language
      * @param array                       $searchTypes
      * @param PaginateFinderConfiguration $configuration
      *
      * @return int
      */
-    protected function countInContextByReferenceTypeSiteAndLanguage($referenceType, $siteId, $language, PaginateFinderConfiguration $configuration = null, array $searchTypes = array())
+    protected function countInContextByReferenceTypeAndLanguage($referenceType, $language, PaginateFinderConfiguration $configuration = null, array $searchTypes = array())
     {
         $qa = $this->createAggregateQueryWithDeletedFilter(false);
         $qa->match($this->generateReferenceTypeFilter($referenceType));
-        $qa->match($this->generateSiteIdFilter($siteId));
         $qa->match($this->generateLanguageFilter($language));
 
         if (!is_null($configuration)) {

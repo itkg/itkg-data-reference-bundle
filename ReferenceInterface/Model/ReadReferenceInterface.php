@@ -33,11 +33,6 @@ interface ReadReferenceInterface extends KeywordableInterface
     public function getName();
 
     /**
-     * @param string
-     */
-    public function getSiteId();
-
-    /**
      * @return string
      */
     public function getReferenceType();
