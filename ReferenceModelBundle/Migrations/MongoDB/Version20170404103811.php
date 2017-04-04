@@ -25,6 +25,7 @@ class Version20170404103811 extends AbstractMigration
     public function up(Database $db)
     {
         $this->updateReferenceTypes($db);
+        $this->updateReferences($db);
     }
 
     /**
@@ -36,7 +37,7 @@ class Version20170404103811 extends AbstractMigration
     {
         $this->write(' + Update Reference Types');
 
-        $this->write(' ++ Add DefaultListable');
+        $this->write(' -> Add DefaultListable');
         $db->execute('
             db.reference_type.find({}).forEach(function(item) {
                 item.defaultListable = {"name": true, "created_at": true, "created_by": true, "updated_at": false, "updated_by": false};
@@ -44,7 +45,7 @@ class Version20170404103811 extends AbstractMigration
             });
         ');
 
-        $this->write(' ++ Update names');
+        $this->write(' -> Update names');
         $db->execute('
             db.reference_type.find({"names":{$exists:1}}).forEach(function(item) {
                 ' . $this->getTranslatedValueUpdateCode('item.names') . '
@@ -52,7 +53,7 @@ class Version20170404103811 extends AbstractMigration
             });
         ');
 
-        $this->write(' ++ Update fields labels');
+        $this->write(' -> Update fields labels');
         $db->execute('
             db.reference_type.find({"fields":{$exists:1}}).forEach(function(item) {
                 for (var i in item.fields) {
@@ -62,6 +63,20 @@ class Version20170404103811 extends AbstractMigration
                 }
 
                 db.reference_type.update({_id: item._id}, item);
+            });
+        ');
+    }
+
+    protected function updateReferences(Database $db)
+    {
+        $this->write(' + Update References');
+
+        $this->write(' -> Rename referenceTypeId to referenceType');
+        $db->execute('
+            db.reference.find({}).forEach(function(item) {
+                item.referenceType = item.referenceTypeId;
+                delete item.referenceTypeId;
+                db.reference.update({_id: item._id}, item);
             });
         ');
     }
