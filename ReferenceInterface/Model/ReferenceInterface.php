@@ -15,7 +15,6 @@ use OpenOrchestra\ModelInterface\Model\ContentAttributeInterface;
 interface ReferenceInterface extends ReadReferenceInterface, TimestampableInterface, BlameableInterface, SoftDeleteableInterface, UseTrackableInterface, HistorisableInterface
 {
     const ENTITY_TYPE = 'reference';
-    const TRASH_ITEM_TYPE = 'reference';
 
     /**
      * @param ContentAttributeInterface $attribute
