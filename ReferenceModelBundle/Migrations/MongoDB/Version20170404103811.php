@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenOrchestra\MigrationBundle\Migrations;
+namespace Itkg\ReferenceModelBundle\Migrations\MongoDB;
 
 use AntiMattr\MongoDB\Migrations\AbstractMigration;
 use Doctrine\MongoDB\Database;
