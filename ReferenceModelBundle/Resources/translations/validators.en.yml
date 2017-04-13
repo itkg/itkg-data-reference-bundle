@@ -1,0 +1,4 @@
+itkg_reference_validators:
+    document:
+        reference_type:
+            unique_reference_type_id: This id is already in use, please choose another one.

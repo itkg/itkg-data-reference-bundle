@@ -1,0 +1,14 @@
+Itkg\ReferenceModelBundle\Document\ReferenceType:
+    constraints:
+        - Itkg\ReferenceModelBundle\Validator\Constraints\UniqueReferenceTypeId: ~
+        - OpenOrchestra\ModelBundle\Validator\Constraints\UniqueFieldIdContentType: ~
+    properties:
+        deleted:
+            - Type:
+                type: bool
+        referenceTypeId:
+            - OpenOrchestra\ModelBundle\Validator\Constraints\IdAuthorizedCharacter: ~
+        names:
+            - NotBlank: ~
+        fields:
+            - Valid: ~

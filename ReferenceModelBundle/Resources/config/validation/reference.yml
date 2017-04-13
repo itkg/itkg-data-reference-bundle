@@ -1,0 +1,13 @@
+Itkg\ReferenceModelBundle\Document\Reference:
+    properties:
+        name:
+            - NotBlank: ~
+        referenceType:
+            - NotBlank: ~
+        language:
+            - NotBlank: ~
+        deleted:
+            - Type:
+                type: bool
+        attributes:
+            - Valid: ~

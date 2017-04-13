@@ -1,0 +1,10 @@
+parameters:
+    itkg_reference.validator.unique_reference_type_id.class: Itkg\ReferenceModelBundle\Validator\Constraints\UniqueReferenceTypeIdValidator
+
+services:
+    itkg_reference.validator.unique_reference_type_id:
+        class: '%itkg_reference.validator.unique_reference_type_id.class%'
+        arguments:
+            - '@itkg_reference.repository.reference_type'
+        tags:
+            - { name: validator.constraint_validator, alias: unique_reference_type_id}
