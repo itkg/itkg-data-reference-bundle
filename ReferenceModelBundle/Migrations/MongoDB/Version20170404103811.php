@@ -74,16 +74,6 @@ class Version20170404103811 extends AbstractMigration
      */
     protected function updateReferences(Database $db)
     {
-        $this->write(' + Update References');
-
-        $this->write(' -> Rename referenceTypeId to referenceType');
-        $db->execute('
-            db.reference.find({}).forEach(function(item) {
-                item.referenceType = item.referenceTypeId;
-                delete item.referenceTypeId;
-                db.reference.update({_id: item._id}, item);
-            });
-        ');
     }
 
     /**
