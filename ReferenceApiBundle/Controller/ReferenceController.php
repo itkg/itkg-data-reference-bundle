@@ -129,7 +129,7 @@ class ReferenceController extends BaseController
                 $objectManager->persist($duplicateReference);
 
                 $newReferenceId = $duplicateReference->getReferenceId();
-                $this->dispatchEvent(ReferenceEvents::CONTENT_DUPLICATE, new ReferenceEvent($duplicateReference));
+                $this->dispatchEvent(ReferenceEvents::REFERENCE_DUPLICATE, new ReferenceEvent($duplicateReference));
             }
         }
         $objectManager->flush();
@@ -214,7 +214,7 @@ class ReferenceController extends BaseController
         $objectManager = $this->get('object_manager');
         $objectManager->persist($newReference);
         $objectManager->flush();
-        $this->dispatchEvent(ReferenceEvents::CONTENT_DUPLICATE, new ReferenceEvent($newReference));
+        $this->dispatchEvent(ReferenceEvents::REFERENCE_DUPLICATE, new ReferenceEvent($newReference));
 
         return array();
     }
