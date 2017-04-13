@@ -32,11 +32,6 @@ class ReferenceFacade extends DeletedFacade
     /**
      * @Serializer\Type("string")
      */
-    public $version;
-
-    /**
-     * @Serializer\Type("string")
-     */
     public $versionName;
 
     /**
