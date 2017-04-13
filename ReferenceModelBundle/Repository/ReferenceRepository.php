@@ -93,12 +93,12 @@ class ReferenceRepository  extends AbstractAggregateRepository implements FieldA
      *
      * @return array|null
      */
-    protected function generateReferenceTypeFilter($referenceType)
+    protected function generateReferenceTypeFilter($referenceTypeId)
     {
         $filter = null;
 
-        if (!is_null($referenceType) && '' != $referenceType) {
-            $filter = array('referenceType' => $referenceType);
+        if (!is_null($referenceTypeId) && '' != $referenceTypeId) {
+            $filter = array('referenceTypeId' => $referenceTypeId);
         }
 
         return $filter;
