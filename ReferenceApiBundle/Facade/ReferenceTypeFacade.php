@@ -22,6 +22,11 @@ class ReferenceTypeFacade extends AbstractFacade
     public $name;
 
     /**
+     * @Serializer\Type("integer")
+     */
+    public $version;
+
+    /**
      * @Serializer\Type("array")
      */
     public $defaultListable;

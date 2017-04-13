@@ -5,12 +5,20 @@ namespace Itkg\ReferenceApiBundle\Facade;
 use OpenOrchestra\BaseApi\Facade\FacadeInterface;
 use OpenOrchestra\ApiBundle\Facade\DeletedFacade;
 use JMS\Serializer\Annotation as Serializer;
+use OpenOrchestra\BaseApi\Facade\Traits\BlameableFacade;
 
 /**
  * Class ReferenceFacade
  */
 class ReferenceFacade extends DeletedFacade
 {
+    use BlameableFacade;
+
+    /**
+     * @Serializer\Type("string")
+     */
+    public $id;
+
     /**
      * @Serializer\Type("string")
      */
@@ -24,25 +32,47 @@ class ReferenceFacade extends DeletedFacade
     /**
      * @Serializer\Type("string")
      */
+    public $version;
+
+    /**
+     * @Serializer\Type("string")
+     */
+    public $versionName;
+
+    /**
+     * @Serializer\Type("string")
+     */
     public $language;
 
     /**
-     * @Serializer\Type("array<string, OpenOrchestra\ApiBundle\Facade\ContentAttributeFacade>")
+     * @Serializer\Type("OpenOrchestra\WorkflowAdminBundle\Facade\StatusFacade")
+     */
+    public $status;
+
+    /**
+     * @Serializer\Type("string")
+     */
+    public $statusLabel;
+
+    /**
+     * @Serializer\Type("string")
+     */
+    public $statusId;
+
+    /**
+     * @Serializer\Type("boolean")
+     */
+    public $linkedToSite;
+
+    /**
+     * @Serializer\Type("boolean")
+     */
+    public $used;
+
+    /**
+     * @Serializer\Type("array<string,OpenOrchestra\ApiBundle\Facade\ContentAttributeFacade>")
      */
     protected $attributes = array();
-
-    /**
-     * @Serializer\Type("array<string,string>")
-     */
-    protected $linearizeAttributes = array();
-
-    /**
-     * @param FacadeInterface $facade
-     */
-    public function addLinearizeAttribute(FacadeInterface $facade)
-    {
-        $this->linearizeAttributes[$facade->name] = $facade->value;
-    }
 
     /**
      * @param FacadeInterface $facade
