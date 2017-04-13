@@ -36,7 +36,7 @@ class ReferenceTypeController extends BaseController
      */
     public function showAction($referenceTypeId)
     {
-        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeId($referenceTypeId);
+        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($referenceTypeId);
 
         return $this->get('open_orchestra_api.transformer_manager')->get('reference_type')->transform($referenceType);
     }

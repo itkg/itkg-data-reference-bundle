@@ -36,7 +36,7 @@ class ReferenceController extends AbstractAdminController
         if (!$reference instanceof ReferenceInterface) {
             throw new \UnexpectedValueException();
         }
-        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeId($reference->getReferenceType());
+        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($reference->getReferenceType());
         if (!$referenceType instanceof ReferenceTypeInterface) {
             throw new \UnexpectedValueException();
         }
@@ -88,7 +88,7 @@ class ReferenceController extends AbstractAdminController
     public function newAction(Request $request, $referenceTypeId, $language)
     {
         $referenceManager = $this->get('itkg_reference.manager.reference');
-        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeId($referenceTypeId);
+        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($referenceTypeId);
         if (!$referenceType instanceof ReferenceTypeInterface) {
             throw new \UnexpectedValueException();
         }
@@ -153,7 +153,7 @@ class ReferenceController extends AbstractAdminController
     {
         $template = AbstractAdminController::TEMPLATE;
 
-        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeId($referenceTypeId);
+        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($referenceTypeId);
 
         if ($referenceType instanceof ReferenceTypeInterface) {
             $customTemplate = $referenceType->getTemplate();

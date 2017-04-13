@@ -27,10 +27,11 @@ class ReferenceTypeController  extends AbstractAdminController
      */
     public function formAction(Request $request, $referenceTypeId)
     {
-        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeId($referenceTypeId);
+        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($referenceTypeId);
         $this->denyAccessUnlessGranted(ContributionActionInterface::EDIT, $referenceType);
 
         $newReferenceType = $this->get('itkg_reference.manager.reference_type')->duplicate($referenceType);
+
         $action = $this->generateUrl('itkg_reference_bundle_reference_type_form', array('referenceTypeId' => $referenceTypeId));
         $form = $this->createReferenceTypeForm($request, array(
             'action' => $action,
@@ -39,7 +40,13 @@ class ReferenceTypeController  extends AbstractAdminController
 
         $form->handleRequest($request);
         if ('PATCH' !== $request->getMethod()) {
-            if ($this->handleForm($form, $this->get('translator')->trans('itkg_reference.form.reference_type.success'), $newReferenceType)) {
+            if ($form->isValid()) {
+                $newReferenceType->setVersion(((int)$newReferenceType->getVersion()) + 1);
+                $documentManager = $this->get('object_manager');
+                $documentManager->persist($newReferenceType);
+                $documentManager->flush();
+
+                $this->get('session')->getFlashBag()->add('success', $this->get('translator')->trans('itkg_reference.form.reference_type.success'));
                 $this->dispatchEvent(ReferenceTypeEvents::REFERENCE_TYPE_UPDATE, new ReferenceTypeEvent($newReferenceType));
             }
         }
@@ -69,6 +76,7 @@ class ReferenceTypeController  extends AbstractAdminController
         $form->handleRequest($request);
         if ('PATCH' !== $request->getMethod()) {
             if ($form->isValid()) {
+                $referenceType->setVersion(1);
                 $language = $this->get('open_orchestra_backoffice.context_manager')->getCurrentLocale();
                 $documentManager = $this->get('object_manager');
                 $documentManager->persist($referenceType);
