@@ -36,7 +36,7 @@ class ReferenceController extends AbstractAdminController
         if (!$reference instanceof ReferenceInterface) {
             throw new \UnexpectedValueException();
         }
-        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($reference->getReferenceType());
+        $referenceType = $this->get('itkg_reference.repository.reference_type')->findOneByReferenceTypeIdInLastVersion($reference->getReferenceTypeId());
         if (!$referenceType instanceof ReferenceTypeInterface) {
             throw new \UnexpectedValueException();
         }
@@ -71,7 +71,7 @@ class ReferenceController extends AbstractAdminController
             $form,
             array(),
             null,
-            $this->getFormTemplate($reference->getReferenceType()
+            $this->getFormTemplate($reference->getReferenceTypeId()
         ));
     }
 

@@ -48,7 +48,7 @@ class ReferenceTransformer extends AbstractSecurityCheckerAwareTransformer
         $facade = $this->newFacade();
         $facade->id = $reference->getId();
         $facade->referenceId = $reference->getReferenceId();
-        $facade->referenceType = $reference->getReferenceType();
+        $facade->referenceTypeId = $reference->getReferenceTypeId();
         $facade->name = $reference->getName();
         $facade->language = $reference->getLanguage();
         $facade->createdAt = $reference->getCreatedAt();

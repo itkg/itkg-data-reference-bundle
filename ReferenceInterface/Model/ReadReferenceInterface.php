@@ -35,5 +35,5 @@ interface ReadReferenceInterface extends KeywordableInterface
     /**
      * @return string
      */
-    public function getReferenceType();
+    public function getReferenceTypeId();
 }

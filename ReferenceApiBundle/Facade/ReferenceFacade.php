@@ -19,7 +19,7 @@ class ReferenceFacade extends DeletedFacade
     /**
      * @Serializer\Type("string")
      */
-    public $referenceType;
+    public $referenceTypeId;
 
     /**
      * @Serializer\Type("string")

@@ -37,9 +37,9 @@ interface ReferenceInterface extends ReadReferenceInterface, TimestampableInterf
     public function getReferenceId();
 
     /**
-     * @param string $referenceType
+     * @param string $referenceTypeId
      */
-    public function setReferenceType($referenceType);
+    public function setReferenceTypeId($referenceTypeId);
 
     /**
      * @return string

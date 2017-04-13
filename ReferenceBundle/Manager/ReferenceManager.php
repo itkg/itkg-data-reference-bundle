@@ -24,18 +24,18 @@ class ReferenceManager
     }
 
     /**
-     * @param string  $referenceType
+     * @param string  $referenceTypeId
      * @param string  $language
      *
      * @return ReferenceInterface
      */
-    public function initializeNewReference($referenceType, $language)
+    public function initializeNewReference($referenceTypeId, $language)
     {
         $referenceClass = $this->referenceClass;
         /** @var ReferenceInterface $reference */
         $reference = new $referenceClass();
         $reference->setLanguage($language);
-        $reference->setReferenceType($referenceType);
+        $reference->setReferenceTypeId($referenceTypeId);
 
         return $reference;
     }

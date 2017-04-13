@@ -24,9 +24,9 @@ use OpenOrchestra\MongoTrait\Historisable;
  * )
  * @ODM\Indexes({
  *  @ODM\Index(keys={"referenceId"="asc"}),
- *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "referenceType"="asc", "keywords.label"="asc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "referenceTypeId"="asc", "keywords.label"="asc"}),
  *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "keywords.label"="asc"}),
- *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "referenceType"="asc"}),
+ *  @ODM\Index(keys={"language"="asc", "deleted"="asc", "referenceTypeId"="asc"}),
  *  @ODM\Index(keys={"language"="asc", "deleted"="asc"}),
  *  @ODM\Index(keys={"keywords"="asc"})
  * })
@@ -60,11 +60,11 @@ class Reference implements ReferenceInterface
     protected $referenceId;
     
     /**
-     * @var string $referenceType
+     * @var string $referenceTypeId
      *
      * @ODM\Field(type="string")
      */
-    protected $referenceType;
+    protected $referenceTypeId;
 
     /**
      * @var string $name
@@ -146,19 +146,19 @@ class Reference implements ReferenceInterface
     }
 
     /**
-     * @param string $referenceType
+     * @param string $referenceTypeId
      */
-    public function setReferenceType($referenceType)
+    public function setReferenceTypeId($referenceTypeId)
     {
-        $this->referenceType = $referenceType;
+        $this->referenceTypeId = $referenceTypeId;
     }
 
     /**
      * @return string
      */
-    public function getReferenceType()
+    public function getReferenceTypeId()
     {
-        return $this->referenceType;
+        return $this->referenceTypeId;
     }
 
     /**

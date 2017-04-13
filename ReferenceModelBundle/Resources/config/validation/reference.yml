@@ -2,7 +2,7 @@ Itkg\ReferenceModelBundle\Document\Reference:
     properties:
         name:
             - NotBlank: ~
-        referenceType:
+        referenceTypeId:
             - NotBlank: ~
         language:
             - NotBlank: ~
