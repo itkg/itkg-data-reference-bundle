@@ -51,8 +51,8 @@ class ReferenceFormView extends mix(AbstractFormView).with(FormViewButtonsMixin)
 
         // activate tab data
         $('.nav-tabs a.nav-tab-data', this._$formRegion).tab('show');
-        $('.tab-reference .tab-pane', this._$formRegion).removeClass('active');
-        $('.tab-reference .tab-data', this._$formRegion).addClass('active');
+        $('.tab-content .tab-pane', this._$formRegion).removeClass('active');
+        $('.tab-content .tab-data', this._$formRegion).addClass('active');
     }
 
     /**
