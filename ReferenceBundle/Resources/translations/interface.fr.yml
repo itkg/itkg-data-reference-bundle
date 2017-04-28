@@ -1,6 +1,6 @@
 itkg_reference:
     menu:
-        contribution:
+        platform:
             reference: Référence
         developer:
             reference_type: Type de Références
@@ -15,8 +15,8 @@ itkg_reference:
         reference_types:
             new: Nouveau type de référence
         references:
-            list: Liste
-            add: Ajout
+            list: Lister
+            add: Ajouter
             new: Nouvelle référence
             name: Références
             created_at: Date de création
